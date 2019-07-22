@@ -1,6 +1,22 @@
-import api from '.';
+import axios from 'axios';
+import api from './index';
 
-const API_URL = 'http://13.76.166.152:3001';
+class AuthService {
+  constructor() {
+    this._api = api('auth');
+  }
 
-export const login = () => api(`${API_URL}/auth/login`);
+  async login(email, password) {
+    try {
+      let data = {
+        email: email,
+        password: password
+      }
+      return await this._api.post('/login', data);
+    } catch (err) {      
+      throw err;
+    }    
+  }
+}
 
+export default new AuthService();
