@@ -1,4 +1,3 @@
-import axios from 'axios';
 import api from './index';
 
 class AuthService {
@@ -13,9 +12,17 @@ class AuthService {
         password: password
       }
       return await this._api.post('/login', data);
-    } catch (err) {      
+    } catch (err) {
       throw err;
-    }    
+    }
+  }
+
+  async me() {
+    try {
+      return await this._api.get('/me');
+    } catch (err) {
+      throw err;
+    }
   }
 }
 

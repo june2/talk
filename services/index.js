@@ -1,16 +1,21 @@
 import axios from 'axios';
+import {
+  AsyncStorage,
+} from 'react-native';
 
 const domain = 'http://13.76.166.152:3001/';
 const api = (entity) => {
   return {
     get: async (resource, params) => {
-      try {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${await AsyncStorage.getItem('token')}`;
+      try {        
         if (!params) params = '';
         else '?' + params;
         let res = await axios.get(`${domain + entity + resource}${params}`);
         return res.data;
       } catch (err) {
-        throw err;
+        console.log('err', err.response.status);
+        throw err.response.data;
       }
     },
     post: async (resource, data) => {

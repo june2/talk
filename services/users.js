@@ -1,6 +1,17 @@
-import api from '.';
+import api from './index';
 
-const API_URL = 'http://13.76.166.152:3001';
+class UserService {
+  constructor() {
+    this._api = api('users');
+  }
 
-export const getUsers = () => api(`${API_URL}/users`);
+  async getUsers() {
+    try {
+      return await this._api.get('/');
+    } catch (err) {
+      throw err;
+    }
+  }
+}
 
+export default new UserService();
