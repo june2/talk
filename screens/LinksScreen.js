@@ -9,6 +9,7 @@ import {
 } from 'native-base';
 import { observer } from 'mobx-react';
 import userStore from './../stores/UserStore';
+import authStore from './../stores/AuthStore';
 import UserBox from './../components/UserBox';
 
 @observer
@@ -31,8 +32,7 @@ export default class LinkScreen extends Component {
   }
 
   _handleClick() {
-    this.setModalVisible(true);
-    // this.props.navigation.navigate('Chat')
+    this.setModalVisible(true);    
     // Alert.alert("I am clicked"); 
   }
 
@@ -70,6 +70,7 @@ export default class LinkScreen extends Component {
 
   componentDidMount() {
     this._getData();
+    authStore.getMe();
   }
 
   render() {
@@ -82,17 +83,7 @@ export default class LinkScreen extends Component {
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
-          <View style={{ marginTop: 22 }}>
-            {/* <View>
-              <Text>Hello World!</Text>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View> */}
+          <View style={{ marginTop: 22 }}>            
             <UserBox closeModal={(visible) => this.setModalVisible(visible)} />
           </View>
         </Modal>

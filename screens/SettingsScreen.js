@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { Alert } from 'react-native';
 import { observer } from 'mobx-react';
-import userStore from './../stores/UserStore';
+import authStore from './../stores/AuthStore';
 
 @observer
 export default class SettingsScreen extends Component {
@@ -26,11 +26,11 @@ export default class SettingsScreen extends Component {
       <Container>
         <Content>
           <ListItem>
-            <Text>{userStore.me.email}</Text>
+            <Text>{authStore.me.email}</Text>
           </ListItem>
           <Separator bordered />
           <ListItem>
-            {userStore.me.images.map((obj, i) => {
+            {authStore.me.images.map((obj, i) => {
               console.log(obj.thumbnail)
               return (
                 <Thumbnail key={i} large source={{ uri: obj.thumbnail }} />)
@@ -44,7 +44,7 @@ export default class SettingsScreen extends Component {
               </Button>
             </Left>
             <Body>
-              <Text>{userStore.me.email}</Text>
+              <Text>{authStore.me.email}</Text>
             </Body>
           </ListItem>
           <ListItem icon>
@@ -54,7 +54,7 @@ export default class SettingsScreen extends Component {
               </Button>
             </Left>
             <Body>
-              <Text>{userStore.me.locaiton}</Text>
+              <Text>{authStore.me.locaiton}</Text>
             </Body>
           </ListItem>
           <ListItem icon>
