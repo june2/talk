@@ -27,6 +27,7 @@ class UserStore {
   @action async getUsers() {
     try {
       this.users = await this._user.getUsers();
+      return this.users;
     } catch (err) {
       // Alert.alert('Error', err.message)
     }
