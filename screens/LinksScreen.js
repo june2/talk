@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   FlatList,
+  Modal, TouchableHighlight, View, Alert
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,
@@ -8,12 +9,14 @@ import {
 } from 'native-base';
 import { observer } from 'mobx-react';
 import userStore from './../stores/UserStore';
+import UserBox from './../components/UserBox';
 
 @observer
 export default class LinkScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalVisible: false,
       refreshing: false,
       data: [],
       page: 1
@@ -28,7 +31,8 @@ export default class LinkScreen extends Component {
   }
 
   _handleClick() {
-    this.props.navigation.navigate('Chat')
+    this.setModalVisible(true);
+    // this.props.navigation.navigate('Chat')
     // Alert.alert("I am clicked"); 
   }
 
@@ -60,21 +64,49 @@ export default class LinkScreen extends Component {
     this._getData();
   }
 
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
   componentDidMount() {
     this._getData();
   }
 
   render() {
     return (
-      <FlatList
-        data={this.state.data}
-        renderItem={this._renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        onEndReached={this._handleLoadMore}
-        onEndReachedThreshold={0.1}
-        refreshing={this.state.refreshing}
-        onRefresh={this._handleRefresh}
-      />
+      <View >
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={{ marginTop: 22 }}>
+            {/* <View>
+              <Text>Hello World!</Text>
+
+              <TouchableHighlight
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible);
+                }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </View> */}
+            <UserBox closeModal={(visible) => this.setModalVisible(visible)} />
+          </View>
+        </Modal>
+
+        <FlatList
+          data={this.state.data}
+          renderItem={this._renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          onEndReached={this._handleLoadMore}
+          onEndReachedThreshold={0.1}
+          refreshing={this.state.refreshing}
+          onRefresh={this._handleRefresh}
+        />
+      </View>
     );
   }
 }
