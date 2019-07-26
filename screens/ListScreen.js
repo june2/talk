@@ -7,7 +7,7 @@ import {
   Thumbnail, Text
 } from 'native-base';
 import { observer } from 'mobx-react';
-import userStore from './../stores/UserStore';
+import roomStore from './../stores/RoomStore';
 
 @observer
 export default class LinkScreen extends Component {
@@ -16,14 +16,16 @@ export default class LinkScreen extends Component {
     this.state = {
       refreshing: false,
       data: [],
-      page: 1
+      totalDocs: 0,
+      offset: 0,
+      limit: 0
     }
   }
 
   _handleRefresh = () => {
     this.setState({
       refreshing: true,
-      page: 1,
+      offset: 0,
     }, this._getData);
   }
 
@@ -38,8 +40,8 @@ export default class LinkScreen extends Component {
         <Thumbnail source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }} />
       </Left>
       <Body>
-        <Text>{item.name}</Text>
-        <Text note>Doing what you like will always keep you happy . .</Text>
+        <Text>{item.users[0].name}</Text>
+        <Text note>{item.lastMsg}</Text>
       </Body>
       <Right>
         <Text note>3:43 pm</Text>
@@ -48,12 +50,17 @@ export default class LinkScreen extends Component {
   );
 
   _getData = async () => {
-    let data = await userStore.getUsers();
-    this.setState({
-      data: this.state.refreshing ? data : this.state.data.concat(data),
-      page: this.state.page + 1,
-      refreshing: false
-    })
+    if (this.state.totalDocs >= this.state.limit * this.state.offset) {
+      let res = await roomStore.getRooms();
+      let data = res.docs;
+      this.setState({
+        data: this.state.refreshing ? data : this.state.data.concat(data),
+        offset: res.offset + 1,
+        limit: res.limit,
+        totalDocs: res.totalDocs,
+        refreshing: false
+      })
+    }
   }
 
   _handleLoadMore = () => {

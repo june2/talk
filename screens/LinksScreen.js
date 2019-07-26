@@ -10,6 +10,7 @@ import {
 import { observer } from 'mobx-react';
 import userStore from './../stores/UserStore';
 import authStore from './../stores/AuthStore';
+import roomStore from './../stores/RoomStore';
 import UserBox from './../components/UserBox';
 
 @observer
@@ -31,13 +32,14 @@ export default class LinkScreen extends Component {
     }, this._getData);
   }
 
-  _handleClick() {
-    this.setModalVisible(true);
+  _handleClick(userId) {    
+    roomStore.createRoom(userId, 'msg');
+    // this.setModalVisible(true);
     // Alert.alert("I am clicked"); 
   }
 
   _renderItem = ({ item }, i) => (
-    <ListItem avatar key={i} button={true} onPress={() => this._handleClick()} >
+    <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item.id)} >
       <Left>
         <Thumbnail source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }} />
       </Left>
