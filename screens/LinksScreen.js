@@ -32,12 +32,12 @@ export default class LinkScreen extends Component {
   }
 
   _handleClick() {
-    this.setModalVisible(true);    
+    this.setModalVisible(true);
     // Alert.alert("I am clicked"); 
   }
 
   _renderItem = ({ item }, i) => (
-    <ListItem avatar key={i} button={true} onPress={() => this._handleClick()}>
+    <ListItem avatar key={i} button={true} onPress={() => this._handleClick()} >
       <Left>
         <Thumbnail source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }} />
       </Left>
@@ -83,7 +83,7 @@ export default class LinkScreen extends Component {
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
-          <View style={{ marginTop: 22 }}>            
+          <View style={{ marginTop: 22 }}>
             <UserBox closeModal={(visible) => this.setModalVisible(visible)} />
           </View>
         </Modal>
