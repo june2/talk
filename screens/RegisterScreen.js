@@ -53,16 +53,16 @@ export default class RegisterScreen extends Component {
         </View>
         <View style={styles.formBox}>
           <Content contentContainerStyle={styles.content}>
-            <Form>
-              <Item inlineLabel>
-                <Label>      E-mail</Label>
+            <Form style={{ margin: 0 }}>
+              <Item inlineLabel style={styles.formBoxItem}>
+                <Label>E-mail</Label>
                 <Input
                   ref="emailInput"
                   onChangeText={(text) => this.setState({ email: text })}
                   value={this.state.email}
                 />
               </Item>
-              <Item inlineLabel>
+              <Item inlineLabel style={styles.formBoxItem}>
                 <Label>Password</Label>
                 <Input
                   onChangeText={(text) => this.setState({ password: text })}
@@ -97,6 +97,7 @@ RegisterScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // backgroundColor: '#FA4971',
   },
   logoBox: {
     flex: 1.2,
@@ -124,6 +125,10 @@ const styles = StyleSheet.create({
   },
   formBoxButton: {
     margin: 30
+  },
+  formBoxItem: {
+    marginLeft: 32,
+    marginRight: 32,
   },
   bottomBox: {
     flex: 1,

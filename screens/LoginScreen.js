@@ -4,7 +4,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import {  
+import {
   Content,
   Form,
   Item,
@@ -48,15 +48,15 @@ export default class LoginScreen extends Component {
         <View style={styles.formBox}>
           <Content contentContainerStyle={styles.content}>
             <Form>
-              <Item inlineLabel>
-                <Label>      E-mail</Label>
+              <Item inlineLabel style={styles.formBoxItem}>
+                <Label>E-mail</Label>
                 <Input
-                  ref="emailInput"
+                  ref='emailInput'
                   onChangeText={(text) => this.setState({ email: text })}
                   value={this.state.email}
                 />
               </Item>
-              <Item inlineLabel>
+              <Item inlineLabel style={styles.formBoxItem}>
                 <Label>Password</Label>
                 <Input
                   onChangeText={(text) => this.setState({ password: text })}
@@ -84,7 +84,7 @@ export default class LoginScreen extends Component {
   }
 }
 
-LoginScreen.navigationOptions = {  
+LoginScreen.navigationOptions = {
   header: null,
 };
 
@@ -116,6 +116,10 @@ const styles = StyleSheet.create({
   formBox: {
     flex: 1,
   },
+  formBoxItem: {
+    marginLeft: 32,
+    marginRight: 32,
+  },
   formBoxButton: {
     margin: 30
   },
@@ -132,7 +136,7 @@ const styles = StyleSheet.create({
   },
   bottomBoxTextLink: {
     fontSize: 14,
-    color: '#2e78b7',    
+    color: '#2e78b7',
   },
 });
 
