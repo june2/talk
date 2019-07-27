@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
   AsyncStorage,
+  StyleSheet,
   View,
 } from 'react-native';
 import {
-  Container,
   Content,
   Form,
   Item,
@@ -44,12 +44,18 @@ export default class RegisterScreen extends Component {
 
   render() {
     return (
-      <Container>
-        <Content>
-          <View>
+      <View style={styles.container}>
+        <View style={styles.logoBox}>
+          <Content contentContainerStyle={styles.content}>
+            <Text style={styles.logoBoxTitle}>TALK</Text>
+            <Text style={styles.logoBoxSub}>TALK TALK</Text>
+          </Content>
+        </View>
+        <View style={styles.formBox}>
+          <Content contentContainerStyle={styles.content}>
             <Form>
               <Item inlineLabel>
-                <Label>Username</Label>
+                <Label>      E-mail</Label>
                 <Input
                   ref="emailInput"
                   onChangeText={(text) => this.setState({ email: text })}
@@ -64,16 +70,75 @@ export default class RegisterScreen extends Component {
                 />
               </Item>
             </Form>
-          </View>
-          <Button block light title="Sign up!" onPress={this._signUpAsync} >
-            <Text>Sign up</Text>
-          </Button>
-        </Content>
-      </Container>
+            <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
+              <Text>Sing up</Text>
+            </Button>
+          </Content>
+        </View>
+        <View style={styles.bottomBox}>
+          <Content contentContainerStyle={styles.content}>
+            <Text style={styles.bottomBoxText}>
+              이미 계정이 없으신가요?&nbsp;&nbsp;&nbsp;
+            <Text onPress={() => this.props.navigation.navigate('SignIn')} style={styles.bottomBoxTextLink}>
+                로그인
+            </Text>
+            </Text>
+          </Content>
+        </View>
+      </View >
     );
   }
 }
 
 RegisterScreen.navigationOptions = {
-  title: 'Register',
+  header: null,
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  logoBox: {
+    flex: 1.2,
+  },
+  content: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    flex: 1
+  },
+  logoBoxTitle: {
+    alignSelf: 'center',
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: 48,
+  },
+  logoBoxSub: {
+    alignSelf: 'center',
+    fontStyle: 'normal',
+    fontWeight: '300',
+    fontSize: 22,
+    marginTop: -10
+  },
+  formBox: {
+    flex: 1,
+  },
+  formBoxButton: {
+    margin: 30
+  },
+  bottomBox: {
+    flex: 1,
+  },
+  bottomBoxText: {
+    flex: 1.5,
+    top: 60,
+    alignSelf: 'center',
+    fontStyle: 'normal',
+    fontWeight: '300',
+    fontSize: 12,
+  },
+  bottomBoxTextLink: {
+    fontSize: 14,
+    color: '#2e78b7',
+  },
+});
+

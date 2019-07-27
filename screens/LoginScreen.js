@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   AsyncStorage,
   StyleSheet,
   View,
-  TouchableOpacity,
 } from 'react-native';
-import {
-  Container,
+import {  
   Content,
   Form,
   Item,
@@ -15,11 +13,10 @@ import {
   Button,
   Text,
 } from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Alert } from 'react-native';
 import authService from './../services/auth'
 
-export default class LoginScreen extends React.Component {
+export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this._auth = authService;
@@ -87,8 +84,8 @@ export default class LoginScreen extends React.Component {
   }
 }
 
-LoginScreen.navigationOptions = {
-  title: 'Login',
+LoginScreen.navigationOptions = {  
+  header: null,
 };
 
 const styles = StyleSheet.create({
@@ -96,7 +93,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logoBox: {
-    flex: 1.5,
+    flex: 1.2,
   },
   content: {
     flexDirection: 'column',
@@ -123,7 +120,7 @@ const styles = StyleSheet.create({
     margin: 30
   },
   bottomBox: {
-    flex: 2,
+    flex: 1,
   },
   bottomBoxText: {
     flex: 1.5,
