@@ -1,20 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
+import { observer } from 'mobx-react';
+import roomStore from './../stores/RoomStore';
 
-export default class ChatScreen extends React.Component {
-  state = {
-    messages: [],
+@observer
+export default class ChatScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      roomId: this.props.navigation.getParam('roomId'),
+      messages: [],
+      refreshing: false,      
+      totalDocs: 0,
+      offset: 0,
+      limit: 0
+    }
   }
 
-  _pop() {
-    this.props.navigator.pop({
-      animated: true, // does the pop have transition animation or does it happen immediately (optional)
-      animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the pop have different transition animation (optional)
-    });
+  _getData = async () => {    
+    if (this.state.totalDocs >= this.state.limit * this.state.offset) {
+      let res = await roomStore.getMsgByroomId(this.state.roomId);
+      let messages = res.docs;      
+      this.setState({
+        messages: this.state.refreshing ? messages : this.state.messages.concat(messages),
+        offset: res.offset + 1,
+        limit: res.limit,
+        totalDocs: res.totalDocs,
+        refreshing: false
+      })
+    }
   }
 
   componentWillMount() {
+    this._getData();
     this.setState({
       messages: [
         {

@@ -9,6 +9,7 @@ class RoomStore {
   }
   @observable room = {};
   @observable rooms = {};
+  @observable messages = {};
 
   @action async createRoom(userId, lastMsg) {
     try {
@@ -23,6 +24,15 @@ class RoomStore {
     try {
       this.rooms = await this._room.getRooms();
       return this.rooms;
+    } catch (err) {
+      // Alert.alert('Error', err.message)
+    }
+  }
+
+  @action async getMsgByroomId(id) {
+    try {
+      this.messages = await this._room.getMsgByroomId(id);
+      return this.messages;
     } catch (err) {
       // Alert.alert('Error', err.message)
     }
