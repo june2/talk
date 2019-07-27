@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import UsersScreen from '../screens/UsersScreen';
 import ListScreen from '../screens/ListScreen';
 import ChatScreen from '../screens/ChatScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -43,21 +43,21 @@ HomeStack.path = '';
 /**
  * Link
  */
-const LinksStack = createStackNavigator(
+const UsersStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    Users: UsersScreen,
   },
   config
 );
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+UsersStack.navigationOptions = {
+  tabBarLabel: 'Users',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-people' : 'md-people'} />
   ),
 };
 
-LinksStack.path = '';
+UsersStack.path = '';
 
 /**
  * List
@@ -117,12 +117,24 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
+  UsersStack,
   ListStack,
   ChatStack,
   SettingsStack,
-});
+  HomeStack,
+}, {
+    tabBarOptions: {
+      showLabel: false,
+      activeTintColor: '#e91e63',
+      iconStyle: {
+        // fontSize: 30,
+        height: 30, width: 30
+      },
+      style: {
+        // backgroundColor: 'blue',
+      },
+    }
+  });
 
 tabNavigator.path = '';
 

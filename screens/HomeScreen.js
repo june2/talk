@@ -12,7 +12,7 @@ import { observer } from 'mobx-react';
 import userStore from './../stores/UserStore';
 
 @observer
-export default class HomeScreen extends Component {
+export default class UserBox extends Component {
   constructor(props) {
     super(props);
   }
@@ -23,34 +23,34 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
-      <Container>
-        <Content >
-          <Image
-            source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }}
-            style={styles.containerImg}
-          />
-          <Grid style={styles.containerButtonBox}>
-            <Col>
-              <Button block transparent style={styles.containerButton}>
-                <Icon active name='ios-heart' style={styles.containerIcon} />
-              </Button>
-            </Col>
-            <Col >
-              <Button block transparent style={styles.containerButton}>
-                <Icon active name='ios-chatboxes' style={styles.containerIcon} />
-              </Button>
-            </Col>
-            <Col >
-              <Button block transparent style={styles.containerButton}>
-                <Icon active name='md-information' style={styles.containerIcon} />
-              </Button>
-            </Col>
-          </Grid>
-          <Body style={styles.container}>
-            <Text style={styles.containerText}>This is just a transparent card with some text to boot.</Text>
-          </Body>
-        </Content>
-      </Container>
+      <View>
+        <Image
+          source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }}
+          style={styles.containerImg}
+        />
+        <Grid style={styles.containerButtonBox}>
+          <Col>
+            <Button block transparent style={styles.containerButton}>
+              <Icon active name='ios-heart' style={styles.containerIcon} />
+            </Button>
+          </Col>
+          <Col >
+            <Button block transparent style={styles.containerButton}>
+              <Icon active name='ios-chatboxes' style={styles.containerIcon} />
+            </Button>
+          </Col>
+          <Col >
+            <Button block transparent style={styles.containerButton}>
+              <Icon active name='md-information' style={styles.containerIcon} />
+            </Button>
+          </Col>
+        </Grid>
+        <Body style={styles.container}>
+          <Text style={styles.containerTextTitle}>ABOUT ME</Text>
+          <Text style={styles.containerText}>This is just a transparent card with some text to boot.
+            test test test</Text>
+        </Body>
+      </View>
     );
   }
 }
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     height: 380,
     // resizeMode: 'contain'
   },
-  containerButtonBox: {    
+  containerButtonBox: {
     alignItems: 'center',
   },
   containerButton: {
@@ -91,13 +91,20 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: 'red',
   },
+  containerTextTitle: {
+    top: 10,
+    padding: 10,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: 25,
+    color: '#000',
+  },
   containerText: {
-    top: 30,
     padding: 18,
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: 15,
-    lineHeight: 14,
+    lineHeight: 25,
     color: '#444444',
   },
 });

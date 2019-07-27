@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import {
   FlatList,
-  Modal, TouchableHighlight, View, Alert
+  Modal, View, Alert
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,
   Thumbnail, Text
 } from 'native-base';
 import { observer } from 'mobx-react';
-import userStore from './../stores/UserStore';
-import authStore from './../stores/AuthStore';
-import roomStore from './../stores/RoomStore';
-import UserBox from './../components/UserBox';
+import userStore from '../stores/UserStore';
+import authStore from '../stores/AuthStore';
+import roomStore from '../stores/RoomStore';
+import UserBox from '../components/UserBox';
 
 @observer
-export default class LinkScreen extends Component {
+export default class UsersScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,9 +32,9 @@ export default class LinkScreen extends Component {
     }, this._getData);
   }
 
-  _handleClick(userId) {    
+  _handleClick(userId) {
     roomStore.createRoom(userId, 'msg');
-    // this.setModalVisible(true);
+    this.setModalVisible(true);
     // Alert.alert("I am clicked"); 
   }
 
@@ -85,7 +85,7 @@ export default class LinkScreen extends Component {
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
-          <View style={{ marginTop: 22 }}>
+          <View style={{ flex: 1, }}>
             <UserBox closeModal={(visible) => this.setModalVisible(visible)} />
           </View>
         </Modal>
@@ -104,6 +104,6 @@ export default class LinkScreen extends Component {
   }
 }
 
-LinkScreen.navigationOptions = {
-  title: 'Link',
+UsersScreen.navigationOptions = {
+  title: 'USERS',
 };
