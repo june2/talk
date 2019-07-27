@@ -30,8 +30,9 @@ export default class LinkScreen extends Component {
   }
 
   _handleClick() {
-    this.props.navigation.navigate('Chat')
-    // Alert.alert("I am clicked"); 
+    this.props.navigation.navigate('Chat', {});
+    // this.props.navigation.navigate('Chat')
+    // Alert.alert("I am clicked");     
   }
 
   _renderItem = ({ item }, i) => (
@@ -41,6 +42,7 @@ export default class LinkScreen extends Component {
       </Left>
       <Body>
         <Text>{item.users[0].name}</Text>
+        <Text note>{item.lastMsg}</Text>
         <Text note>{item.lastMsg}</Text>
       </Body>
       <Right>
@@ -87,5 +89,5 @@ export default class LinkScreen extends Component {
 }
 
 LinkScreen.navigationOptions = {
-  title: 'Link',
+  title: 'Chat',
 };

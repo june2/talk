@@ -53,7 +53,7 @@ const UsersStack = createStackNavigator(
 UsersStack.navigationOptions = {
   tabBarLabel: 'Users',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-people' : 'md-people'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'} />
   ),
 };
 
@@ -65,6 +65,7 @@ UsersStack.path = '';
 const ListStack = createStackNavigator(
   {
     List: ListScreen,
+    Chat: ChatScreen
   },
   config
 );
@@ -72,7 +73,7 @@ const ListStack = createStackNavigator(
 ListStack.navigationOptions = {
   tabBarLabel: 'List',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'} />
   ),
 };
 
@@ -110,7 +111,7 @@ const SettingsStack = createStackNavigator(
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
   ),
 };
 
@@ -119,7 +120,7 @@ SettingsStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   UsersStack,
   ListStack,
-  ChatStack,
+  // ChatStack,
   SettingsStack,
   HomeStack,
 }, {

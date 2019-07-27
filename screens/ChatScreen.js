@@ -7,6 +7,13 @@ export default class ChatScreen extends React.Component {
     messages: [],
   }
 
+  _pop() {
+    this.props.navigator.pop({
+      animated: true, // does the pop have transition animation or does it happen immediately (optional)
+      animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the pop have different transition animation (optional)
+    });
+  }
+
   componentWillMount() {
     this.setState({
       messages: [
@@ -71,7 +78,10 @@ export default class ChatScreen extends React.Component {
 }
 
 ChatScreen.navigationOptions = {
-  title: 'Chat',
+  title: 'List',
+  navigatorStyle: {
+    navBarHidden: false,
+  },
 };
 
 const styles = StyleSheet.create({
