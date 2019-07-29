@@ -2764,7 +2764,13 @@ expo-camera@~5.0.1:
     lodash "^4.6.0"
     prop-types "^15.6.0"
 
-expo-constants@^5.0.0, expo-constants@~5.0.1:
+expo-constants@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-6.0.0.tgz#ff4598985ba006e24949be3f05be7429e5bedacf"
+  dependencies:
+    ua-parser-js "^0.7.19"
+
+expo-constants@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-5.0.1.tgz#597263397f269d7fe37d9cd6b30e305c16635a00"
   dependencies:
@@ -2831,6 +2837,10 @@ expo-image-manipulator@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/expo-image-manipulator/-/expo-image-manipulator-5.0.1.tgz#7e24161eade3888d87471e7fb724fba91d5857eb"
 
+expo-image-picker@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-6.0.0.tgz#776f4487d986ba9cc82169a47445e8c13ca3108b"
+
 expo-image-picker@~5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-5.0.2.tgz#975ef46bc614d471f01e6de0b2db42e55aab4a56"
@@ -2879,6 +2889,10 @@ expo-media-library@~5.0.1:
 expo-payments-stripe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/expo-payments-stripe/-/expo-payments-stripe-5.0.1.tgz#da096cf81fc03dbfd540ce6814cc67222d7447ff"
+
+expo-permissions@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-6.0.0.tgz#2943f1aa98de833b88cea73cf03d18d08957cb68"
 
 expo-permissions@~5.0.1:
   version "5.0.1"

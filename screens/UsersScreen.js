@@ -9,7 +9,6 @@ import {
 } from 'native-base';
 import { observer } from 'mobx-react';
 import userStore from '../stores/UserStore';
-import authStore from '../stores/AuthStore';
 import roomStore from '../stores/RoomStore';
 import UserBox from '../components/UserBox';
 
@@ -72,7 +71,6 @@ export default class UsersScreen extends Component {
 
   componentDidMount() {
     this._getData();
-    authStore.getMe();
   }
 
   render() {

@@ -4,23 +4,17 @@ import {
   Button, Text, Icon, Left, Body, Right, Switch
 } from 'native-base';
 import {
-  AsyncStorage,
   StyleSheet,
-  ScrollView,
 } from 'react-native';
-import { Alert, TouchableHighlight } from 'react-native';
+import { Alert } from 'react-native';
 import { observer } from 'mobx-react';
 import { ImagePicker, Permissions, Constants } from 'expo';
-import config from '../constants/Config';
-import userService from './../services/users';
 import authStore from './../stores/AuthStore';
-import userStore from './../stores/UserStore';
 
 @observer
-export default class SettingsScreen extends Component {
+export default class MyUpdateScreen extends Component {
   constructor(props) {
     super(props);
-    this._user = userService;
   }
 
   _pickImage = async () => {
@@ -29,26 +23,24 @@ export default class SettingsScreen extends Component {
       allowsEditing: true,
       aspect: [4, 3],
     });
-    if (!result.cancelled) {      
-      authStore.me = await this._user.uploadImage(result.uri);
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
     }
   };
-
-  logOut = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth')
-  }
 
   componentDidMount() {
     this.getPermissionAsync();
   }
 
   getPermissionAsync = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
-    } else {
-      throw new Error('Camera permission not granted');
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
     }
   }
 
@@ -57,16 +49,15 @@ export default class SettingsScreen extends Component {
       <Container>
         <Content>
           <ListItem>
-            <ScrollView horizontal={true}>
-              <TouchableHighlight onPress={() => this._pickImage()} >
-                <Thumbnail large onPress={() => this._pickImage()} style={styles.ImageBoxImg} />
-              </TouchableHighlight>
-              {authStore.me.images.map((obj, i) => {
-                console.log(obj.thumbnail)
-                return (
-                  <Thumbnail key={i} large source={{ uri: config.apiHost + obj.thumbnail }} style={styles.ImageBoxImg} />)
-              })}
-            </ScrollView>
+            {authStore.me.images.map((obj, i) => {
+              console.log(obj.thumbnail)
+              return (
+                <Thumbnail key={i} large source={{ uri: obj.thumbnail }} />)
+            })}
+          </ListItem>
+          <Separator bordered />
+          <ListItem>
+            <Text>{authStore.me.email}</Text>
           </ListItem>
           <Separator bordered />
           <ListItem icon>
@@ -112,13 +103,13 @@ export default class SettingsScreen extends Component {
   }
 }
 
-SettingsScreen.navigationOptions = {
-  title: 'my pqge',
+MyUpdateScreen.navigationOptions = {
+  // header: null,
+  // title: 'My page update'
 };
 
 const styles = StyleSheet.create({
-  ImageBoxImg: {
-    backgroundColor: 'gray',
-    marginRight: 15,
+  container: {
+    flex: 1,
   },
 });

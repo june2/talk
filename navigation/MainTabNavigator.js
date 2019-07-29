@@ -7,6 +7,8 @@ import HomeScreen from '../screens/HomeScreen';
 import UsersScreen from '../screens/UsersScreen';
 import ListScreen from '../screens/ListScreen';
 import ChatScreen from '../screens/ChatScreen';
+import MyScreen from '../screens/MyScreen';
+import MyUpdateScreen from '../screens/MyUpdateScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const config = Platform.select({
@@ -99,6 +101,26 @@ ChatStack.navigationOptions = {
 ChatStack.path = '';
 
 /**
+ * My
+ */
+const MyStack = createStackNavigator(
+  {
+     My: MyScreen,
+     MyUpdate: MyUpdateScreen,
+  },
+  config
+);
+
+MyStack.navigationOptions = {
+  tabBarLabel: 'My',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
+  ),
+};
+
+MyStack.path = '';
+
+/**
  * Setting
  */
 const SettingsStack = createStackNavigator(
@@ -111,18 +133,19 @@ const SettingsStack = createStackNavigator(
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'} />
   ),
 };
 
 SettingsStack.path = '';
 
-const tabNavigator = createBottomTabNavigator({
+const tabNavigator = createBottomTabNavigator({  
+  SettingsStack,
   UsersStack,
   ListStack,
-  // ChatStack,
+  // HomeStack,
+  MyStack,
   SettingsStack,
-  HomeStack,
 }, {
     tabBarOptions: {
       showLabel: false,

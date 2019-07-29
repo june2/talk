@@ -2,13 +2,14 @@ import axios from 'axios';
 import {
   AsyncStorage,
 } from 'react-native';
+import config from '../constants/Config'
 
-const domain = 'http://13.76.166.152:3001/';
+const domain = config.apiHost;
 const api = (entity) => {
   return {
     get: async (resource, params) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${await AsyncStorage.getItem('token')}`;
-      try {        
+      try {
         if (!params) params = '';
         else '?' + params;
         let res = await axios.get(`${domain + entity + resource}${params}`);
@@ -38,6 +39,19 @@ const api = (entity) => {
         return await axios.delete(`${domain + entity + resource}`)
       } catch (err) {
         throw err;
+      }
+    },
+    upload: async (resource, data) => {
+      try {
+        let res = await axios({
+          method: 'post',
+          url: `${domain + entity + resource}`,
+          data: data,
+          config: { headers: { 'Content-Type': 'multipart/form-data' } }
+        })
+        return res.data;
+      } catch (err) {
+        throw err.response.data;
       }
     },
   }

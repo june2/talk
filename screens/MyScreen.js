@@ -12,13 +12,9 @@ import { observer } from 'mobx-react';
 import userStore from './../stores/UserStore';
 
 @observer
-export default class UserBox extends Component {
+export default class MyScreen extends Component {
   constructor(props) {
     super(props);
-  }
-
-  _handleClick() {
-    // this.props.navigation.navigate('Chat')
   }
 
   render() {
@@ -29,24 +25,11 @@ export default class UserBox extends Component {
             source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }}
             style={styles.containerImg}
           />
-          <TouchableHighlight onPress={() => this.props.closeModal(false)} style={styles.containerCloseBox}>          
-            <Icon active name='ios-close' />
-          </TouchableHighlight>
         </View>
         <View style={styles.containerButtonBox}>
           <View style={styles.containerButton}>
-            <Button block transparent style={styles.containerButton}>
-              <Icon active name='ios-heart' style={styles.containerIcon} />
-            </Button>
-          </View>
-          <View style={styles.containerButton}>
-            <Button block transparent style={styles.containerButton}>
-              <Icon active name='ios-chatboxes' style={styles.containerIcon} />
-            </Button>
-          </View>
-          <View style={styles.containerButton}>
-            <Button block transparent style={styles.containerButton}>
-              <Icon active name='md-information' style={styles.containerIcon} />
+            <Button block title="update" onPress={() => this.props.navigation.navigate('MyUpdate')} style={styles.formBoxButton}>
+              <Text>프로필 수정</Text>
             </Button>
           </View>
         </View>
@@ -57,19 +40,19 @@ export default class UserBox extends Component {
               test test test
           </Text>
         </View>
-      </View>
+      </View >
     );
   }
 }
 
+MyScreen.navigationOptions = {
+  // header: null,
+  title: 'My page'
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  containerCloseBox: {    
-    right: 30,
-    top : 50,
-    position: 'absolute',    
   },
   containerImgBox: {
     flex: 2,
@@ -125,5 +108,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 25,
     color: '#444444',
+  },
+  formBoxButton: {
+    margin: 30
   },
 });
