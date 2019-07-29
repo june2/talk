@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Container, Content, ListItem, Separator, Thumbnail,
-  Button, Text, Icon, Left, Body, Right, Switch
+  Button, Text, Icon, Left, Body, Right, Switch, DatePicker
 } from 'native-base';
 import {
   AsyncStorage,
@@ -21,6 +21,12 @@ export default class SettingsScreen extends Component {
   constructor(props) {
     super(props);
     this._user = userService;
+    this.state = { chosenDate: new Date() };
+    this.setDate = this.setDate.bind(this);
+  }
+
+  setDate(newDate) {
+    this.setState({ chosenDate: newDate });
   }
 
   _pickImage = async () => {
@@ -29,7 +35,7 @@ export default class SettingsScreen extends Component {
       allowsEditing: true,
       aspect: [4, 3],
     });
-    if (!result.cancelled) {      
+    if (!result.cancelled) {
       authStore.me = await this._user.uploadImage(result.uri);
     }
   };
@@ -78,6 +84,31 @@ export default class SettingsScreen extends Component {
             <Body>
               <Text>{authStore.me.email}</Text>
             </Body>
+          </ListItem>
+          <ListItem icon>
+            <Left>
+              <Button style={{ backgroundColor: "#FF9501" }}>
+                <Icon active name="calendar" />
+              </Button>
+            </Left>
+            <Body>
+              <DatePicker
+                defaultDate={new Date(2018, 4, 4)}
+                minimumDate={new Date(2018, 1, 1)}
+                maximumDate={new Date(2018, 12, 31)}
+                locale={"en"}
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={true}
+                animationType={"fade"}
+                androidMode={"default"}
+                placeHolderText="Select date"
+                textStyle={{ color: "black", margin: 0 }}
+                placeHolderTextStyle={{ color: "#fff" }}
+                onDateChange={this.setDate}
+              />
+            </Body>
+            <Right>
+            </Right>
           </ListItem>
           <ListItem icon>
             <Left>
