@@ -13,6 +13,19 @@ class UserService {
     }
   }
 
+  async updateMe(name, location, intro) {
+    try {
+      let data = {
+        name: name,
+        location: location,
+        intro: intro,
+      }
+      return await this._api.put('/me', data);
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async uploadImage(uri) {
     try {
       let formData = new FormData();

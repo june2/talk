@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import {
   Container, Content, ListItem, Separator, Thumbnail,
-  Button, Text, Icon, Left, Body, Right, Switch, DatePicker
+  Button, Text, Icon, Left, Body, Right, Switch, DatePicker, Textarea, Input
 } from 'native-base';
 import {
   AsyncStorage,
   StyleSheet,
   ScrollView,
+  Alert, TouchableHighlight
 } from 'react-native';
-import { Alert, TouchableHighlight } from 'react-native';
 import { observer } from 'mobx-react';
 import { ImagePicker, Permissions, Constants } from 'expo';
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import config from '../constants/Config';
+import locations from '../constants/Location';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
 import userStore from './../stores/UserStore';
@@ -21,12 +23,6 @@ export default class SettingsScreen extends Component {
   constructor(props) {
     super(props);
     this._user = userService;
-    this.state = { chosenDate: new Date() };
-    this.setDate = this.setDate.bind(this);
-  }
-
-  setDate(newDate) {
-    this.setState({ chosenDate: newDate });
   }
 
   _pickImage = async () => {
@@ -40,7 +36,13 @@ export default class SettingsScreen extends Component {
     }
   };
 
-  logOut = async () => {
+  _save = async () => {
+    let res = await userService.updateMe(authStore.me.name, authStore.me.locaiton, authStore.me.intro);
+    if(res.status === 200) this.props.navigation.navigate('My');    
+    else Alert.alert('Server error')
+  }
+
+  _logOut = async () => {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth')
   }
@@ -88,6 +90,19 @@ export default class SettingsScreen extends Component {
           <ListItem icon>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
+                <Icon active name="ios-person" />
+              </Button>
+            </Left>
+            <Body>
+              <Input
+                value={authStore.me.name}
+                onChangeText={val => { authStore.me.name = val }}
+              />
+            </Body>
+          </ListItem>
+          <ListItem icon>
+            <Left>
+              <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="calendar" />
               </Button>
             </Left>
@@ -101,10 +116,10 @@ export default class SettingsScreen extends Component {
                 modalTransparent={true}
                 animationType={"fade"}
                 androidMode={"default"}
-                placeHolderText="Select date"
+                placeHolderText=""
                 textStyle={{ color: "black", margin: 0 }}
                 placeHolderTextStyle={{ color: "#fff" }}
-                onDateChange={this.setDate}
+                onDateChange={() => authStore.me.birth}
               />
             </Body>
             <Right>
@@ -112,30 +127,39 @@ export default class SettingsScreen extends Component {
           </ListItem>
           <ListItem icon>
             <Left>
-              <Button style={{ backgroundColor: "#007AFF" }}>
-                <Icon active name="bluetooth" />
+              <Button style={{ backgroundColor: "#FF9501" }}>
+                <Icon active name="locate" />
               </Button>
             </Left>
             <Body>
-              <Text>{authStore.me.locaiton}</Text>
+              <RNPickerSelect
+                placeholder={{}}
+                items={locations}
+                onValueChange={val => {
+                  authStore.me.location = val
+                }}
+                InputAccessoryView={() => null}
+                style={pickerSelectStyles}
+                value={authStore.me.location}
+              />
             </Body>
           </ListItem>
-          <ListItem icon>
+          <ListItem icon last>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="airplane" />
               </Button>
             </Left>
             <Body>
-              <Text>Push</Text>
+              <Textarea rowSpan={1} placeholder="" />
             </Body>
-            <Right>
-              <Switch value={false} />
-            </Right>
           </ListItem>
           <Separator bordered />
-          <Button block light onPress={(e) => this.logOut(e)}>
+          <Button block light onPress={(e) => this._logOut(e)}>
             <Text>LOGOUT</Text>
+          </Button>
+          <Button block title="update" onPress={() => this._save()} style={styles.formBoxButton}>
+            <Text>저장</Text>
           </Button>
         </Content>
       </Container>
@@ -151,5 +175,17 @@ const styles = StyleSheet.create({
   ImageBoxImg: {
     backgroundColor: 'gray',
     marginRight: 15,
+  },
+  formBoxButton: {
+    margin: 30
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+  },
+  inputAndroid: {
+    fontSize: 16,
   },
 });
