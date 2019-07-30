@@ -25,13 +25,13 @@ class RoomService {
     }
   }
 
-  async getMsgByroomId(id) {
+  async getMsgByRoomId(id) {
     try {
       return await this._api.get(`/${id}/messages`);
     } catch (err) {
       throw err;
     }
-  }
+  }  
 }
 
 export default new RoomService();

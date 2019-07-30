@@ -29,9 +29,9 @@ class RoomStore {
     }
   }
 
-  @action async getMsgByroomId(id) {
+  @action async getMsgByRoomId(id) {
     try {
-      this.messages = await this._room.getMsgByroomId(id);
+      this.messages = await this._room.getMsgByRoomId(id);
       return this.messages;
     } catch (err) {
       // Alert.alert('Error', err.message)
