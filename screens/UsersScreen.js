@@ -65,9 +65,10 @@ export default class UsersScreen extends Component {
     this._getData();
   }
 
-  sendMsg(msg) {
-    //TODO: check : point    
-    roomStore.createRoom(this.state.userId, msg);
+  sendMsg = async (msg) => {
+    //TODO: check : point
+    let res = await roomStore.createRoom(this.state.userId, msg);
+    console.log(res.id);
   }
 
   setModalVisible(visible) {

@@ -21,7 +21,7 @@ const api = (entity) => {
     },
     post: async (resource, data) => {
       try {
-        let res = await axios.post(`${domain + entity + resource}`, data)
+        let res = await axios.post(`${domain + entity + resource}`, data);        
         return res.data;
       } catch (err) {
         throw err.response.data;

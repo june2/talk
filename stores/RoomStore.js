@@ -1,5 +1,5 @@
 import { observable, action, computed, configure } from 'mobx';
-import roomService from '../services/rooms'
+import roomService from '../services/rooms';
 
 // configure({ enforceActions: 'observed' });
 
@@ -13,7 +13,7 @@ class RoomStore {
 
   @action async createRoom(userId, lastMsg) {
     try {
-      this.room = await this._room.createRoom(userId, lastMsg);
+      this.room = await this._room.createRoom(userId, lastMsg);      
       return this.room;
     } catch (err) {
       // Alert.alert('Error', err.message)

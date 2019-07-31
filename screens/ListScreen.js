@@ -41,9 +41,8 @@ export default class LinkScreen extends Component {
         <Thumbnail source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }} />
       </Left>
       <Body>
-        {/* <Text>{(item.users) ? item.users[0].name : ''}</Text> */}
-        <Text note>{item.lastMsg}</Text>
-        <Text note>{item.lastMsg}</Text>
+        <Text>{item.users[0].name}</Text>
+        <Text note>{item.lastMsg}.{"\n"}</Text>
       </Body>
       <Right>
         <Text note>3:43 pm</Text>
