@@ -17,6 +17,7 @@ export default class UsersScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: null,
       modalVisible: false,
       refreshing: false,
       data: [],
@@ -32,9 +33,8 @@ export default class UsersScreen extends Component {
   }
 
   _handleClick(userId) {
-    roomStore.createRoom(userId, 'msg');
+    this.setState({ userId: userId });
     this.setModalVisible(true);
-    // Alert.alert("I am clicked"); 
   }
 
   _renderItem = ({ item }, i) => (
@@ -65,6 +65,11 @@ export default class UsersScreen extends Component {
     this._getData();
   }
 
+  sendMsg(msg) {
+    //TODO: check : point    
+    roomStore.createRoom(this.state.userId, msg);
+  }
+
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
@@ -84,7 +89,7 @@ export default class UsersScreen extends Component {
             Alert.alert('Modal has been closed.');
           }}>
           <View style={{ flex: 1, }}>
-            <UserBox closeModal={(visible) => this.setModalVisible(visible)} />
+            <UserBox closeModal={(visible) => this.setModalVisible(visible)} sendMsg={(msg) => this.sendMsg(msg)} />
           </View>
         </Modal>
 

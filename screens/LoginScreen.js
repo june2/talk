@@ -13,9 +13,12 @@ import {
   Button,
   Text,
 } from 'native-base';
+import { observer } from 'mobx-react';
 import { Alert } from 'react-native';
-import authService from './../services/auth'
+import authService from './../services/auth';
+import authStore from './../stores/AuthStore';
 
+@observer
 export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +32,8 @@ export default class LoginScreen extends Component {
   _signInAsync = async () => {
     try {
       let res = await this._auth.login(this.state.email, this.state.password);
-      await AsyncStorage.setItem('token', res.accessToken);
+      await AsyncStorage.setItem('token', res.accessToken);      
+      await authStore.getMe();
       this.props.navigation.navigate('Main');
     } catch (err) {
       Alert.alert('Error', err.message)

@@ -4,32 +4,73 @@ import {
   View, Alert,
   StyleSheet,
   Image,
-  Platform
+  Platform,
 } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
+import { Textarea, Text, Button, Icon, } from 'native-base';
 import { observer } from 'mobx-react';
+import { Constants } from 'expo';
 import userStore from './../stores/UserStore';
 
 @observer
 export default class UserBox extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      modalVisible: false,
+      text: '',
+      isSent: false,
+    }
   }
 
-  _handleClick() {
-    // this.props.navigation.navigate('Chat')
+  _setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  _sendMsg() {
+    this.setState({ isSent: true });
+    this.props.sendMsg(this.state.text);
+    this._setModalVisible(false);
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            if (this.state.isSent) this.props.closeModal(false);
+          }}
+          onDismiss={() => {
+            if (this.state.isSent) this.props.closeModal(false);
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContainerTransparentStyle}>
+              <Textarea rowSpan={5} placeholder="메시지를 보내세요!" style={styles.modalButton} onChangeText={(text) => this.setState({ text })} />
+              <Grid>
+                <Col style={styles.modalButton}>
+                  <Button block title="Login" onPress={() => this._sendMsg()} >
+                    <Text>보내기</Text>
+                  </Button>
+                </Col>
+                <Col style={styles.modalButton}>
+                  <Button block title="Login" onPress={() => this._setModalVisible(false)} >
+                    <Text>취소</Text>
+                  </Button>
+                </Col>
+              </Grid>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.containerImgBox}>
           <Image
             source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }}
             style={styles.containerImg}
           />
-          <TouchableHighlight onPress={() => this.props.closeModal(false)} style={styles.containerCloseBox}>          
+          <TouchableHighlight onPress={() => this.props.closeModal(false)} style={styles.containerCloseBox}>
             <Icon active name='ios-close' />
           </TouchableHighlight>
         </View>
@@ -40,7 +81,7 @@ export default class UserBox extends Component {
             </Button>
           </View>
           <View style={styles.containerButton}>
-            <Button block transparent style={styles.containerButton}>
+            <Button block transparent style={styles.containerButton} onPress={() => this._setModalVisible(true)}>
               <Icon active name='ios-chatboxes' style={styles.containerIcon} />
             </Button>
           </View>
@@ -66,10 +107,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  containerCloseBox: {    
+  containerCloseBox: {
     right: 30,
-    top : 50,
-    position: 'absolute',    
+    top: 50,
+    position: 'absolute',
   },
   containerImgBox: {
     flex: 2,
@@ -126,4 +167,30 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     color: '#444444',
   },
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#ecf0f1',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainerTransparentStyle: {
+    backgroundColor: '#fff',
+    width: '80%'
+  },
+  modalView: {
+    flex: 1,
+    marginTop: 30,
+    marginBottom: 30,
+    justifyContent: 'center',
+  },
+  modalText: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 28,
+  },
+  modalButton: {
+    padding: 10,
+  }
 });

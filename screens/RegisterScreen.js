@@ -35,6 +35,7 @@ export default class RegisterScreen extends Component {
       if (res.id) {
         res = await this._auth.login(this.state.email, this.state.password);
         await AsyncStorage.setItem('token', res.accessToken);
+        await authStore.getMe();
         this.props.navigation.navigate('Settings');
       }
     } catch (err) {
