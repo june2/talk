@@ -144,7 +144,7 @@ export default class SettingsScreen extends Component {
               </Button>
             </Left>
             <Body>
-              <Textarea rowSpan={1} placeholder="" />
+              <Textarea rowSpan={1} placeholder="" onChangeText={(text) => authStore.me.intro = text} value={authStore.me.intro} />
             </Body>
           </ListItem>
           <Separator bordered />

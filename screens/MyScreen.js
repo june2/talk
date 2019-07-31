@@ -9,7 +9,7 @@ import {
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 import { observer } from 'mobx-react';
-import userStore from './../stores/UserStore';
+import authStore from './../stores/AuthStore';
 
 @observer
 export default class MyScreen extends Component {
@@ -36,8 +36,7 @@ export default class MyScreen extends Component {
         <View style={styles.containerTextBox}>
           <Text style={styles.containerTextTitle}>ABOUT ME</Text>
           <Text style={styles.containerText}>
-            This is just a transparent card with some text to boot.
-              test test test
+            {authStore.me.intro}
           </Text>
         </View>
       </View >

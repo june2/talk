@@ -140,11 +140,10 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({  
-  SettingsStack,
+  // HomeStack,  
+  MyStack,
   UsersStack,
   ListStack,
-  // HomeStack,
-  MyStack,
   SettingsStack,
 }, {
     tabBarOptions: {
