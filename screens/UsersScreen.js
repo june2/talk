@@ -32,13 +32,14 @@ export default class UsersScreen extends Component {
     }, this._getData);
   }
 
-  _handleClick(userId) {
-    this.setState({ userId: userId });
+  _handleClick(user) {
+    userStore.setUser(user);
+    this.setState({ userId: user.id });
     this.setModalVisible(true);
   }
 
   _renderItem = ({ item }, i) => (
-    <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item.id)} >
+    <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item)} >
       <Left>
         <Thumbnail source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }} />
       </Left>

@@ -1,5 +1,6 @@
 import { observable, action, computed, configure } from 'mobx';
 import authService from '../services/auth'
+import config from '../constants/Config';
 
 class AuthStore {
   constructor() {
@@ -7,9 +8,17 @@ class AuthStore {
   }
 
   @observable token = null;
+  @observable slider = [];
   @observable me = {
-    images: []
+    images: [],
   };
+
+  _updateSlider(images) {
+    this.slider = [];
+    images.forEach(obj => {
+      this.slider.push({ url: config.apiHost + obj.thumbnail })
+    });
+  }
 
   @action async register(email, password) {
     try {
@@ -24,7 +33,7 @@ class AuthStore {
   @action async getMe() {
     try {
       let res = await this._auth.me();
-      console.log(res);
+      this._updateSlider(res.images);
       this.me = res;
     } catch (err) {
       // Alert.alert('Error', err.message)

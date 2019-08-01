@@ -27,7 +27,7 @@ export default class SettingsScreen extends Component {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [3, 4],
     });
     if (!result.cancelled) {
       authStore.me = await this._user.uploadImage(result.uri);
@@ -35,7 +35,7 @@ export default class SettingsScreen extends Component {
   };
 
   _save = async () => {
-    let res = await userService.updateMe(authStore.me.name, authStore.me.locaiton, authStore.me.intro);
+    let res = await userService.updateMe(authStore.me.name, authStore.me.location, authStore.me.intro);
     if (res.status === 200) this.props.navigation.navigate('My');
     else Alert.alert('Server error')
   }

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Modal, TouchableHighlight,
   View, Alert,
   StyleSheet,
-  Image,
   Platform
 } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
+import { Text, Button, Icon, Left, Body, Right } from 'native-base';
+import Slideshow from 'react-native-image-slider-show';
 import { observer } from 'mobx-react';
 import authStore from './../stores/AuthStore';
 
@@ -21,10 +20,10 @@ export default class MyScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.containerImgBox}>
-          <Image
-            source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }}
-            style={styles.containerImg}
-          />
+          <Slideshow
+            height={450}
+            containerStyle={styles.containerImg}
+            dataSource={authStore.slider} />
         </View>
         <View style={styles.containerButtonBox}>
           <View style={styles.containerButton}>

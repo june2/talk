@@ -20,7 +20,6 @@ class UserService {
         location: location,
         intro: intro,
       }
-      console.log(data);
       return await this._api.put('/me', data);
     } catch (err) {
       throw err;
