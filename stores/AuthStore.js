@@ -13,10 +13,13 @@ class AuthStore {
     images: [],
   };
 
-  _updateSlider(images) {
+  _updateSlider(images, name) {
     this.slider = [];
-    images.forEach(obj => {
-      this.slider.push({ url: config.apiHost + obj.thumbnail })
+    images.forEach((obj, i) => {
+      this.slider.push({
+        url: config.apiHost + obj.thumbnail,
+        title: (i === 0) ? name : '',
+      })
     });
   }
 
@@ -33,7 +36,7 @@ class AuthStore {
   @action async getMe() {
     try {
       let res = await this._auth.me();
-      this._updateSlider(res.images);
+      this._updateSlider(res.images, res.name);
       this.me = res;
     } catch (err) {
       // Alert.alert('Error', err.message)

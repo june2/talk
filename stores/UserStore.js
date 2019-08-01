@@ -14,16 +14,20 @@ class UserStore {
   @observable token = null;
   // @computed get selectedId() { return this.selectedUser.id; }
 
-  _updateSlider(images) {
+  _updateSlider(images, name) {
     this.slider = [];
-    images.forEach(obj => {
-      this.slider.push({ url: config.apiHost + obj.thumbnail })
+    images.forEach((obj, i) => {
+      this.slider.push({
+        url: config.apiHost + obj.thumbnail,
+        title: (i === 0) ? name : '',
+        // caption: 'Caption 3',
+      })
     });
   }
 
   @action async setUser(user) {
     try {
-      this._updateSlider(user.images);
+      this._updateSlider(user.images, user.name);
       this.user = user;
     } catch (err) {
       // Alert.alert('Error', err.message)

@@ -22,6 +22,7 @@ export default class MyScreen extends Component {
         <View style={styles.containerImgBox}>
           <Slideshow
             height={450}
+            titleStyle={styles.containerImgTitle}
             containerStyle={styles.containerImg}
             dataSource={authStore.slider} />
         </View>
@@ -58,6 +59,10 @@ const styles = StyleSheet.create({
   containerImg: {
     flex: 1,
     width: '100%',
+  },
+  containerImgTitle: {
+    color: '#fff',
+    fontSize: 30,
   },
   containerButtonBox: {
     flexDirection: 'row',

@@ -69,10 +69,11 @@ export default class UserBox extends Component {
         <View style={styles.containerImgBox}>
           <Slideshow
             height={550}
+            titleStyle={styles.containerImgTitle}
             containerStyle={styles.containerImg}
             dataSource={userStore.slider} />
           <TouchableHighlight onPress={() => this.props.closeModal(false)} style={styles.containerCloseBox}>
-            <Icon active name='ios-close' />
+            <Icon active name='ios-close' style={styles.containerCloseBoxButton} />
           </TouchableHighlight>
         </View>
         <View style={styles.containerButtonBox}>
@@ -112,12 +113,20 @@ const styles = StyleSheet.create({
     top: 50,
     position: 'absolute',
   },
+  containerCloseBoxButton: {
+    color: '#fff',
+    fontSize: 30,
+  },
   containerImgBox: {
     flex: 2,
   },
   containerImg: {
     flex: 1,
     width: '100%',
+  },
+  containerImgTitle: {
+    color: '#fff',
+    fontSize: 30,
   },
   containerButtonBox: {
     flexDirection: 'row',
