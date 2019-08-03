@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   FlatList,
+  StyleSheet,
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,
@@ -42,7 +43,7 @@ export default class LinkScreen extends Component {
       </Left>
       <Body>
         <Text>{item.users[0].name}</Text>
-        <Text note>{item.lastMsg}.{"\n"}</Text>
+        <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} style={{ height: 34 }} note>{item.lastMsg}</Text>
       </Body>
       <Right>
         <Text note>3:43 pm</Text>
@@ -90,3 +91,9 @@ export default class LinkScreen extends Component {
 LinkScreen.navigationOptions = {
   title: 'Chat',
 };
+
+const styles = StyleSheet.create({
+  introBox: {
+    height: 34
+  }
+});

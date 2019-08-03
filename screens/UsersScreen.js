@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   FlatList,
-  Modal, View, Alert
+  Modal, View, Alert,
+  StyleSheet,
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,
@@ -45,7 +46,7 @@ export default class UsersScreen extends Component {
       </Left>
       <Body>
         <Text>{item.name}</Text>
-        <Text note>Doing what you like will always keep you happy . .</Text>
+        <Text numberOfLines={2} ellipsizeMode='tail'  style={styles.introBox} note>{item.intro}{"\n"}</Text>
       </Body>
       <Right>
         <Text note>3:43 pm</Text>
@@ -112,3 +113,9 @@ export default class UsersScreen extends Component {
 UsersScreen.navigationOptions = {
   title: 'USERS',
 };
+
+const styles = StyleSheet.create({
+  introBox: {
+    height: 34
+  }
+});
