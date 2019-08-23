@@ -17,9 +17,9 @@ class RoomService {
     }
   }
 
-  async getRooms() {
+  async getRooms(limit, offset) {
     try {
-      return await this._api.get('/');
+      return await this._api.get(`/?limit=${limit}&offset=${offset}`);
     } catch (err) {
       throw err;
     }
@@ -31,7 +31,7 @@ class RoomService {
     } catch (err) {
       throw err;
     }
-  }  
+  }
 }
 
 export default new RoomService();

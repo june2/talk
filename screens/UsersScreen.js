@@ -9,6 +9,7 @@ import {
   Thumbnail, Text
 } from 'native-base';
 import { observer } from 'mobx-react';
+import config from '../constants/Config';
 import userStore from '../stores/UserStore';
 import roomStore from '../stores/RoomStore';
 import UserBox from '../components/UserBox';
@@ -22,14 +23,16 @@ export default class UsersScreen extends Component {
       modalVisible: false,
       refreshing: false,
       data: [],
-      page: 1
+      totalDocs: 0,
+      offset: 0,
+      limit: 10
     }
   }
 
   _handleRefresh = () => {
     this.setState({
       refreshing: true,
-      page: 1,
+      offset: 0,
     }, this._getData);
   }
 
@@ -42,11 +45,13 @@ export default class UsersScreen extends Component {
   _renderItem = ({ item }, i) => (
     <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item)} >
       <Left>
-        <Thumbnail source={{ uri: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no' }} />
+        <Thumbnail source={{
+          uri: item.images.length !== 0 ? config.apiHost + item.images[0].thumbnail : config.defaultUserImg
+        }} />
       </Left>
       <Body>
         <Text>{item.name}</Text>
-        <Text numberOfLines={2} ellipsizeMode='tail'  style={styles.introBox} note>{item.intro}{"\n"}</Text>
+        <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} note>{item.intro}{"\n"}</Text>
       </Body>
       <Right>
         <Text note>3:43 pm</Text>
@@ -55,12 +60,16 @@ export default class UsersScreen extends Component {
   );
 
   _getData = async () => {
-    let data = await userStore.getUsers();
-    this.setState({
-      data: this.state.refreshing ? data : this.state.data.concat(data),
-      page: this.state.page + 1,
-      refreshing: false
-    })
+    if (this.state.totalDocs >= this.state.data.length) {
+      let res = await userStore.getUsers(this.state.limit, this.state.offset);
+      let data = res.docs;
+      this.setState({
+        data: this.state.refreshing ? data : this.state.data.concat(data),
+        offset: res.offset + this.state.limit,
+        totalDocs: res.totalDocs,
+        refreshing: false
+      })
+    }
   }
 
   _handleLoadMore = () => {
@@ -69,8 +78,8 @@ export default class UsersScreen extends Component {
 
   sendMsg = async (msg) => {
     //TODO: check : point
-    let res = await roomStore.createRoom(this.state.userId, msg);
-    console.log(res.id);
+    await roomStore.createRoom(this.state.userId, msg);
+    roomStore.getRooms(10, 0);
   }
 
   setModalVisible(visible) {

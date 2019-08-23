@@ -34,9 +34,9 @@ class UserStore {
     }
   }
 
-  @action async getUsers() {
+  @action async getUsers(limit, offset) {
     try {
-      this.users = await this._user.getUsers();
+      this.users = await this._user.getUsers(limit, offset);
       return this.users;
     } catch (err) {
       // Alert.alert('Error', err.message)

@@ -62,8 +62,7 @@ export default class SettingsScreen extends Component {
               <TouchableHighlight onPress={() => this._pickImage()} >
                 <Thumbnail large onPress={() => this._pickImage()} style={styles.ImageBoxImg} />
               </TouchableHighlight>
-              {authStore.me.images.map((obj, i) => {
-                console.log(obj.thumbnail)
+              {authStore.me.images.map((obj, i) => {                
                 return (
                   <Thumbnail key={i} large source={{ uri: config.apiHost + obj.thumbnail }} style={styles.ImageBoxImg} />)
               })}

@@ -7,22 +7,29 @@ class RoomStore {
   constructor() {
     this._room = roomService;
   }
+
+  @observable list = [];
   @observable room = {};
   @observable rooms = {};
   @observable messages = {};
 
   @action async createRoom(userId, lastMsg) {
     try {
-      this.room = await this._room.createRoom(userId, lastMsg);      
+      this.room = await this._room.createRoom(userId, lastMsg);
       return this.room;
     } catch (err) {
       // Alert.alert('Error', err.message)
     }
   }
 
-  @action async getRooms() {
+  @action async getRooms(limit, offset) {
     try {
-      this.rooms = await this._room.getRooms();
+      this.rooms = await this._room.getRooms(limit, offset);
+      if (offset === 0) {
+        this.list = this.rooms.docs;
+      } else {
+        this.list = this.list.concat(this.rooms.docs);
+      }
       return this.rooms;
     } catch (err) {
       // Alert.alert('Error', err.message)
@@ -36,6 +43,16 @@ class RoomStore {
     } catch (err) {
       // Alert.alert('Error', err.message)
     }
+  }
+
+  @action updateValue(index, lastMsg) {
+
+    this.list[index].lastMsg = lastMsg;
+    // console.log(this.list[index].get('lastMsg'));
+    // this.list = this.list;
+    // this.list = [];
+    // Object.keys(this.values).forEach(key => delete this.values[key]);
+    // extendObservable(this.values, initValues);
   }
 }
 

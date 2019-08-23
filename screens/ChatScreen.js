@@ -12,6 +12,7 @@ export default class ChatScreen extends Component {
     super(props);
     this._msgService = msgService;
     this.state = {
+      roomIndex: this.props.navigation.getParam('roomIndex'),
       roomId: this.props.navigation.getParam('roomId'),
       messages: [],
       refreshing: false,
@@ -25,6 +26,18 @@ export default class ChatScreen extends Component {
     if (this.state.totalDocs >= this.state.limit * this.state.offset) {
       let res = await roomStore.getMsgByRoomId(this.state.roomId);
       let messages = res.docs;
+      messages = messages.map((chatMessage) => {
+        return {
+          _id: chatMessage._id,
+          text: chatMessage.text,
+          createdAt: chatMessage.createdAt,
+          user: {
+            _id: chatMessage.user._id,
+            name: chatMessage.user.name,
+            avatar: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no'
+          }
+        };
+      });
       this.setState({
         messages: this.state.refreshing ? messages : this.state.messages.concat(messages),
         offset: res.offset + 1,
@@ -36,7 +49,11 @@ export default class ChatScreen extends Component {
   }
 
   _onSend(messages = []) {
+    // call api
     this._msgService.createMessage(this.state.roomId, authStore.me.id, messages[0].text);
+    // update local data
+    console.log(this.state.roomIndex, messages[0].text);
+    roomStore.updateValue(this.state.roomIndex, messages[0].text);    
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }))
@@ -115,7 +132,7 @@ export default class ChatScreen extends Component {
 }
 
 ChatScreen.navigationOptions = {
-  title: 'List',
+  title: 'Chat',
   navigatorStyle: {
     navBarHidden: false,
   },
