@@ -1,10 +1,12 @@
 import { observable, action, computed, configure } from 'mobx';
 import authService from '../services/auth'
+import userService from '../services/users'
 import config from '../constants/Config';
 
 class AuthStore {
   constructor() {
     this._auth = authService;
+    this._user = userService;
   }
 
   @observable token = null;
@@ -47,6 +49,30 @@ class AuthStore {
       throw err;
     }
   }
+
+  @action async uploadImage(uri) {
+    try {
+      let res = await this._user.uploadImage(uri);
+      this._updateSlider(res.images, res.name);      
+      this.me = res;
+    } catch (err) {
+      // Alert.alert('Error', err.message)
+      throw err;
+    }
+  }
+  @action async deleteImage(index) {
+    try {
+      this.me.images.splice(index, 1);
+      let res = await this._user.deleteImage(this.me.images);
+      this.images[index] = {};      
+      this._updateSlider(res.data.images, res.data.name);
+      this.me = res.data;
+    } catch (err) {
+      // Alert.alert('Error', err.message)
+      throw err;
+    }
+  }
+
 }
 
 const store = new AuthStore();

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Container, Content, ListItem, Separator, Thumbnail, Grid, Col,
-  Button, Text, Icon, Left, Body, Right, DatePicker, Textarea, Input
+  Button, Text, Icon, Left, Body, Right, DatePicker, Textarea, Input, ActionSheet
 } from 'native-base';
 import {
   StyleSheet,
@@ -11,7 +11,6 @@ import { observer } from 'mobx-react';
 import { ImagePicker, Permissions, Constants } from 'expo';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import moment from 'moment';
-import config from '../constants/Config';
 import locations from '../constants/Location';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
@@ -23,6 +22,11 @@ export default class SettingsScreen extends Component {
     this._user = userService;
   }
 
+  _action = async (index) => {
+    if (authStore.images[index].thumbnail == null) this._pickImage();
+    else this._openActionSheet(index);
+  };
+
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -30,9 +34,35 @@ export default class SettingsScreen extends Component {
       aspect: [3, 4],
     });
     if (!result.cancelled) {
-      authStore.me = await this._user.uploadImage(result.uri);
+      authStore.uploadImage(result.uri);
     }
   };
+
+  _deleteImage = async (index) => {
+    authStore.deleteImage(index);
+    // authStore.images[index] = '';
+  }
+
+  _openActionSheet = async (index) => {
+    ActionSheet.show(
+      {
+        options: [
+          { text: "Delete", icon: "trash", iconColor: "#fa213b" },
+          { text: "Cancle", icon: "close", iconColor: "#25de5b" }
+        ],
+        cancelButtonIndex: 1,
+      },
+      buttonIndex => {
+        switch (buttonIndex) {
+          case 0:
+            this._deleteImage(index);
+            break;
+          default:
+            break;
+        }
+      }
+    )
+  }
 
   _save = async () => {
     let res = await userService.updateMe(authStore.me.name, authStore.me.location, authStore.me.intro);
@@ -61,31 +91,41 @@ export default class SettingsScreen extends Component {
             <Body>
               <Grid>
                 <Col style={{ alignSelf: 'center' }}>
-                  <TouchableHighlight onPress={() => this._pickImage()} >
-                    <Thumbnail large style={styles.ImageBox} />
+                  <TouchableHighlight onPress={() => this._action(0)} >
+                    <Thumbnail large source={{ uri: authStore.images[0].thumbnail }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col style={{ alignSelf: 'center' }}>
-                  <Thumbnail large source={{ uri: authStore.images[0].thumbnail }} style={styles.ImageBox} />
+                  <TouchableHighlight onPress={() => this._action(1)} >
+                    <Thumbnail large source={{ uri: authStore.images[1].thumbnail }} style={styles.ImageBox} />
+                  </TouchableHighlight>
                 </Col>
                 <Col style={{ alignSelf: 'center' }}>
-                  <Thumbnail large source={{ uri: authStore.images[1].thumbnail }} style={styles.ImageBox} />
+                  <TouchableHighlight onPress={() => this._action(2)} >
+                    <Thumbnail large source={{ uri: authStore.images[2].thumbnail }} style={styles.ImageBox} />
+                  </TouchableHighlight>
                 </Col>
               </Grid>
               <Grid style={{ marginTop: 10 }}>
                 <Col>
-                  <Thumbnail large source={{ uri: authStore.images[2].thumbnail }} style={styles.ImageBox} />
+                  <TouchableHighlight onPress={() => this._action(3)} >
+                    <Thumbnail large source={{ uri: authStore.images[3].thumbnail }} style={styles.ImageBox} />
+                  </TouchableHighlight>
                 </Col>
                 <Col>
-                  <Thumbnail large source={{ uri: authStore.images[3].thumbnail }} style={styles.ImageBox} />
+                  <TouchableHighlight onPress={() => this._action(4)} >
+                    <Thumbnail large source={{ uri: authStore.images[4].thumbnail }} style={styles.ImageBox} />
+                  </TouchableHighlight>
                 </Col>
                 <Col>
-                  <Thumbnail large source={{ uri: authStore.images[4].thumbnail }} style={styles.ImageBox} />
+                  <TouchableHighlight onPress={() => this._action(5)} >
+                    <Thumbnail large source={{ uri: authStore.images[5].thumbnail }} style={styles.ImageBox} />
+                  </TouchableHighlight>
                 </Col>
               </Grid>
             </Body>
           </ListItem>
-          <Separator bordered>
+          {/* <Separator bordered>
             <Text>ID</Text>
           </Separator>
           <ListItem icon last>
@@ -97,7 +137,7 @@ export default class SettingsScreen extends Component {
             <Body>
               <Text>{authStore.me.email}</Text>
             </Body>
-          </ListItem>
+          </ListItem> */}
           <Separator bordered>
             <Text>Information</Text>
           </Separator>
@@ -129,12 +169,11 @@ export default class SettingsScreen extends Component {
                 locale={"en"}
                 timeZoneOffsetInMinutes={undefined}
                 formatChosenDate={date => { return moment(date).format('YYYY-MM-DD'); }}
-                modalTransparent={true}
+                modalTransparent={false}
                 animationType={"fade"}
                 androidMode={"default"}
                 placeHolderText=""
                 textStyle={{ color: "black", margin: 0, padding: 0 }}
-                style={{ backgroundColor: "#fff" }}
                 placeHolderTextStyle={{ color: "#fff" }}
                 onDateChange={() => authStore.me.birth}
               />

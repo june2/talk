@@ -54,7 +54,8 @@ export default class UsersScreen extends Component {
         <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} note>{item.intro}{"\n"}</Text>
       </Body>
       <Right>
-        <Text note>3:43 pm</Text>
+        <Text note>{item.gender}</Text>
+        <Text note>{item.location}</Text>
       </Right>
     </ListItem>
   );

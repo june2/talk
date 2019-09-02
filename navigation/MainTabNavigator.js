@@ -10,6 +10,7 @@ import ChatScreen from '../screens/ChatScreen';
 import MyScreen from '../screens/MyScreen';
 import MyUpdateScreen from '../screens/MyUpdateScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import TermScreen from '../screens/TermScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -126,6 +127,7 @@ MyStack.path = '';
 const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen,
+    Term: TermScreen,
   },
   config
 );

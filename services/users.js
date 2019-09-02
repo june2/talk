@@ -35,6 +35,17 @@ class UserService {
       throw err;
     }
   }
+
+  async deleteImage(images) {
+    try {
+      let data = {
+        images: images
+      }
+      return await this._api.put('/me', data);
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 export default new UserService();

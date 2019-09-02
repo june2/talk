@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import {
-  Container, Content, ListItem, Separator, Thumbnail,
-  Button, Text, Icon, Left, Body, Textarea, 
+  Container, Content, ListItem, Separator,
+  Button, Text, Icon, Left, Right, Body,
 } from 'native-base';
 import {
   AsyncStorage,
   StyleSheet,
-  ScrollView,
-  Alert, 
+  Alert,
 } from 'react-native';
 import { observer } from 'mobx-react';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
-
 
 @observer
 export default class SettingsScreen extends Component {
@@ -38,10 +36,25 @@ export default class SettingsScreen extends Component {
 
   render() {
     return (
-      <Container>
+      <Container>        
         <Content>
-          <Separator bordered />
-          <ListItem icon>
+          <Separator bordered>
+            <Text>ID</Text>
+          </Separator>
+          <ListItem icon last>
+            <Left>
+              <Button style={{ backgroundColor: "#FF9501" }}>
+                <Icon active name="ios-person" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>{authStore.me.email}</Text>
+            </Body>
+          </ListItem>
+          <Separator bordered>
+            <Text>Point</Text>
+          </Separator>
+          <ListItem icon last>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="ios-person" />
@@ -51,15 +64,24 @@ export default class SettingsScreen extends Component {
               <Text>{authStore.me.point}</Text>
             </Body>
           </ListItem>
-          <ListItem icon last>
-            <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="airplane" />
-              </Button>
-            </Left>
+          <Separator bordered>
+            <Text>Terms</Text>
+          </Separator>
+          <ListItem icon onPress={() => this.props.navigation.navigate('Term')}>
             <Body>
-              <Textarea rowSpan={1} placeholder="" />
+              <Text>약관</Text>
             </Body>
+            <Right>
+              <Icon name="arrow-forward" />
+            </Right>
+          </ListItem>
+          <ListItem icon last onPress={() => this.props.navigation.navigate('Term')}>
+            <Body>
+              <Text>약관</Text>
+            </Body>
+            <Right>
+              <Icon name="arrow-forward" />
+            </Right>
           </ListItem>
           <Separator bordered />
           <Button block title="update" onPress={(e) => this._logOut(e)} style={styles.formBoxButton}>
