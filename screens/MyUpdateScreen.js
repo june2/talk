@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import {
-  Container, Content, ListItem, Separator, Thumbnail,
+  Container, Content, ListItem, Separator, Thumbnail, Grid, Col,
   Button, Text, Icon, Left, Body, Right, DatePicker, Textarea, Input
 } from 'native-base';
 import {
   StyleSheet,
-  ScrollView,
   Alert, TouchableHighlight
 } from 'react-native';
 import { observer } from 'mobx-react';
 import { ImagePicker, Permissions, Constants } from 'expo';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
+import moment from 'moment';
 import config from '../constants/Config';
 import locations from '../constants/Location';
 import userService from './../services/users';
@@ -58,18 +58,37 @@ export default class SettingsScreen extends Component {
       <Container>
         <Content>
           <ListItem>
-            <ScrollView horizontal={true}>
-              <TouchableHighlight onPress={() => this._pickImage()} >
-                <Thumbnail large onPress={() => this._pickImage()} style={styles.ImageBoxImg} />
-              </TouchableHighlight>
-              {authStore.me.images.map((obj, i) => {                
-                return (
-                  <Thumbnail key={i} large source={{ uri: config.apiHost + obj.thumbnail }} style={styles.ImageBoxImg} />)
-              })}
-            </ScrollView>
+            <Body>
+              <Grid>
+                <Col style={{ alignSelf: 'center' }}>
+                  <TouchableHighlight onPress={() => this._pickImage()} >
+                    <Thumbnail large style={styles.ImageBox} />
+                  </TouchableHighlight>
+                </Col>
+                <Col style={{ alignSelf: 'center' }}>
+                  <Thumbnail large source={{ uri: authStore.images[0].thumbnail }} style={styles.ImageBox} />
+                </Col>
+                <Col style={{ alignSelf: 'center' }}>
+                  <Thumbnail large source={{ uri: authStore.images[1].thumbnail }} style={styles.ImageBox} />
+                </Col>
+              </Grid>
+              <Grid style={{ marginTop: 10 }}>
+                <Col>
+                  <Thumbnail large source={{ uri: authStore.images[2].thumbnail }} style={styles.ImageBox} />
+                </Col>
+                <Col>
+                  <Thumbnail large source={{ uri: authStore.images[3].thumbnail }} style={styles.ImageBox} />
+                </Col>
+                <Col>
+                  <Thumbnail large source={{ uri: authStore.images[4].thumbnail }} style={styles.ImageBox} />
+                </Col>
+              </Grid>
+            </Body>
           </ListItem>
-          <Separator bordered />
-          <ListItem icon>
+          <Separator bordered>
+            <Text>ID</Text>
+          </Separator>
+          <ListItem icon last>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="ios-person" />
@@ -79,6 +98,9 @@ export default class SettingsScreen extends Component {
               <Text>{authStore.me.email}</Text>
             </Body>
           </ListItem>
+          <Separator bordered>
+            <Text>Information</Text>
+          </Separator>
           <ListItem icon>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
@@ -88,6 +110,7 @@ export default class SettingsScreen extends Component {
             <Body>
               <Input
                 value={authStore.me.name}
+                style={{ paddingLeft: 0 }}
                 onChangeText={val => { authStore.me.name = val }}
               />
             </Body>
@@ -100,16 +123,18 @@ export default class SettingsScreen extends Component {
             </Left>
             <Body>
               <DatePicker
-                defaultDate={new Date(2018, 4, 4)}
-                minimumDate={new Date(2018, 1, 1)}
-                maximumDate={new Date(2018, 12, 31)}
+                defaultDate={new Date(1900, 1, 1)}
+                minimumDate={new Date(1950, 1, 1)}
+                maximumDate={new Date(2000, 12, 31)}
                 locale={"en"}
                 timeZoneOffsetInMinutes={undefined}
+                formatChosenDate={date => { return moment(date).format('YYYY-MM-DD'); }}
                 modalTransparent={true}
                 animationType={"fade"}
                 androidMode={"default"}
                 placeHolderText=""
-                textStyle={{ color: "black", margin: 0 }}
+                textStyle={{ color: "black", margin: 0, padding: 0 }}
+                style={{ backgroundColor: "#fff" }}
                 placeHolderTextStyle={{ color: "#fff" }}
                 onDateChange={() => authStore.me.birth}
               />
@@ -117,7 +142,7 @@ export default class SettingsScreen extends Component {
             <Right>
             </Right>
           </ListItem>
-          <ListItem icon>
+          <ListItem icon last>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="locate" />
@@ -136,14 +161,12 @@ export default class SettingsScreen extends Component {
               />
             </Body>
           </ListItem>
-          <ListItem icon last>
-            <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="airplane" />
-              </Button>
-            </Left>
+          <Separator bordered>
+            <Text>About me</Text>
+          </Separator>
+          <ListItem>
             <Body>
-              <Textarea rowSpan={1} placeholder="" onChangeText={(text) => authStore.me.intro = text} value={authStore.me.intro} />
+              <Textarea rowSpan={4} placeholder="" onChangeText={(text) => authStore.me.intro = text} value={authStore.me.intro} />
             </Body>
           </ListItem>
           <Separator bordered />
@@ -161,9 +184,11 @@ SettingsScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-  ImageBoxImg: {
+  ImageBox: {
+    width: 120,
+    height: 120,
     backgroundColor: 'gray',
-    marginRight: 15,
+    alignSelf: 'center'
   },
   formBoxButton: {
     margin: 30

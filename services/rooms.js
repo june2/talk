@@ -32,6 +32,14 @@ class RoomService {
       throw err;
     }
   }
+
+  async deleteRoomByRoomId(id) {
+    try {
+      return await this._api.delete(`/${id}`);
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 export default new RoomService();

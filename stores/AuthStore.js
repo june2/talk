@@ -9,6 +9,7 @@ class AuthStore {
 
   @observable token = null;
   @observable slider = [];
+  @observable images = [{}, {}, {}, {}, {}, {}];
   @observable me = {
     images: [],
   };
@@ -16,6 +17,9 @@ class AuthStore {
   _updateSlider(images, name) {
     this.slider = [];
     images.forEach((obj, i) => {
+      this.images[i] = {
+        thumbnail: config.apiHost + obj.thumbnail
+      }
       this.slider.push({
         url: config.apiHost + obj.thumbnail,
         title: (i === 0) ? name : '',

@@ -47,13 +47,13 @@ export default class RegisterScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.logoBox}>
-          <Content contentContainerStyle={styles.content}>
+          <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Text style={styles.logoBoxTitle}>TALK</Text>
             <Text style={styles.logoBoxSub}>TALK TALK</Text>
           </Content>
         </View>
         <View style={styles.formBox}>
-          <Content contentContainerStyle={styles.content}>
+          <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Form style={{ margin: 0 }}>
               <Item inlineLabel style={styles.formBoxItem}>
                 <Label>E-mail</Label>
@@ -77,7 +77,7 @@ export default class RegisterScreen extends Component {
           </Content>
         </View>
         <View style={styles.bottomBox}>
-          <Content contentContainerStyle={styles.content}>
+          <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Text style={styles.bottomBoxText}>
               이미 계정이 없으신가요?&nbsp;&nbsp;&nbsp;
             <Text onPress={() => this.props.navigation.navigate('SignIn')} style={styles.bottomBoxTextLink}>

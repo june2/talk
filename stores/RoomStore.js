@@ -1,8 +1,6 @@
 import { observable, action, computed, configure } from 'mobx';
 import roomService from '../services/rooms';
 
-// configure({ enforceActions: 'observed' });
-
 class RoomStore {
   constructor() {
     this._room = roomService;
@@ -45,14 +43,18 @@ class RoomStore {
     }
   }
 
-  @action updateValue(index, lastMsg) {
+  @action async deleteRoomByRoomId(id, index) {
+    try {
+      this._room.deleteRoomByRoomId(id);
+      this.list.splice(index, 1);
+      return this.list;
+    } catch (err) {
+      // Alert.alert('Error', err.message)
+    }
+  }
 
+  @action updateValue(index, lastMsg) {
     this.list[index].lastMsg = lastMsg;
-    // console.log(this.list[index].get('lastMsg'));
-    // this.list = this.list;
-    // this.list = [];
-    // Object.keys(this.values).forEach(key => delete this.values[key]);
-    // extendObservable(this.values, initValues);
   }
 }
 

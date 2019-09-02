@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import {
   View, Alert,
   StyleSheet,
+  Dimensions,
   Platform
 } from 'react-native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Text, Button, Icon, Left, Body, Right } from 'native-base';
 import Slideshow from 'react-native-image-slider-show';
 import { observer } from 'mobx-react';
@@ -14,6 +14,9 @@ import authStore from './../stores/AuthStore';
 export default class MyScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      screenHeight: Math.round(Dimensions.get('window').height)
+    }
   }
 
   render() {
@@ -21,7 +24,7 @@ export default class MyScreen extends Component {
       <View style={styles.container}>
         <View style={styles.containerImgBox}>
           <Slideshow
-            height={450}
+            height={this.state.screenHeight / 2}
             titleStyle={styles.containerImgTitle}
             containerStyle={styles.containerImg}
             dataSource={authStore.slider} />

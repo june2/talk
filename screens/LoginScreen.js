@@ -3,6 +3,7 @@ import {
   AsyncStorage,
   StyleSheet,
   View,
+  ScrollView,
 } from 'react-native';
 import {
   Content,
@@ -41,16 +42,16 @@ export default class LoginScreen extends Component {
   }
 
   render() {
-    return (
+    return (      
       <View style={styles.container}>
         <View style={styles.logoBox}>
-          <Content contentContainerStyle={styles.content}>
+          <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Text style={styles.logoBoxTitle}>TALK</Text>
             <Text style={styles.logoBoxSub}>TALK TALK</Text>
           </Content>
         </View>
         <View style={styles.formBox}>
-          <Content contentContainerStyle={styles.content}>
+          <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Form>
               <Item inlineLabel style={styles.formBoxItem}>
                 <Label>E-mail</Label>
@@ -74,7 +75,7 @@ export default class LoginScreen extends Component {
           </Content>
         </View>
         <View style={styles.bottomBox}>
-          <Content contentContainerStyle={styles.content}>
+          <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Text style={styles.bottomBoxText}>
               계정이 없으신가요?&nbsp;&nbsp;&nbsp;
               <Text onPress={() => this.props.navigation.navigate('Register')} style={styles.bottomBoxTextLink}>
@@ -83,7 +84,7 @@ export default class LoginScreen extends Component {
             </Text>
           </Content>
         </View>
-      </View >
+      </View >      
     );
   }
 }

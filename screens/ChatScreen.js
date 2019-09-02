@@ -1,13 +1,54 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat'
 import { observer } from 'mobx-react';
+import config from '../constants/Config';
 import msgService from './../services/messages';
 import roomStore from './../stores/RoomStore';
 import authStore from './../stores/AuthStore';
 
 @observer
 export default class ChatScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Chat',
+      navigatorStyle: {
+        navBarHidden: false,
+      },
+      headerRight: (
+        <Icon name='ios-menu'
+          style={{ paddingRight: 10, color: '#e91e63', fontSize: 30, }}
+          onPress={() =>
+            ActionSheet.show(
+              {
+                options: [
+                  { text: "report", icon: "trash", iconColor: "#fa213b" },
+                  { text: "leave", icon: "close", iconColor: "#25de5b" },
+                  { text: "cancle", icon: "close", iconColor: "#25de5b" }
+                ],
+                cancelButtonIndex: 2,
+                // destructiveButtonIndex: 4,
+                // title: "Testing ActionSheet"
+              },
+              buttonIndex => {
+                switch (buttonIndex) {
+                  case 0:
+                    break;
+                  case 1:                    
+                    roomStore.deleteRoomByRoomId(navigation.getParam('roomId'), navigation.getParam('roomIndex'));
+                    navigation.navigate('List', {});                    
+                    break;
+                  default:
+                    break;
+                }
+              }
+            )}
+        />
+      ),
+    }
+  };
+
   constructor(props) {
     super(props);
     this._msgService = msgService;
@@ -34,7 +75,7 @@ export default class ChatScreen extends Component {
           user: {
             _id: chatMessage.user._id,
             name: chatMessage.user.name,
-            avatar: 'https://yt3.ggpht.com/a/AGF-l78bW3omuJwQGhPI_sM8JrnwV-0ATQ4ctPiPrQ=s88-mo-c-c0xffffffff-rj-k-no'
+            avatar: chatMessage.user.images.length !== 0 ? config.apiHost + chatMessage.user.images[0].thumbnail : config.defaultUserImg
           }
         };
       });
@@ -52,55 +93,16 @@ export default class ChatScreen extends Component {
     // call api
     this._msgService.createMessage(this.state.roomId, authStore.me.id, messages[0].text);
     // update local data
-    console.log(this.state.roomIndex, messages[0].text);
-    roomStore.updateValue(this.state.roomIndex, messages[0].text);    
+    roomStore.updateValue(this.state.roomIndex, messages[0].text);
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }))
   }
 
-  componentWillMount() {
+  componentWillMount() {    
     this._getData();
     this.setState({
-      messages: [
-        // {
-        //   _id: 1,
-        //   text: 'Hello developer',
-        //   createdAt: new Date(),
-        //   user: {
-        //     _id: 2,
-        //     name: 'React Native',
-        //     avatar: 'https://placeimg.com/140/140/any',
-        //   },
-        // },
-        // {
-        //   _id: 2,
-        //   text: 'Hello developer !!',
-        //   createdAt: new Date(),
-        //   user: {
-        //     _id: 2,
-        //     name: 'React Native',
-        //     avatar: 'https://placeimg.com/140/140/any',
-        //   },
-        //   image: 'https://placeimg.com/140/140/any',
-        // },
-        // {
-        //   _id: 3,
-        //   text: 'This is a system message !!!',
-        //   createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
-        //   system: true
-        //   // Any additional custom parameters are passed through
-        // },
-        // {
-        //   _id: 4,
-        //   text: 'This is my message',
-        //   createdAt: new Date(),
-        //   user: {
-        //     _id: 1,
-        //     name: 'React Native'
-        //   },
-        // }
-      ],
+      messages: [],
     })
   }
 
@@ -109,10 +111,15 @@ export default class ChatScreen extends Component {
       <View style={{ flex: 1 }}>
         {
           Platform.OS === 'android' ?
-            <KeyboardAvoidingView behavior="padding">
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : null}
+              style={{ flex: 1 }}
+            >
               <GiftedChat
                 messages={this.state.messages}
                 onSend={messages => this._onSend(messages)}
+                alwaysShowSend={true}
+                textInputProps={{ autoFocus: false, placeholder: '' }}
                 user={{
                   _id: authStore.me.id,
                 }}
@@ -121,6 +128,8 @@ export default class ChatScreen extends Component {
             <GiftedChat
               messages={this.state.messages}
               onSend={messages => this._onSend(messages)}
+              alwaysShowSend={true}
+              textInputProps={{ autoFocus: false, placeholder: '' }}
               user={{
                 _id: authStore.me.id,
               }}
@@ -130,13 +139,6 @@ export default class ChatScreen extends Component {
     )
   }
 }
-
-ChatScreen.navigationOptions = {
-  title: 'Chat',
-  navigatorStyle: {
-    navBarHidden: false,
-  },
-};
 
 const styles = StyleSheet.create({
   container: {

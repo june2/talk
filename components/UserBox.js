@@ -3,7 +3,7 @@ import {
   Modal, TouchableHighlight,
   View, Alert,
   StyleSheet,
-  Image,
+  Dimensions,
   Platform,
 } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -16,11 +16,12 @@ import userStore from './../stores/UserStore';
 @observer
 export default class UserBox extends Component {
   constructor(props) {
-    super(props);
+    super(props);    
     this.state = {
       modalVisible: false,
       text: '',
       isSent: false,
+      screenHeight: Math.round(Dimensions.get('window').height)
     }
   }
 
@@ -68,7 +69,7 @@ export default class UserBox extends Component {
         </Modal>
         <View style={styles.containerImgBox}>
           <Slideshow
-            height={550}
+            height={this.state.screenHeight / 2}
             titleStyle={styles.containerImgTitle}
             containerStyle={styles.containerImg}
             dataSource={userStore.slider} />
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   containerImgBox: {
-    flex: 2,
+    flex: 1.5,
   },
   containerImg: {
     flex: 1,
