@@ -46,7 +46,7 @@ export default class UsersScreen extends Component {
     <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item)} >
       <Left>
         <Thumbnail source={{
-          uri: item.images.length !== 0 ? config.apiHost + item.images[0].thumbnail : config.defaultUserImg
+          uri: (item.images && item.images.length !== 0) ? config.apiHost + item.images[0].thumbnail : config.defaultUserImg
         }} />
       </Left>
       <Body>

@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
+import TabBarChatIcon from '../components/TabBarChatIcon';
 import HomeScreen from '../screens/HomeScreen';
 import UsersScreen from '../screens/UsersScreen';
 import ListScreen from '../screens/ListScreen';
@@ -76,7 +77,7 @@ const ListStack = createStackNavigator(
 ListStack.navigationOptions = {
   tabBarLabel: 'List',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'} />
+    <TabBarChatIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-chatbubbles' : 'md-chatbubbles'} />
   ),
 };
 

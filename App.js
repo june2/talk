@@ -1,13 +1,13 @@
-import { AppLoading } from 'expo';
+import { AppLoading, Notifications } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import AppNavigator from './navigation/AppNavigator';
 import { Root } from "native-base";
-
+import AppNavigator from './navigation/AppNavigator';
+import { registerForPushNotificationsAsync } from './utils/push'
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -21,6 +21,12 @@ export default function App(props) {
       />
     );
   } else {
+    registerForPushNotificationsAsync();
+    this._notificationSubscription = Notifications.addListener(({ origin, data }) => {
+      console.log(
+        `push notificaton ${origin} with data : ${JSON.stringify(data)}`
+      );
+    });
     return (
       <Root>
         <View style={styles.container}>

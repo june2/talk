@@ -4,7 +4,7 @@ import {
   Button, Text, Icon, Left, Body, Right, DatePicker, Textarea, Input, ActionSheet
 } from 'native-base';
 import {
-  StyleSheet,
+  StyleSheet, Dimensions,
   Alert, TouchableHighlight
 } from 'react-native';
 import { observer } from 'mobx-react';
@@ -222,10 +222,11 @@ SettingsScreen.navigationOptions = {
   // title: 'my pqge',
 };
 
+
 const styles = StyleSheet.create({
   ImageBox: {
-    width: 120,
-    height: 120,
+    width: (Dimensions.get('window').width / 3.5),
+    height: (Dimensions.get('window').width / 3.5),
     backgroundColor: 'gray',
     alignSelf: 'center'
   },
