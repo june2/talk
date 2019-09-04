@@ -37,11 +37,12 @@ export default class MyScreen extends Component {
           </View>
         </View>
         <View style={styles.containerTextBox}>
-          <Text style={styles.containerTextTitle}>ABOUT ME</Text>
+          {/* <Text style={styles.containerTextTitle}>ABOUT ME</Text> */}
           <Text style={styles.containerText}>
             {authStore.me.intro}
           </Text>
         </View>
+        <View style={{flex:0.1}}></View>
       </View >
     );
   }
@@ -72,7 +73,9 @@ const styles = StyleSheet.create({
     flex: 0.5,
   },
   containerButton: {
-    flex: 1,
+    flex: 1,    
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   containerIcon: {
     fontSize: 40,
@@ -80,20 +83,19 @@ const styles = StyleSheet.create({
   },
   containerTextBox: {
     flex: 1,
-    backgroundColor: '#fff',
-    flex: 1,
+    backgroundColor: '#fff',    
     borderRadius: 12,
     marginLeft: 20,
     marginRight: 20,
     ...Platform.select({
       ios: {
         shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
+        shadowOffset: { width: 0, height: -1 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
       },
       android: {
-        elevation: 20,
+        elevation: 20,        
       },
     }),
   },
@@ -115,7 +117,8 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     color: '#444444',
   },
-  formBoxButton: {
-    margin: 30
+  formBoxButton: {    
+    marginLeft: 20,
+    marginRight: 20,
   },
 });

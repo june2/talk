@@ -23,9 +23,12 @@ export default class ChatScreen extends Component {
             ActionSheet.show(
               {
                 options: [
-                  { text: "report", icon: "trash", iconColor: "#fa213b" },
-                  { text: "leave", icon: "close", iconColor: "#25de5b" },
-                  { text: "cancle", icon: "close", iconColor: "#25de5b" }
+                  // { text: "report", icon: "trash", iconColor: "#fa213b" },
+                  // { text: "leave", icon: "close", iconColor: "#25de5b" },
+                  // { text: "cancle", icon: "close", iconColor: "#25de5b" }
+                  { text: "report" },
+                  { text: "leave" },
+                  { text: "cancle" }
                 ],
                 cancelButtonIndex: 2,
                 // destructiveButtonIndex: 4,
@@ -35,9 +38,9 @@ export default class ChatScreen extends Component {
                 switch (buttonIndex) {
                   case 0:
                     break;
-                  case 1:                    
+                  case 1:
                     roomStore.deleteRoomByRoomId(navigation.getParam('roomId'), navigation.getParam('roomIndex'));
-                    navigation.navigate('List', {});                    
+                    navigation.navigate('List', {});
                     break;
                   default:
                     break;
@@ -99,7 +102,7 @@ export default class ChatScreen extends Component {
     }))
   }
 
-  componentWillMount() {    
+  componentWillMount() {
     this._getData();
     this.setState({
       messages: [],
