@@ -30,9 +30,9 @@ export default class TabBarChatIcon extends React.Component {
         }
         Hidden={authStore.tabBadgeCount == 0}
         IconBadgeStyle={{
-          left: 15,
-          width: 20,
-          height: 20,
+          left: 17,
+          width: 18,
+          height: 18,
         }}
       />
     );

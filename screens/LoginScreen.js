@@ -80,7 +80,7 @@ export default class LoginScreen extends Component {
               계정이 없으신가요?&nbsp;&nbsp;&nbsp;
               <Text onPress={() => this.props.navigation.navigate('Register')} style={styles.bottomBoxTextLink}>
                 회원가입
-              </Text>
+              </Text>            
             </Text>
           </Content>
         </View>

@@ -33,9 +33,10 @@ export default class LinkScreen extends Component {
   }
 
   _handleClick(id, index) {
-    this.props.navigation.navigate('Chat', { roomId: id, roomIndex: index });
-    // this.props.navigation.navigate('Chat')
-    // Alert.alert("I am clicked");     
+    // this.props.navigation.navigate('Chat', { roomId: id, roomIndex: index });
+    this.props.navigation.navigate('Chat');
+    roomStore.roomId = id;    
+    roomStore.roomIndex = index;
   }
 
   _renderItem = (item, i) => {

@@ -91,34 +91,34 @@ export default class SettingsScreen extends Component {
             <Body>
               <Grid>
                 <Col style={{ alignSelf: 'center' }}>
-                  <TouchableHighlight onPress={() => this._action(0)} >
+                  <TouchableHighlight onPress={() => this._action(0)} underlayColor="#ffffff00">
                     <Thumbnail large source={{ uri: authStore.images[0].thumbnail }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col style={{ alignSelf: 'center' }}>
-                  <TouchableHighlight onPress={() => this._action(1)} >
+                  <TouchableHighlight onPress={() => this._action(1)} underlayColor="#ffffff00">
                     <Thumbnail large source={{ uri: authStore.images[1].thumbnail }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col style={{ alignSelf: 'center' }}>
-                  <TouchableHighlight onPress={() => this._action(2)} >
+                  <TouchableHighlight onPress={() => this._action(2)} underlayColor="#ffffff00">
                     <Thumbnail large source={{ uri: authStore.images[2].thumbnail }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
               </Grid>
               <Grid style={{ marginTop: 10 }}>
                 <Col>
-                  <TouchableHighlight onPress={() => this._action(3)} >
+                  <TouchableHighlight onPress={() => this._action(3)} underlayColor="#ffffff00">
                     <Thumbnail large source={{ uri: authStore.images[3].thumbnail }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col>
-                  <TouchableHighlight onPress={() => this._action(4)} >
+                  <TouchableHighlight onPress={() => this._action(4)} underlayColor="#ffffff00">
                     <Thumbnail large source={{ uri: authStore.images[4].thumbnail }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col>
-                  <TouchableHighlight onPress={() => this._action(5)} >
+                  <TouchableHighlight onPress={() => this._action(5)} underlayColor="#ffffff00">
                     <Thumbnail large source={{ uri: authStore.images[5].thumbnail }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>

@@ -7,7 +7,6 @@ import TabBarChatIcon from '../components/TabBarChatIcon';
 import HomeScreen from '../screens/HomeScreen';
 import UsersScreen from '../screens/UsersScreen';
 import ListScreen from '../screens/ListScreen';
-import ChatScreen from '../screens/ChatScreen';
 import MyScreen from '../screens/MyScreen';
 import MyUpdateScreen from '../screens/MyUpdateScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -68,8 +67,7 @@ UsersStack.path = '';
  */
 const ListStack = createStackNavigator(
   {
-    List: ListScreen,
-    Chat: ChatScreen
+    List: ListScreen
   },
   config
 );
@@ -82,25 +80,6 @@ ListStack.navigationOptions = {
 };
 
 ListStack.path = '';
-
-/**
- * Chat
- */
-const ChatStack = createStackNavigator(
-  {
-    Chat: ChatScreen,
-  },
-  config
-);
-
-ChatStack.navigationOptions = {
-  tabBarLabel: 'Chat',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
-  ),
-};
-
-ChatStack.path = '';
 
 /**
  * My
@@ -147,7 +126,7 @@ const tabNavigator = createBottomTabNavigator({
   MyStack,
   UsersStack,
   ListStack,
-  SettingsStack,
+  SettingsStack  
 }, {
     tabBarOptions: {
       showLabel: false,

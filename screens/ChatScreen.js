@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+import { Platform, KeyboardAvoidingView, StyleSheet, View, TouchableHighlight } from 'react-native';
 import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat'
 import { observer } from 'mobx-react';
@@ -16,16 +16,31 @@ export default class ChatScreen extends Component {
       navigatorStyle: {
         navBarHidden: false,
       },
+      headerLeft: (
+        <Icon name='md-arrow-round-back'
+          style={{
+            fontSize: 30,
+            fontWeight: 600,
+            color: 'rgba(0, 0, 0, .9)',
+            marginHorizontal: 16,
+            textAlign: 'center',
+          }}
+          onPress={() => navigation.navigate('List')}
+        />
+      ),
       headerRight: (
         <Icon name='ios-menu'
-          style={{ paddingRight: 10, color: '#e91e63', fontSize: 30, }}
+          style={{
+            fontSize: 30,
+            fontWeight: 600,
+            color: 'rgba(0, 0, 0, .9)',
+            marginHorizontal: 16,
+            textAlign: 'center',
+          }}
           onPress={() =>
             ActionSheet.show(
               {
                 options: [
-                  // { text: "report", icon: "trash", iconColor: "#fa213b" },
-                  // { text: "leave", icon: "close", iconColor: "#25de5b" },
-                  // { text: "cancle", icon: "close", iconColor: "#25de5b" }
                   { text: "report" },
                   { text: "leave" },
                   { text: "cancle" }
@@ -56,8 +71,8 @@ export default class ChatScreen extends Component {
     super(props);
     this._msgService = msgService;
     this.state = {
-      roomIndex: this.props.navigation.getParam('roomIndex'),
-      roomId: this.props.navigation.getParam('roomId'),
+      roomIndex: roomStore.roomIndex,
+      roomId: roomStore.roomId,
       messages: [],
       refreshing: false,
       totalDocs: 0,
@@ -102,12 +117,20 @@ export default class ChatScreen extends Component {
     }))
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this._getData();
     this.setState({
       messages: [],
     })
   }
+
+  // componentWillMount() {
+  //   this._ismounted = false;
+  //   this._getData();
+  //   this.setState({
+  //     messages: [],
+  //   })
+  // }
 
   render() {
     return (

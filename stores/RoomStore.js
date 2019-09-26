@@ -6,6 +6,8 @@ class RoomStore {
     this._room = roomService;
   }
 
+  @observable roomId = null;
+  @observable roomIndex = null;
   @observable list = [];
   @observable room = {};
   @observable rooms = {};

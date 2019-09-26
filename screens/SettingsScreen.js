@@ -42,11 +42,11 @@ export default class SettingsScreen extends Component {
             <Text>ID</Text>
           </Separator>
           <ListItem icon last>
-            <Left>
+            {/* <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="ios-person" />
               </Button>
-            </Left>
+            </Left> */}
             <Body>
               <Text>{authStore.me.email}</Text>
             </Body>
@@ -55,11 +55,11 @@ export default class SettingsScreen extends Component {
             <Text>Point</Text>
           </Separator>
           <ListItem icon last>
-            <Left>
+            {/* <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="ios-person" />
               </Button>
-            </Left>
+            </Left> */}
             <Body>
               <Text>{authStore.me.point}</Text>
             </Body>
