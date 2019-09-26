@@ -59,9 +59,8 @@ class RoomStore {
   @action updateValue(index, lastMsg) {
     let obj = this.list[index];
     obj.lastMsg = lastMsg;
-    this.list[index].lastMsg = lastMsg;
-    this.list.splice(index, 1)
-    this.list.unshift(obj);
+    this.list.splice(index, 1);
+    this.list = [obj, ...this.list];
   }
 }
 

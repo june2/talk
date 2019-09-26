@@ -14,7 +14,7 @@ import TermScreen from '../screens/TermScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
-  default: {},
+  default: {},  
 });
 
 /**
@@ -86,8 +86,8 @@ ListStack.path = '';
  */
 const MyStack = createStackNavigator(
   {
-     My: MyScreen,
-     MyUpdate: MyUpdateScreen,
+    My: MyScreen,
+    MyUpdate: MyUpdateScreen,
   },
   config
 );
@@ -121,25 +121,25 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
-const tabNavigator = createBottomTabNavigator({  
+const tabNavigator = createBottomTabNavigator({
   // HomeStack,  
   MyStack,
   UsersStack,
   ListStack,
-  SettingsStack  
+  SettingsStack
 }, {
-    tabBarOptions: {
-      showLabel: false,
-      activeTintColor: '#e91e63',
-      iconStyle: {
-        // fontSize: 30,
-        height: 30, width: 30
-      },
-      style: {
-        // backgroundColor: 'blue',
-      },
-    }
-  });
+  tabBarOptions: {
+    showLabel: false,
+    activeTintColor: '#e91e63',
+    iconStyle: {
+      // fontSize: 30,
+      height: 30, width: 30
+    },
+    style: {
+      // backgroundColor: 'blue',
+    },
+  }
+});
 
 tabNavigator.path = '';
 

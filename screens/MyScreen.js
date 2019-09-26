@@ -48,9 +48,9 @@ export default class MyScreen extends Component {
   }
 }
 
-MyScreen.navigationOptions = {
-  // header: null,
-  title: 'My page'
+MyScreen.navigationOptions = {  
+  title: 'My page',
+  header: null,
 };
 
 const styles = StyleSheet.create({

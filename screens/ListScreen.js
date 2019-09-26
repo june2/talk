@@ -12,7 +12,7 @@ import config from '../constants/Config';
 import roomStore from './../stores/RoomStore';
 
 @observer
-export default class LinkScreen extends Component {
+export default class ListScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,11 +33,10 @@ export default class LinkScreen extends Component {
   }
 
   _handleClick(id, index, name) {
-    // this.props.navigation.navigate('Chat', { roomId: id, roomIndex: index });
-    this.props.navigation.navigate('Chat');
     roomStore.roomId = id;    
     roomStore.roomIndex = index;
     roomStore.roomName = name;
+    this.props.navigation.navigate('Chat');
   }
 
   _renderItem = (item, i) => {
@@ -94,8 +93,9 @@ export default class LinkScreen extends Component {
   }
 }
 
-LinkScreen.navigationOptions = {
+ListScreen.navigationOptions = {
   title: 'Chat',
+  // header: null,
 };
 
 const styles = StyleSheet.create({

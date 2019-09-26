@@ -122,6 +122,7 @@ export default class UsersScreen extends Component {
 
 UsersScreen.navigationOptions = {
   title: 'USERS',
+  // header: null,
 };
 
 const styles = StyleSheet.create({

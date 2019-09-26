@@ -95,6 +95,7 @@ export default class SettingsScreen extends Component {
 
 SettingsScreen.navigationOptions = {
   title: 'Setting',
+  // header: null,
 };
 
 const styles = StyleSheet.create({
