@@ -12,7 +12,7 @@ import authStore from './../stores/AuthStore';
 export default class ChatScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Chat',
+      title: roomStore.roomName,
       navigatorStyle: {
         navBarHidden: false,
       },

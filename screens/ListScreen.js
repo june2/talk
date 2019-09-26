@@ -32,16 +32,17 @@ export default class LinkScreen extends Component {
     }, this._getData);
   }
 
-  _handleClick(id, index) {
+  _handleClick(id, index, name) {
     // this.props.navigation.navigate('Chat', { roomId: id, roomIndex: index });
     this.props.navigation.navigate('Chat');
     roomStore.roomId = id;    
     roomStore.roomIndex = index;
+    roomStore.roomName = name;
   }
 
   _renderItem = (item, i) => {
     return <Observer>{() =>
-      <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item.id, i)}>
+      <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item.id, i, item.users[0].name)}>
         <Left>
           <Thumbnail source={{
             uri: item.users[0].images.length !== 0 ? config.apiHost + item.users[0].images[0].thumbnail : config.defaultUserImg

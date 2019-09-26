@@ -8,6 +8,7 @@ class RoomStore {
 
   @observable roomId = null;
   @observable roomIndex = null;
+  @observable roomName = null;
   @observable list = [];
   @observable room = {};
   @observable rooms = {};
@@ -56,7 +57,11 @@ class RoomStore {
   }
 
   @action updateValue(index, lastMsg) {
+    let obj = this.list[index];
+    obj.lastMsg = lastMsg;
     this.list[index].lastMsg = lastMsg;
+    this.list.splice(index, 1)
+    this.list.unshift(obj);
   }
 }
 
