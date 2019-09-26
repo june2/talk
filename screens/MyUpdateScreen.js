@@ -40,7 +40,6 @@ export default class SettingsScreen extends Component {
 
   _deleteImage = async (index) => {
     authStore.deleteImage(index);
-    // authStore.images[index] = '';
   }
 
   _openActionSheet = async (index) => {

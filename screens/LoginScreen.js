@@ -18,6 +18,7 @@ import { observer } from 'mobx-react';
 import { Alert } from 'react-native';
 import authService from './../services/auth';
 import authStore from './../stores/AuthStore';
+import roomStore from './../stores/RoomStore';
 
 @observer
 export default class LoginScreen extends Component {
@@ -32,17 +33,20 @@ export default class LoginScreen extends Component {
 
   _signInAsync = async () => {
     try {
-      let res = await this._auth.login(this.state.email, this.state.password);      
-      await AsyncStorage.setItem('token', res.accessToken);      
-      await authStore.getMe();
-      this.props.navigation.navigate('Main');
+      let res = await this._auth.login(this.state.email, this.state.password);
+      if (res.accessToken) {
+        await AsyncStorage.setItem('token', res.accessToken);
+        await authStore.getMe();
+        roomStore.getRooms();
+        this.props.navigation.navigate('Main');
+      }
     } catch (err) {
       Alert.alert('Error', err.message)
     }
   }
 
   render() {
-    return (      
+    return (
       <View style={styles.container}>
         <View style={styles.logoBox}>
           <Content contentContainerStyle={styles.content} scrollEnabled={false}>
@@ -80,11 +84,11 @@ export default class LoginScreen extends Component {
               계정이 없으신가요?&nbsp;&nbsp;&nbsp;
               <Text onPress={() => this.props.navigation.navigate('Register')} style={styles.bottomBoxTextLink}>
                 회원가입
-              </Text>            
+              </Text>
             </Text>
           </Content>
         </View>
-      </View >      
+      </View >
     );
   }
 }

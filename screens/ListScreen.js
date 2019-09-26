@@ -8,6 +8,7 @@ import {
   Thumbnail, Text, View
 } from 'native-base';
 import { observer, Observer } from 'mobx-react';
+import { dateConvert } from '../components/Util';
 import config from '../constants/Config';
 import roomStore from './../stores/RoomStore';
 
@@ -20,7 +21,7 @@ export default class ListScreen extends Component {
       data: [],
       totalDocs: 0,
       offset: 0,
-      limit: 10
+      limit: 20
     }
   }
 
@@ -33,7 +34,7 @@ export default class ListScreen extends Component {
   }
 
   _handleClick(id, index, name) {
-    roomStore.roomId = id;    
+    roomStore.roomId = id;
     roomStore.roomIndex = index;
     roomStore.roomName = name;
     this.props.navigation.navigate('Chat');
@@ -52,7 +53,7 @@ export default class ListScreen extends Component {
           <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} style={{ height: 34 }} note>{item.lastMsg}</Text>
         </Body>
         <Right>
-          <Text note>3:43 pm</Text>
+          <Text note>{dateConvert(item.updatedAt)}</Text>
         </Right>
       </ListItem>}
     </Observer>;

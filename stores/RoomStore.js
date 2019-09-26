@@ -23,7 +23,7 @@ class RoomStore {
     }
   }
 
-  @action async getRooms(limit, offset) {
+  @action async getRooms(limit = 20, offset = 0) {
     try {
       this.rooms = await this._room.getRooms(limit, offset);
       if (offset === 0) {

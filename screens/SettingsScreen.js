@@ -26,8 +26,8 @@ export default class SettingsScreen extends Component {
   }
 
   _logOut = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth')
+    await AsyncStorage.clear();    
+    this.props.navigation.navigate('Auth');
   }
 
   componentDidMount() {
