@@ -54,7 +54,7 @@ export default class ChatScreen extends Component {
                   case 0:
                     break;
                   case 1:
-                    roomStore.deleteRoomByRoomId(navigation.getParam('roomId'), navigation.getParam('roomIndex'));
+                    roomStore.deleteRoomByRoomId(roomStore.roomId, roomStore.roomIndex);
                     navigation.navigate('List', {});
                     break;
                   default:
