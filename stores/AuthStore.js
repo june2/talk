@@ -45,31 +45,43 @@ class AuthStore {
       let res = await this._auth.me();
       this._updateSlider(res.images, res.name);
       this.me = res;
+      return this.me;
     } catch (err) {
-      // Alert.alert('Error', err.message)
-      throw err;
+      console.log(err);
+      return null;
     }
   }
 
   @action async uploadImage(uri) {
     try {
       let res = await this._user.uploadImage(uri);
-      this._updateSlider(res.images, res.name);      
+      this._updateSlider(res.images, res.name);
       this.me = res;
     } catch (err) {
       // Alert.alert('Error', err.message)
       throw err;
     }
   }
+
   @action async deleteImage(index) {
     try {
       this.me.images.splice(index, 1);
       let res = await this._user.deleteImage(this.me.images);
-      this.images[index] = {};      
+      this.images[index] = {};
       this._updateSlider(res.data.images, res.data.name);
       this.me = res.data;
     } catch (err) {
       // Alert.alert('Error', err.message)
+      throw err;
+    }
+  }
+
+  @action async updateLastLogin() {
+    try {      
+      if (this.token) {
+        this._user.updateLastLogin();
+      }
+    } catch (err) {
       throw err;
     }
   }

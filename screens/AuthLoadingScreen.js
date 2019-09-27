@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import { observer } from 'mobx-react';
+import State from './../components/AppState';
 import authStore from './../stores/AuthStore';
 
 @observer
@@ -17,13 +18,19 @@ export default class AuthLoadingScreen extends React.Component {
 
   // Fetch the token from storage then navigate to our appropriate place
   _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('token');
-    authStore.token = userToken;
+    const userToken = await AsyncStorage.getItem('token');  
+    const user = await authStore.getMe();      
     console.log(userToken);
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
-    if (userToken) authStore.getMe();
-    this.props.navigation.navigate(userToken ? 'Main' : 'Auth');    
+    if (userToken && user) {
+      authStore.token = userToken;
+      authStore.updateLastLogin();
+      this.props.navigation.navigate('Main');
+    } else {
+      this.props.navigation.navigate('Auth');
+    }
+    // this.props.navigation.navigate(userToken ? 'Main' : 'Auth');    
   };
 
   // Render any loading content that you like here
@@ -32,6 +39,7 @@ export default class AuthLoadingScreen extends React.Component {
       <View>
         <ActivityIndicator />
         <StatusBar barStyle="default" />
+        <State />
       </View>
     );
   }

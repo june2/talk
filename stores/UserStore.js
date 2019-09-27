@@ -42,6 +42,7 @@ class UserStore {
       // Alert.alert('Error', err.message)
     }
   }
+  
 }
 
 const store = new UserStore();

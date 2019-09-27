@@ -31,7 +31,7 @@ export default function App(props) {
       <Root>
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
+          <AppNavigator />          
         </View>
       </Root>
     );

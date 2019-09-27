@@ -16,7 +16,7 @@ import userStore from './../stores/UserStore';
 @observer
 export default class UserBox extends Component {
   constructor(props) {
-    super(props);    
+    super(props);
     this.state = {
       modalVisible: false,
       text: '',
@@ -180,8 +180,8 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
+    // justifyContent: 'center',
+    paddingTop: Math.round(Dimensions.get('window').height) * 0.3,
     backgroundColor: '#ecf0f1',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },

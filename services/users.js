@@ -46,6 +46,14 @@ class UserService {
       throw err;
     }
   }
+
+  async updateLastLogin() {
+    try {
+      return await this._api.put('/me/updateLastLogin');
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 export default new UserService();
