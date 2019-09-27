@@ -1,4 +1,5 @@
 import api from './index';
+import { gender } from '../constants/Items';
 
 class UserService {
   constructor() {
@@ -13,12 +14,14 @@ class UserService {
     }
   }
 
-  async updateMe(name, location, intro) {
+  async updateMe(name, location, intro, gender, birthday) {
     try {
       let data = {
         name: name,
         location: location,
         intro: intro,
+        gender: gender,
+        birthday: birthday,
       }
       return await this._api.put('/me', data);
     } catch (err) {

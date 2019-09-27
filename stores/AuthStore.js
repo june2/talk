@@ -10,9 +10,10 @@ class AuthStore {
   }
 
   @observable token = null;
-  @observable tabBadgeCount = 1;
+  @observable tabBadgeCount = 10;
   @observable slider = [];
   @observable images = [{}, {}, {}, {}, {}, {}];
+  @observable age = null;
   @observable me = {
     images: [],
   };

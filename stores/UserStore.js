@@ -42,7 +42,18 @@ class UserStore {
       // Alert.alert('Error', err.message)
     }
   }
-  
+
+  @action async updateUser(name, location, intro, gender, age) {
+    try {
+      return this.users = await this._user.updateMe(
+        name, location,
+        intro, gender,
+        new Date(`${age}-01-01`));
+    } catch (err) {
+      // Alert.alert('Error', err.message)
+    }
+  }
+
 }
 
 const store = new UserStore();

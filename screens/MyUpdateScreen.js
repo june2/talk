@@ -11,9 +11,10 @@ import { observer } from 'mobx-react';
 import { ImagePicker, Permissions, Constants } from 'expo';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import moment from 'moment';
-import locations from '../constants/Location';
+import { locations, gender, age } from '../constants/Items';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
+import userStore from './../stores/UserStore';
 
 @observer
 export default class SettingsScreen extends Component {
@@ -64,7 +65,13 @@ export default class SettingsScreen extends Component {
   }
 
   _save = async () => {
-    let res = await userService.updateMe(authStore.me.name, authStore.me.location, authStore.me.intro);
+    let res = await userStore.updateUser(authStore.me.name,
+      authStore.me.location,
+      authStore.me.intro,
+      authStore.me.gender,
+      authStore.age
+    );
+    // new Date(`${i}-01-01`)
     if (res.status === 200) this.props.navigation.navigate('My');
     else Alert.alert('Server error')
   }
@@ -124,19 +131,7 @@ export default class SettingsScreen extends Component {
               </Grid>
             </Body>
           </ListItem>
-          {/* <Separator bordered>
-            <Text>ID</Text>
-          </Separator>
-          <ListItem icon last>
-            <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="ios-person" />
-              </Button>
-            </Left>
-            <Body>
-              <Text>{authStore.me.email}</Text>
-            </Body>
-          </ListItem> */}
+          {/* name */}
           <Separator bordered>
             <Text>Information</Text>
           </Separator>
@@ -154,7 +149,7 @@ export default class SettingsScreen extends Component {
               />
             </Body>
           </ListItem>
-          <ListItem icon>
+          {/* <ListItem icon>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="calendar" />
@@ -179,7 +174,48 @@ export default class SettingsScreen extends Component {
             </Body>
             <Right>
             </Right>
+          </ListItem> */}
+          {/* age */}
+          <ListItem icon >
+            <Left>
+              <Button style={{ backgroundColor: "#FF9501" }}>
+                <Icon active name="locate" />
+              </Button>
+            </Left>
+            <Body>
+              <RNPickerSelect
+                placeholder={{}}
+                items={age}
+                onValueChange={val => {                  
+                  authStore.age = val
+                }}
+                InputAccessoryView={() => null}
+                style={pickerSelectStyles}
+                value={authStore.age}
+              />
+            </Body>
           </ListItem>
+          {/* gender */}
+          <ListItem icon >
+            <Left>
+              <Button style={{ backgroundColor: "#FF9501" }}>
+                <Icon active name="locate" />
+              </Button>
+            </Left>
+            <Body>
+              <RNPickerSelect
+                placeholder={{}}
+                items={gender}
+                onValueChange={val => {
+                  authStore.me.gender = val
+                }}
+                InputAccessoryView={() => null}
+                style={pickerSelectStyles}
+                value={authStore.me.gender}
+              />
+            </Body>
+          </ListItem>
+          {/* location */}
           <ListItem icon last>
             <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>

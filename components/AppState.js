@@ -9,8 +9,7 @@ export default class State extends Component {
     appState: AppState.currentState,
   };
 
-  componentDidMount() {
-    this._update();
+  componentDidMount() {    
     setInterval(() => {
       this._update();
     }, 1000 * 60 * 10);

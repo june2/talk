@@ -9,6 +9,7 @@ import {
   Thumbnail, Text
 } from 'native-base';
 import { observer } from 'mobx-react';
+import { getLocation } from '../constants/Items';
 import config from '../constants/Config';
 import userStore from '../stores/UserStore';
 import roomStore from '../stores/RoomStore';
@@ -54,8 +55,8 @@ export default class UsersScreen extends Component {
         <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} note>{item.intro}{"\n"}</Text>
       </Body>
       <Right>
-        <Text note>{item.gender}</Text>
-        <Text note>{item.location}</Text>
+        <Text note>{(item.gender === 'M') ? '남자' : '여자'}</Text>
+        <Text note>{getLocation(item.location)}</Text>
       </Right>
     </ListItem>
   );

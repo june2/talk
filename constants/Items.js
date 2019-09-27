@@ -1,4 +1,17 @@
-export default [
+import { getAges } from './../components/Util'
+
+export const gender = [
+  {
+    label: '남자',
+    value: 'M',
+  },
+  {
+    label: '여자',
+    value: 'F',
+  },
+]
+
+export const locations = [
   {
     label: '서울',
     value: 'seoul',
@@ -64,3 +77,19 @@ export default [
     value: 'overseas',
   },
 ];
+
+export const age = getAges();
+
+export const getLocation = (key) => {
+  if (key) {
+    let find = locations.find(el => {
+      if (el.value === key) {
+        return el.label;
+      }
+    });
+    if (find) {
+      return find.label;
+    }
+  }
+  return '';
+}
