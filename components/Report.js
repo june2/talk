@@ -8,6 +8,7 @@ import {
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Textarea, Text, Button, Icon, } from 'native-base';
 import { observer } from 'mobx-react';
+import reportStore from './../stores/ReportStore';
 
 @observer
 export default class Report extends Component {
@@ -20,7 +21,9 @@ export default class Report extends Component {
   }
 
   _report() {
-    this.props.closeModal(false)
+    //TODO:
+    reportStore.createReport();
+    this.props.closeModal(false);
   }
 
   render() {
