@@ -102,7 +102,7 @@ export default class UsersScreen extends Component {
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
-          <View style={{ flex: 1, }}>
+          <View style={{ flex: 1 }}>
             <UserBox closeModal={(visible) => this.setModalVisible(visible)} sendMsg={(msg) => this.sendMsg(msg)} />
           </View>
         </Modal>

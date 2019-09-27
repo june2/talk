@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Platform, KeyboardAvoidingView, StyleSheet, View, TouchableHighlight } from 'react-native';
+import { Platform, KeyboardAvoidingView, StyleSheet, View, Modal } from 'react-native';
 import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat'
 import { observer } from 'mobx-react';
+import Report from '../components/Report';
 import config from '../constants/Config';
 import msgService from './../services/messages';
 import roomStore from './../stores/RoomStore';
@@ -11,6 +12,7 @@ import authStore from './../stores/AuthStore';
 @observer
 export default class ChatScreen extends Component {
   static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
     return {
       title: roomStore.roomName,
       navigatorStyle: {
@@ -52,6 +54,7 @@ export default class ChatScreen extends Component {
               buttonIndex => {
                 switch (buttonIndex) {
                   case 0:
+                    params.openModal(true);
                     break;
                   case 1:
                     roomStore.deleteRoomByRoomId(roomStore.roomId, roomStore.roomIndex);
@@ -77,9 +80,11 @@ export default class ChatScreen extends Component {
       refreshing: false,
       totalDocs: 0,
       offset: 0,
-      limit: 0
+      limit: 0,
+      modalVisible: false,
     }
-  }
+    this.setModalVisible = this.setModalVisible.bind(this);
+  }  
 
   _getData = async () => {
     if (this.state.totalDocs >= this.state.limit * this.state.offset) {
@@ -117,11 +122,16 @@ export default class ChatScreen extends Component {
     }))
   }
 
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
   componentDidMount() {
     this._getData();
     this.setState({
       messages: [],
     })
+    this.props.navigation.setParams({ openModal: this.setModalVisible });
   }
 
   // componentWillMount() {
@@ -135,6 +145,17 @@ export default class ChatScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            // Alert.alert('Modal has been closed.');
+          }}>
+          <View style={{ flex: 1 }}>
+            <Report closeModal={(visible) => this.setModalVisible(visible)} />
+          </View>
+        </Modal>
         {
           Platform.OS === 'android' ?
             <KeyboardAvoidingView

@@ -56,7 +56,7 @@ export default class ListScreen extends Component {
         <Right>
           <Text note>{dateConvert(item.updatedAt)}</Text>
           <Text note></Text>
-          <BadgeIcon num="1" />
+          <BadgeIcon num={1} />
         </Right>
       </ListItem>}
     </Observer>;

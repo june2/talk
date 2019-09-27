@@ -54,12 +54,12 @@ export default class UserBox extends Component {
               <Textarea rowSpan={5} placeholder="메시지를 보내세요!" style={styles.modalButton} onChangeText={(text) => this.setState({ text })} />
               <Grid>
                 <Col style={styles.modalButton}>
-                  <Button block title="Login" onPress={() => this._sendMsg()} >
+                  <Button block title="send" onPress={() => this._sendMsg()} >
                     <Text>보내기</Text>
                   </Button>
                 </Col>
                 <Col style={styles.modalButton}>
-                  <Button block title="Login" onPress={() => this._setModalVisible(false)} >
+                  <Button block title="cancel" onPress={() => this._setModalVisible(false)} >
                     <Text>취소</Text>
                   </Button>
                 </Col>
