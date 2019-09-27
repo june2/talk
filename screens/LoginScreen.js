@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {
   Content,
@@ -15,7 +16,6 @@ import {
   Text,
 } from 'native-base';
 import { observer } from 'mobx-react';
-import { Alert } from 'react-native';
 import authService from './../services/auth';
 import authStore from './../stores/AuthStore';
 import roomStore from './../stores/RoomStore';

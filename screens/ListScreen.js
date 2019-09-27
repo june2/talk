@@ -8,6 +8,7 @@ import {
   Thumbnail, Text, View
 } from 'native-base';
 import { observer, Observer } from 'mobx-react';
+import BadgeIcon from '../components/Badge';
 import { dateConvert } from '../components/Util';
 import config from '../constants/Config';
 import roomStore from './../stores/RoomStore';
@@ -54,6 +55,8 @@ export default class ListScreen extends Component {
         </Body>
         <Right>
           <Text note>{dateConvert(item.updatedAt)}</Text>
+          <Text note></Text>
+          <BadgeIcon num="1" />
         </Right>
       </ListItem>}
     </Observer>;

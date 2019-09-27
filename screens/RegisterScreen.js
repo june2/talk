@@ -3,8 +3,9 @@ import {
   AsyncStorage,
   StyleSheet,
   View,
+  Alert,
 } from 'react-native';
-import {
+import {  
   Content,
   Form,
   Item,
@@ -14,7 +15,6 @@ import {
   Text,
 } from 'native-base';
 import { observer } from 'mobx-react';
-import { Alert } from 'react-native';
 import authService from '../services/auth'
 import authStore from './../stores/AuthStore';
 
