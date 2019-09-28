@@ -57,6 +57,18 @@ class UserService {
       throw err;
     }
   }
+
+  async updatePushToken(device, pushToken) {
+    try {
+      let data = {
+        device: device,
+        pushToken: pushToken,
+      }
+      return await this._api.put('/me/registerPushToken', data);
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 export default new UserService();

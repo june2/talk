@@ -35,7 +35,6 @@ class RoomService {
 
   async deleteRoomByRoomId(id) {
     try {
-      console.log(id)
       return await this._api.delete(`/${id}`);
     } catch (err) {
       throw err;

@@ -10,7 +10,7 @@ class AuthStore {
   }
 
   @observable token = null;
-  @observable tabBadgeCount = 10;
+  @observable tabBadgeCount = 0;
   @observable slider = [];
   @observable images = [{}, {}, {}, {}, {}, {}];
   @observable age = null;
@@ -48,7 +48,6 @@ class AuthStore {
       this.me = res;
       return this.me;
     } catch (err) {
-      console.log(err);
       return null;
     }
   }

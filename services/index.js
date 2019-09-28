@@ -12,10 +12,10 @@ const api = (entity) => {
       try {
         if (!params) params = '';
         else '?' + params;
-        let res = await axios.get(`${domain + entity + resource}${params}`);
+        let res = await axios.get(`${domain + entity + resource}${params}`);                
         return res.data;
       } catch (err) {
-        console.log('err', err.response.status);
+        // console.log('err', err.response);
         throw err.response.data;
       }
     },

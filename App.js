@@ -4,10 +4,10 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
 import { Root } from "native-base";
 import AppNavigator from './navigation/AppNavigator';
-import { registerForPushNotificationsAsync } from './utils/push'
+import NotificationHandler from './notification/handler'
+import NotificationRegister from './notification/register'
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -21,17 +21,18 @@ export default function App(props) {
       />
     );
   } else {
-    registerForPushNotificationsAsync();
+    // registerForPushNotificationsAsync();
+    new NotificationRegister();    
     this._notificationSubscription = Notifications.addListener(({ origin, data }) => {
-      console.log(
-        `push notificaton ${origin} with data : ${JSON.stringify(data)}`
-      );
+      if (data.type) {        
+        new NotificationHandler(data);        
+      }
     });
     return (
       <Root>
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />          
+          <AppNavigator />
         </View>
       </Root>
     );

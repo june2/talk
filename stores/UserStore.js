@@ -54,6 +54,13 @@ class UserStore {
     }
   }
 
+  @action async updatePushToken(device, pushToken) {
+    try {
+      return this.users = await this._user.updatePushToken(device, pushToken);
+    } catch (err) {
+      // Alert.alert('Error', err.message)
+    }
+  }
 }
 
 const store = new UserStore();
