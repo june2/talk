@@ -4,10 +4,13 @@ import {
   StyleSheet,
   Dimensions,
   Platform,
+  Alert,
 } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Textarea, Text, Button, Icon, } from 'native-base';
 import { observer } from 'mobx-react';
+import authStore from './../stores/AuthStore';
+import roomStore from './../stores/RoomStore';
 import reportStore from './../stores/ReportStore';
 
 @observer
@@ -21,9 +24,9 @@ export default class Report extends Component {
   }
 
   _report() {
-    //TODO:
-    reportStore.createReport();
+    reportStore.createReport(authStore.me.id, roomStore.roomUserId, this.state.text);    
     this.props.closeModal(false);
+    // Alert.alert('신고 완료');
   }
 
   render() {

@@ -112,11 +112,8 @@ export default class ChatScreen extends Component {
     }
   }
 
-  _onSend(messages = []) {
-    // call api
-    this._msgService.createMessage(this.state.roomId, authStore.me.id, messages[0].text);
-    // update local data
-    roomStore.updateValue(this.state.roomIndex, messages[0].text);
+  _onSend(messages = []) {    
+    roomStore.createMessage(authStore.me.id, messages[0].text);
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }))
@@ -133,14 +130,6 @@ export default class ChatScreen extends Component {
     })
     this.props.navigation.setParams({ openModal: this.setModalVisible });
   }
-
-  // componentWillMount() {
-  //   this._ismounted = false;
-  //   this._getData();
-  //   this.setState({
-  //     messages: [],
-  //   })
-  // }
 
   render() {
     return (

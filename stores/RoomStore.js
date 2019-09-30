@@ -1,14 +1,17 @@
 import { observable, action, computed, configure } from 'mobx';
 import roomService from '../services/rooms';
+import msgService from '../services/messages';
 
 class RoomStore {
   constructor() {
     this._room = roomService;
+    this._msg = msgService;
   }
 
   @observable roomId = null;
   @observable roomIndex = null;
   @observable roomName = null;
+  @observable roomUserId = null;
   @observable list = [];
   @observable room = {};
   @observable rooms = {};
@@ -56,10 +59,15 @@ class RoomStore {
     }
   }
 
-  @action updateValue(index, lastMsg) {
-    let obj = this.list[index];
+  @action createMessage(id, msg) {
+    this._msg.createMessage(this.roomId, id, msg);
+    this.updateValue(msg);
+  }
+
+  @action updateValue(lastMsg) {
+    let obj = this.list[this.roomIndex];
     obj.lastMsg = lastMsg;
-    this.list.splice(index, 1);
+    this.list.splice(this.roomIndex, 1);
     this.list = [obj, ...this.list];
   }
 }

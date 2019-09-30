@@ -34,16 +34,17 @@ export default class ListScreen extends Component {
     }, this._getData);
   }
 
-  _handleClick(id, index, name) {
+  _handleClick(id, index, name, userId) {    
     roomStore.roomId = id;
     roomStore.roomIndex = index;
     roomStore.roomName = name;
+    roomStore.roomUserId = userId;    
     this.props.navigation.navigate('Chat');
   }
 
   _renderItem = (item, i) => {
     return <Observer>{() =>
-      <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item.id, i, item.users[0].name)}>
+      <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item.id, i, item.users[0].name, item.users[0]._id)}>
         <Left>
           <Thumbnail source={{
             uri: item.users[0].images.length !== 0 ? config.apiHost + item.users[0].images[0].thumbnail : config.defaultUserImg

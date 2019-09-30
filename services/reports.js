@@ -2,19 +2,20 @@ import api from './index';
 
 class ReportService {
   constructor() {
-    this._api = api('report');
+    this._api = api('reports');
   }
 
-  async createReport(to, from, msg, option) {
+  async createReport(from, to, msg, option) {
     try {
       let data = {
-        to: to, 
-        from: from, 
-        msg: msg, 
+        from: from,
+        to: to,
+        msg: msg,
         option: option
       }
-      return await this._api.post('/', data);
-    } catch (err) {
+      return await this._api.post('', data);
+    } catch (err) {      
+      console.log(err);
       throw err;
     }
   }

@@ -21,13 +21,12 @@ export default function App(props) {
       />
     );
   } else {
-    // registerForPushNotificationsAsync();
     new NotificationRegister();    
     this._notificationSubscription = Notifications.addListener(({ origin, data }) => {
       if (data.type) {        
         new NotificationHandler(data);        
       }
-    });
+    });    
     return (
       <Root>
         <View style={styles.container}>
