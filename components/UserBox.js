@@ -6,10 +6,13 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
+import {
+  FlingGestureHandler,
+  Directions,
+} from 'react-native-gesture-handler';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Textarea, Text, Button, Icon, } from 'native-base';
 import { observer } from 'mobx-react';
-import { Constants } from 'expo';
 import Slideshow from 'react-native-image-slider-show';
 import userStore from './../stores/UserStore';
 
@@ -37,70 +40,75 @@ export default class UserBox extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            if (this.state.isSent) this.props.closeModal(false);
-          }}
-          onDismiss={() => {
-            if (this.state.isSent) this.props.closeModal(false);
-          }}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContainerTransparentStyle}>
-              <Textarea rowSpan={5} placeholder="메시지를 보내세요!" style={styles.modalButton} onChangeText={(text) => this.setState({ text })} />
-              <Grid>
-                <Col style={styles.modalButton}>
-                  <Button block title="send" onPress={() => this._sendMsg()} >
-                    <Text>보내기</Text>
-                  </Button>
-                </Col>
-                <Col style={styles.modalButton}>
-                  <Button block title="cancel" onPress={() => this._setModalVisible(false)} >
-                    <Text>취소</Text>
-                  </Button>
-                </Col>
-              </Grid>
+      <FlingGestureHandler
+        direction={Directions.DOWN}
+        numberOfPointers={1}
+        onHandlerStateChange={() => this.props.closeModal(false)}>
+        <View style={styles.container}>
+          <Modal
+            animationType='fade'
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              if (this.state.isSent) this.props.closeModal(false);
+            }}
+            onDismiss={() => {
+              if (this.state.isSent) this.props.closeModal(false);
+            }}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContainerTransparentStyle}>
+                <Textarea rowSpan={5} placeholder="메시지를 보내세요!" style={styles.modalButton} onChangeText={(text) => this.setState({ text })} />
+                <Grid>
+                  <Col style={styles.modalButton}>
+                    <Button block title="send" onPress={() => this._sendMsg()} >
+                      <Text>보내기</Text>
+                    </Button>
+                  </Col>
+                  <Col style={styles.modalButton}>
+                    <Button block title="cancel" onPress={() => this._setModalVisible(false)} >
+                      <Text>취소</Text>
+                    </Button>
+                  </Col>
+                </Grid>
+              </View>
+            </View>
+          </Modal>
+          <View style={styles.containerImgBox}>
+            <Slideshow
+              height={this.state.screenHeight / 2}
+              titleStyle={styles.containerImgTitle}
+              containerStyle={styles.containerImg}
+              dataSource={userStore.slider} />
+            <TouchableHighlight onPress={() => this.props.closeModal(false)} style={styles.containerCloseBox}>
+              <Icon active name='ios-close' style={styles.containerCloseBoxButton} />
+            </TouchableHighlight>
+          </View>
+          <View style={styles.containerButtonBox}>
+            <View style={styles.containerButton}>
+              <Button block transparent style={styles.containerButton}>
+                <Icon active name='ios-heart' style={styles.containerIcon} />
+              </Button>
+            </View>
+            <View style={styles.containerButton}>
+              <Button block transparent style={styles.containerButton} onPress={() => this._setModalVisible(true)}>
+                <Icon active name='ios-chatboxes' style={styles.containerIcon} />
+              </Button>
+            </View>
+            <View style={styles.containerButton}>
+              <Button block transparent style={styles.containerButton}>
+                <Icon active name='md-information' style={styles.containerIcon} />
+              </Button>
             </View>
           </View>
-        </Modal>
-        <View style={styles.containerImgBox}>
-          <Slideshow
-            height={this.state.screenHeight / 2}
-            titleStyle={styles.containerImgTitle}
-            containerStyle={styles.containerImg}
-            dataSource={userStore.slider} />
-          <TouchableHighlight onPress={() => this.props.closeModal(false)} style={styles.containerCloseBox}>
-            <Icon active name='ios-close' style={styles.containerCloseBoxButton} />
-          </TouchableHighlight>
-        </View>
-        <View style={styles.containerButtonBox}>
-          <View style={styles.containerButton}>
-            <Button block transparent style={styles.containerButton}>
-              <Icon active name='ios-heart' style={styles.containerIcon} />
-            </Button>
-          </View>
-          <View style={styles.containerButton}>
-            <Button block transparent style={styles.containerButton} onPress={() => this._setModalVisible(true)}>
-              <Icon active name='ios-chatboxes' style={styles.containerIcon} />
-            </Button>
-          </View>
-          <View style={styles.containerButton}>
-            <Button block transparent style={styles.containerButton}>
-              <Icon active name='md-information' style={styles.containerIcon} />
-            </Button>
+          <View style={styles.containerTextBox}>
+            <Text style={styles.containerTextTitle}>ABOUT ME</Text>
+            <Text style={styles.containerText}>
+              {userStore.user.intro}
+            </Text>
           </View>
         </View>
-        <View style={styles.containerTextBox}>
-          <Text style={styles.containerTextTitle}>ABOUT ME</Text>
-          <Text style={styles.containerText}>
-            {userStore.user.intro}
-          </Text>
-        </View>
-      </View>
+      </FlingGestureHandler>
     );
   }
 }
