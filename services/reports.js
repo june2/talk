@@ -14,8 +14,7 @@ class ReportService {
         option: option
       }
       return await this._api.post('', data);
-    } catch (err) {      
-      console.log(err);
+    } catch (err) {
       throw err;
     }
   }

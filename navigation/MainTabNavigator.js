@@ -8,7 +8,6 @@ import HomeScreen from '../screens/HomeScreen';
 import UsersScreen from '../screens/UsersScreen';
 import ListScreen from '../screens/ListScreen';
 import MyScreen from '../screens/MyScreen';
-import MyUpdateScreen from '../screens/MyUpdateScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import TermScreen from '../screens/TermScreen';
 
@@ -87,7 +86,7 @@ ListStack.path = '';
 const MyStack = createStackNavigator(
   {
     My: MyScreen,
-    MyUpdate: MyUpdateScreen,
+    // MyUpdate: MyUpdateScreen,
   },
   config
 );

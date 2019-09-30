@@ -18,6 +18,28 @@ import userStore from './../stores/UserStore';
 
 @observer
 export default class SettingsScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Profile',
+      navigatorStyle: {
+        navBarHidden: false,
+      },
+      headerLeft: (
+        <Icon name='md-arrow-round-back'
+          style={{
+            fontSize: 30,
+            fontWeight: 600,
+            color: 'rgba(0, 0, 0, .9)',
+            marginHorizontal: 16,
+            textAlign: 'center',
+          }}
+          onPress={() => navigation.navigate('My')}
+        />
+      ),
+    }
+  };
+
+
   constructor(props) {
     super(props);
     this._user = userService;
@@ -186,7 +208,7 @@ export default class SettingsScreen extends Component {
               <RNPickerSelect
                 placeholder={{}}
                 items={age}
-                onValueChange={val => {                  
+                onValueChange={val => {
                   authStore.age = val
                 }}
                 InputAccessoryView={() => null}
@@ -252,11 +274,6 @@ export default class SettingsScreen extends Component {
     );
   }
 }
-
-SettingsScreen.navigationOptions = {
-  // title: 'my pqge',
-};
-
 
 const styles = StyleSheet.create({
   ImageBox: {

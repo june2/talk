@@ -6,6 +6,7 @@ import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ChatScreen from '../screens/ChatScreen';
+import MyUpdateScreen from '../screens/MyUpdateScreen';
 
 export default createAppContainer(
   createSwitchNavigator(
@@ -21,6 +22,7 @@ export default createAppContainer(
           },
         },
         Chat: ChatScreen,
+        MyUpdate: MyUpdateScreen,
       })
     },
     {
