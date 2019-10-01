@@ -32,15 +32,15 @@ export default class LoginScreen extends Component {
   }
 
   _signInAsync = async () => {
-    try {      
-      let res = await this._auth.login(this.state.email, this.state.password);    
+    try {
+      let res = await this._auth.login(this.state.email, this.state.password);
       if (res.accessToken) {
         await AsyncStorage.setItem('token', res.accessToken);
         await authStore.getMe();
         roomStore.getRooms();
         this.props.navigation.navigate('Main');
       }
-    } catch (err) {      
+    } catch (err) {
       Alert.alert('Error !!', err.message)
     }
   }

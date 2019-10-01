@@ -30,7 +30,6 @@ export default class AuthLoadingScreen extends React.Component {
     } else {
       this.props.navigation.navigate('Auth');
     }
-    // this.props.navigation.navigate(userToken ? 'Main' : 'Auth');    
   };
 
   // Render any loading content that you like here

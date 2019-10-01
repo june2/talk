@@ -26,10 +26,10 @@ class RoomStore {
     }
   }
 
-  @action async getRooms(limit = 20, offset = 0) {
+  @action async getRooms(limit = 20, page = 1) {
     try {
-      this.rooms = await this._room.getRooms(limit, offset);
-      if (offset === 0) {
+      this.rooms = await this._room.getRooms(limit, page);
+      if (page === 1) {
         this.list = this.rooms.docs;
       } else {
         this.list = this.list.concat(this.rooms.docs);

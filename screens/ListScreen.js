@@ -36,7 +36,7 @@ export default class ListScreen extends Component {
     }, this._getData);
   }
 
-  _handleClick(id, index, name, userId) {
+  _handleClick(id, index, name, userId) {    
     roomStore.roomId = id;
     roomStore.roomIndex = index;
     roomStore.roomName = name;
@@ -46,7 +46,7 @@ export default class ListScreen extends Component {
 
   _renderItem = (item, i) => {
     return <Observer>{() =>
-      <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item.id, i, item.user.name, item.user._id)}>
+      <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item._id, i, item.user.name, item.user._id)}>
         <Left>
           <Thumbnail source={{
             uri: item.user.images.length !== 0 ? config.apiHost + item.user.images[0].thumbnail : config.defaultUserImg
