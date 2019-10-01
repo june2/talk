@@ -54,10 +54,11 @@ class UserStore {
     }
   }
 
-  @action async updatePushToken(device, pushToken) {
+  @action async updatePushToken(os, version, pushToken) {
     try {
-      return this.users = await this._user.updatePushToken(device, pushToken);
+      return this.users = await this._user.updatePushToken(os, version, pushToken);
     } catch (err) {
+      console.log(err)
       // Alert.alert('Error', err.message)
     }
   }

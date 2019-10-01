@@ -5,11 +5,12 @@ class RoomService {
     this._api = api('messages');
   }
 
-  async createMessage(room, user, text, image) {
+  async createMessage(room, user, to, text, image) {
     try {
       let data = {
         room: room,
         user: user,
+        to: to,
       }
       if (image) data.image = image;
       if (text) data.text = text;

@@ -21,8 +21,9 @@ export default class ListScreen extends Component {
       refreshing: false,
       data: [],
       totalDocs: 0,
-      offset: 0,
-      limit: 20
+      page: 1,
+      limit: 10,
+      hasNextPage: true
     }
   }
 
@@ -30,46 +31,48 @@ export default class ListScreen extends Component {
     roomStore.list = [];
     this.setState({
       refreshing: true,
-      offset: 0,
+      page: 1,
+      hasNextPage: true
     }, this._getData);
   }
 
-  _handleClick(id, index, name, userId) {    
+  _handleClick(id, index, name, userId) {
     roomStore.roomId = id;
     roomStore.roomIndex = index;
     roomStore.roomName = name;
-    roomStore.roomUserId = userId;    
+    roomStore.roomUserId = userId;
     this.props.navigation.navigate('Chat');
   }
 
   _renderItem = (item, i) => {
     return <Observer>{() =>
-      <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item.id, i, item.users[0].name, item.users[0]._id)}>
+      <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item.id, i, item.user.name, item.user._id)}>
         <Left>
           <Thumbnail source={{
-            uri: item.users[0].images.length !== 0 ? config.apiHost + item.users[0].images[0].thumbnail : config.defaultUserImg
+            uri: item.user.images.length !== 0 ? config.apiHost + item.user.images[0].thumbnail : config.defaultUserImg
           }} />
         </Left>
         <Body>
-          <Text>{(item.users && item.users[0]) ? item.users[0].name : ''}</Text>
+          <Text>{(item.user && item.user) ? item.user.name : ''}</Text>
           <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} style={{ height: 34 }} note>{item.lastMsg}</Text>
         </Body>
         <Right>
           <Text note>{dateConvert(item.updatedAt)}</Text>
           <Text note></Text>
-          <BadgeIcon num={1} />
+          <BadgeIcon num={item.count} />
         </Right>
       </ListItem>}
     </Observer>;
   };
 
   _getData = async () => {
-    if (this.state.totalDocs >= roomStore.list.length) {
-      let res = await roomStore.getRooms(this.state.limit, this.state.offset);
+    if (this.state.hasNextPage) {
+      let res = await roomStore.getRooms(this.state.limit, this.state.page);
       this.setState({
-        offset: res.offset + this.state.limit,
+        page: res.page + 1,
         totalDocs: res.totalDocs,
-        refreshing: false
+        refreshing: false,
+        hasNextPage: res.hasNextPage
       })
     }
   }

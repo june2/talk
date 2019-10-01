@@ -58,10 +58,11 @@ class UserService {
     }
   }
 
-  async updatePushToken(device, pushToken) {
+  async updatePushToken(os, version, pushToken) {
     try {
       let data = {
-        device: device,
+        PlatformOS: os,
+        PlatformVer: version,
         pushToken: pushToken,
       }
       return await this._api.put('/me/registerPushToken', data);

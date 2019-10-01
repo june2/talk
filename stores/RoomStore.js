@@ -60,7 +60,7 @@ class RoomStore {
   }
 
   @action createMessage(id, msg) {
-    this._msg.createMessage(this.roomId, id, msg);
+    this._msg.createMessage(this.roomId, id, this.roomUserId, msg);
     this.updateValue(msg);
   }
 

@@ -2,14 +2,14 @@ import { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
-import authStore from '../stores/AuthStore';
+import { Platform } from 'react-native';
+import UserStore from '../stores/UserStore';
 
 @observer
 export default class Notification extends Component {
   constructor(data) {
     super(data);
     this._register();
-    // this._handleData(data);
   }
 
   async _register() {
@@ -27,7 +27,7 @@ export default class Notification extends Component {
       finalStatus = status;
     }
 
-    console.log('pushtoken', finalStatus);
+    console.log('finalStatus', finalStatus);
     // Stop here if the user did not grant permissions
     if (finalStatus !== 'granted') {
       return;
@@ -36,15 +36,6 @@ export default class Notification extends Component {
     // Get the token that uniquely identifies this device
     let token = await Notifications.getExpoPushTokenAsync();
     console.log('pushtoken', token);
-  }
-
-  _handleData(data) {
-    switch (data.type) {
-      case 'message':
-        break;
-      case 'room':
-        authStore.tabBadgeCount += 1;
-        break;
-    }
+    UserStore.updatePushToken(Platform.OS, Platform.Version, token);
   }
 }
