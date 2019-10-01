@@ -9,13 +9,13 @@ class AuthStore {
     this._user = userService;
   }
 
-  @observable token = null;
-  @observable tabBadgeCount = 0;
+  @observable token = null;  
   @observable slider = [];
   @observable images = [{}, {}, {}, {}, {}, {}];
   @observable age = null;
   @observable me = {
     images: [],
+    tabBadgeCount: 0
   };
 
   _updateSlider(images, name) {

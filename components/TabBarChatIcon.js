@@ -26,9 +26,9 @@ export default class TabBarChatIcon extends React.Component {
           />
         }
         BadgeElement={
-          <Text style={{ color: '#FFFFFF', fontSize: 10 }}>{authStore.tabBadgeCount}</Text>
+          <Text style={{ color: '#FFFFFF', fontSize: 10 }}>{authStore.me.tabBadgeCount}</Text>
         }
-        Hidden={authStore.tabBadgeCount == 0}
+        Hidden={authStore.me.tabBadgeCount == 0}
         IconBadgeStyle={{
           left: 17,
           width: 19 ,

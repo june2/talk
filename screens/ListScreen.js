@@ -12,6 +12,7 @@ import BadgeIcon from '../components/Badge';
 import { dateConvert } from '../components/Util';
 import config from '../constants/Config';
 import roomStore from './../stores/RoomStore';
+import authStore from './../stores/AuthStore';
 
 @observer
 export default class ListScreen extends Component {
@@ -36,17 +37,15 @@ export default class ListScreen extends Component {
     }, this._getData);
   }
 
-  _handleClick(id, index, name, userId) {    
-    roomStore.roomId = id;
-    roomStore.roomIndex = index;
-    roomStore.roomName = name;
-    roomStore.roomUserId = userId;
+  _handleClick(id, index, name, userId, count) {
+    roomStore.setValue(id, index, name, userId, count);
+    authStore.me.tabBadgeCount -= count;
     this.props.navigation.navigate('Chat');
   }
 
   _renderItem = (item, i) => {
     return <Observer>{() =>
-      <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item._id, i, item.user.name, item.user._id)}>
+      <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item._id, i, item.user.name, item.user._id, item.count)}>
         <Left>
           <Thumbnail source={{
             uri: item.user.images.length !== 0 ? config.apiHost + item.user.images[0].thumbnail : config.defaultUserImg

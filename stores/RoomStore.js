@@ -70,6 +70,14 @@ class RoomStore {
     this.list.splice(this.roomIndex, 1);
     this.list = [obj, ...this.list];
   }
+
+  @action setValue(id, index, name, userId, count) {    
+    this.roomId = id; 
+    this.roomIndex = index;
+    this.roomName = name; 
+    this.roomUserId = userId;
+    this.list[this.roomIndex].count -= count;
+  }
 }
 
 const store = new RoomStore();
