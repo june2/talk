@@ -48,7 +48,7 @@ export default class UsersScreen extends Component {
     <ListItem avatar key={i} button={true} onPress={() => this._handleClick(item)} >
       <Left>
         <Thumbnail source={{
-          uri: (item.images && item.images.length !== 0) ? config.apiHost + item.images[0].thumbnail : config.defaultUserImg
+          uri: (item.images && item.images.length !== 0) ? item.images[0] : config.defaultUserImg
         }} />
       </Left>
       <Body>
@@ -118,14 +118,14 @@ export default class UsersScreen extends Component {
         />
         
         <Grid></Grid>
-        <AdMobBanner
+        {/* <AdMobBanner
           style={styles.bottomBanner}
           bannerSize="fullBanner"
           adUnitID="ca-app-pub-3940256099942544/6300978111"
           // Test ID, Replace with your-admob-unit-id
           testDeviceID="EMULATOR"
           didFailToReceiveAdWithError={this.bannerError}
-        />
+        /> */}
       </View>
     );
   }

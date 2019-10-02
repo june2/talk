@@ -10,22 +10,18 @@ class AuthStore {
   }
 
   @observable token = null;
-  @observable slider = [];
-  @observable images = [{}, {}, {}, {}, {}, {}];
+  @observable slider = [];  
   @observable age = null;
   @observable me = {
     images: [],
-    tabBadgeCount: 1
+    tabBadgeCount: 0
   };
 
   _updateSlider(images, name) {
     this.slider = [];
     images.forEach((obj, i) => {
-      this.images[i] = {
-        thumbnail: config.apiHost + obj.thumbnail
-      }
       this.slider.push({
-        url: config.apiHost + obj.thumbnail,
+        url: obj,
         // title: (i === 0) ? name : '',
       })
     });
@@ -66,8 +62,7 @@ class AuthStore {
   @action async deleteImage(index) {
     try {
       this.me.images.splice(index, 1);
-      let res = await this._user.deleteImage(this.me.images);
-      this.images[index] = {};
+      let res = await this._user.deleteImage(this.me.images);      
       this._updateSlider(res.data.images, res.data.name);
       this.me = res.data;
     } catch (err) {

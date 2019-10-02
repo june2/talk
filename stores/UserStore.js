@@ -12,13 +12,12 @@ class UserStore {
   @observable slider = [];
   @observable users = [];
   @observable token = null;
-  // @computed get selectedId() { return this.selectedUser.id; }
 
   _updateSlider(images, name) {
     this.slider = [];
     images.forEach((obj, i) => {
       this.slider.push({
-        url: config.apiHost + obj.thumbnail,
+        url: obj,
         // title: (i === 0) ? name : '',
         // caption: 'Caption 3',
       })

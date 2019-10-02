@@ -114,29 +114,6 @@ export default class UserBox extends Component {
               {userStore.user.intro}
             </Text>
           </View>
-          {/* <View style={styles.containerButtonBox}>
-            <View style={styles.containerButton}>
-              <Button block transparent style={styles.containerButton}>
-                <Icon active name='ios-heart' style={styles.containerIcon} />
-              </Button>
-            </View>
-            <View style={styles.containerButton}>
-              <Button block transparent style={styles.containerButton} onPress={() => this._setModalVisible(true)}>
-                <Icon active name='ios-chatboxes' style={styles.containerIcon} />
-              </Button>
-            </View>
-            <View style={styles.containerButton}>
-              <Button block transparent style={styles.containerButton}>
-                <Icon active name='md-information' style={styles.containerIcon} />
-              </Button>
-            </View>
-          </View>
-          <View style={styles.containerTextBox}>
-            <Text style={styles.containerTextTitle}>ABOUT ME</Text>
-            <Text style={styles.containerText}>
-              {userStore.user.intro}
-            </Text>
-          </View> */}
         </View>
       </FlingGestureHandler>
     );
@@ -157,7 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   containerImgBox: {
-    flex: 3.5,
+    flex: 3,
   },
   containerImg: {
     flex: 1,

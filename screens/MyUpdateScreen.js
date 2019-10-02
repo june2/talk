@@ -45,8 +45,8 @@ export default class SettingsScreen extends Component {
   }
 
   _action = async (index) => {
-    console.log(authStore.images[index].thumbnail)
-    if (authStore.images[index].thumbnail == null) this._pickImage();
+    console.log(authStore.me.images[index])
+    if (authStore.me.images[index] == null) this._pickImage();
     else this._openActionSheet(index);
   };
 
@@ -92,7 +92,7 @@ export default class SettingsScreen extends Component {
       authStore.me.intro,
       authStore.me.gender,
       authStore.age
-    );    
+    );
     if (res.status === 200) this.props.navigation.navigate('My');
     else Alert.alert('Server error')
   }
@@ -119,34 +119,34 @@ export default class SettingsScreen extends Component {
               <Grid>
                 <Col style={{ alignSelf: 'center' }}>
                   <TouchableHighlight onPress={() => this._action(0)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: authStore.images[0].thumbnail }} style={styles.ImageBox} />
+                    <Thumbnail large source={{ uri: (authStore.me.images.length > 0) ? authStore.me.images[0] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col style={{ alignSelf: 'center' }}>
                   <TouchableHighlight onPress={() => this._action(1)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: authStore.images[1].thumbnail }} style={styles.ImageBox} />
+                  <Thumbnail large source={{ uri: (authStore.me.images.length > 1) ? authStore.me.images[1] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col style={{ alignSelf: 'center' }}>
                   <TouchableHighlight onPress={() => this._action(2)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: authStore.images[2].thumbnail }} style={styles.ImageBox} />
+                  <Thumbnail large source={{ uri: (authStore.me.images.length > 2) ? authStore.me.images[2] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
               </Grid>
               <Grid style={{ marginTop: 10 }}>
                 <Col>
                   <TouchableHighlight onPress={() => this._action(3)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: authStore.images[3].thumbnail }} style={styles.ImageBox} />
+                  <Thumbnail large source={{ uri: (authStore.me.images.length > 3) ? authStore.me.images[3] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col>
                   <TouchableHighlight onPress={() => this._action(4)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: authStore.images[4].thumbnail }} style={styles.ImageBox} />
+                  <Thumbnail large source={{ uri: (authStore.me.images.length > 4) ? authStore.me.images[4] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col>
                   <TouchableHighlight onPress={() => this._action(5)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: authStore.images[5].thumbnail }} style={styles.ImageBox} />
+                  <Thumbnail large source={{ uri: (authStore.me.images.length > 5) ? authStore.me.images[5] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
               </Grid>

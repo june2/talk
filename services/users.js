@@ -32,7 +32,7 @@ class UserService {
   async uploadImage(uri) {
     try {
       let formData = new FormData();
-      formData.append('file', { uri: uri, name: 'img.jpg', type: 'image' });
+      formData.append('upload', { uri: uri, name: 'img.jpg', type: 'image' });
       return await this._api.upload('/me/upload', formData);
     } catch (err) {
       throw err;
