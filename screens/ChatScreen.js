@@ -84,17 +84,18 @@ export default class ChatScreen extends Component {
       modalVisible: false,
     }
     this.setModalVisible = this.setModalVisible.bind(this);
-  }  
+  }
 
   _getData = async () => {
     if (this.state.totalDocs >= this.state.limit * this.state.offset) {
       let res = await roomStore.getMsgByRoomId(this.state.roomId);
       let messages = res.docs;
-      messages = messages.map((chatMessage) => {
+      messages = messages.map((chatMessage) => {        
         return {
           _id: chatMessage._id,
           text: chatMessage.text,
           createdAt: chatMessage.createdAt,
+          system: chatMessage.system,
           user: {
             _id: chatMessage.user._id,
             name: chatMessage.user.name,
@@ -112,7 +113,7 @@ export default class ChatScreen extends Component {
     }
   }
 
-  _onSend(messages = []) {    
+  _onSend(messages = []) {
     roomStore.createMessage(authStore.me.id, messages[0].text);
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),

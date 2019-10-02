@@ -24,9 +24,11 @@ export default class Report extends Component {
   }
 
   _report() {
-    reportStore.createReport(authStore.me.id, roomStore.roomUserId, this.state.text);    
+    if (this.state.text.length < 5) {
+      return Alert.alert('10자 이상으로 작성해주세요!');
+    }
+    reportStore.createReport(authStore.me.id, roomStore.roomUserId, this.state.text);
     this.props.closeModal(false);
-    // Alert.alert('신고 완료');
   }
 
   render() {

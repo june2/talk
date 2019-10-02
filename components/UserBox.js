@@ -15,6 +15,7 @@ import { Textarea, Text, Button, Icon, } from 'native-base';
 import { observer } from 'mobx-react';
 import Slideshow from 'react-native-image-slider-show';
 import userStore from './../stores/UserStore';
+import authStore from '../stores/AuthStore';
 
 @observer
 export default class UserBox extends Component {
@@ -33,6 +34,14 @@ export default class UserBox extends Component {
   }
 
   _sendMsg() {
+    if (!authStore.me.point || authStore.me.point < 50) {
+      return Alert.alert('포인트가 부족합니다.');
+    }
+    if (this.state.text.length < 5) {
+      return Alert.alert('5자 이상으로 작성해주세요!');
+    }
+    // 차감
+    authStore.me.point -= 50;
     this.setState({ isSent: true });
     this.props.sendMsg(this.state.text);
     this._setModalVisible(false);

@@ -11,9 +11,9 @@ import {
 import { observer } from 'mobx-react';
 import { getLocation } from '../constants/Items';
 import config from '../constants/Config';
+import UserBox from '../components/UserBox';
 import userStore from '../stores/UserStore';
 import roomStore from '../stores/RoomStore';
-import UserBox from '../components/UserBox';
 
 @observer
 export default class UsersScreen extends Component {
@@ -79,9 +79,8 @@ export default class UsersScreen extends Component {
   }
 
   sendMsg = async (msg) => {
-    //TODO: check : point
     await roomStore.createRoom(this.state.userId, msg);
-    roomStore.getRooms(10, 0);
+    roomStore.getRooms();
   }
 
   setModalVisible(visible) {
@@ -112,7 +111,7 @@ export default class UsersScreen extends Component {
           renderItem={this._renderItem}
           keyExtractor={(item, index) => index.toString()}
           onEndReached={this._handleLoadMore}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.01}
           refreshing={this.state.refreshing}
           onRefresh={this._handleRefresh}
         />

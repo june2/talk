@@ -64,7 +64,7 @@ export default class ListScreen extends Component {
     </Observer>;
   };
 
-  _getData = async () => {
+  _getData = async () => {    
     if (this.state.hasNextPage) {
       let res = await roomStore.getRooms(this.state.limit, this.state.page);
       this.setState({
@@ -91,7 +91,7 @@ export default class ListScreen extends Component {
         renderItem={({ item, index }) => this._renderItem(item, index)}
         keyExtractor={(item, index) => index.toString()}
         onEndReached={this._handleLoadMore}
-        onEndReachedThreshold={0.1}
+        onEndReachedThreshold={0.01}
         refreshing={this.state.refreshing}
         onRefresh={this._handleRefresh}
         extraData={[this.state, this.props]}

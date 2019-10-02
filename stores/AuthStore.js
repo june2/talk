@@ -15,7 +15,7 @@ class AuthStore {
   @observable age = null;
   @observable me = {
     images: [],
-    tabBadgeCount: 0
+    tabBadgeCount: 1
   };
 
   _updateSlider(images, name) {
