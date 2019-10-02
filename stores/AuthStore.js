@@ -9,7 +9,7 @@ class AuthStore {
     this._user = userService;
   }
 
-  @observable token = null;  
+  @observable token = null;
   @observable slider = [];
   @observable images = [{}, {}, {}, {}, {}, {}];
   @observable age = null;
@@ -26,7 +26,7 @@ class AuthStore {
       }
       this.slider.push({
         url: config.apiHost + obj.thumbnail,
-        title: (i === 0) ? name : '',
+        // title: (i === 0) ? name : '',
       })
     });
   }
@@ -77,10 +77,19 @@ class AuthStore {
   }
 
   @action async updateLastLogin() {
-    try {      
+    try {
       if (this.token) {
         this._user.updateLastLogin();
       }
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  @action async updateName(name) {
+    try {
+      this.slider[0].title = name;
+      this.slider = this.slider;
     } catch (err) {
       throw err;
     }

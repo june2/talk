@@ -16,6 +16,7 @@ import { observer } from 'mobx-react';
 import Slideshow from 'react-native-image-slider-show';
 import userStore from './../stores/UserStore';
 import authStore from '../stores/AuthStore';
+import { getAge } from './../components/Util';
 
 @observer
 export default class UserBox extends Component {
@@ -85,7 +86,7 @@ export default class UserBox extends Component {
           </Modal>
           <View style={styles.containerImgBox}>
             <Slideshow
-              height={this.state.screenHeight / 2}
+              height={this.state.screenHeight / 1.5}
               titleStyle={styles.containerImgTitle}
               containerStyle={styles.containerImg}
               dataSource={userStore.slider} />
@@ -93,7 +94,27 @@ export default class UserBox extends Component {
               <Icon active name='ios-close' style={styles.containerCloseBoxButton} />
             </TouchableHighlight>
           </View>
-          <View style={styles.containerButtonBox}>
+          <View style={styles.containerTitleBox}>
+            <Grid>
+              <Col>
+                <Text style={styles.containerTitleBoxName}>{userStore.user.name}</Text>
+                <Text style={styles.containerTitleBoxLocation}>
+                  {getAge(userStore.user.birthday)}   {userStore.user.location}
+                </Text>
+              </Col>
+              <Col style={styles.containerTitleBoxButton}>
+                <Button block transparent style={{ height: 55 }} onPress={() => this._setModalVisible(true)}>
+                  <Icon active name='ios-chatboxes' style={styles.containerTitleBoxButtonIcon} />
+                </Button>
+              </Col>
+            </Grid>
+          </View>
+          <View style={styles.containerTextBox}>
+            <Text style={styles.containerText}>
+              {userStore.user.intro}
+            </Text>
+          </View>
+          {/* <View style={styles.containerButtonBox}>
             <View style={styles.containerButton}>
               <Button block transparent style={styles.containerButton}>
                 <Icon active name='ios-heart' style={styles.containerIcon} />
@@ -115,7 +136,7 @@ export default class UserBox extends Component {
             <Text style={styles.containerText}>
               {userStore.user.intro}
             </Text>
-          </View>
+          </View> */}
         </View>
       </FlingGestureHandler>
     );
@@ -136,7 +157,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   containerImgBox: {
-    flex: 1.5,
+    flex: 3.5,
   },
   containerImg: {
     flex: 1,
@@ -146,12 +167,36 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 30,
   },
-  containerButtonBox: {
+  containerTitleBox: {
     flexDirection: 'row',
     flex: 0.5,
   },
+  containerTitleBoxName: {
+    marginTop: 15,
+    marginLeft: 15,
+    fontWeight: 'bold',
+    fontSize: 25
+  },
+  containerTitleBoxLocation: {
+    marginLeft: 15,
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'rgb(178, 181, 182)'
+  },
+  containerTitleBoxButton: {
+    marginTop: 10,
+    marginRight: 10,
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  containerTitleBoxButtonIcon: {
+    fontSize: 40,
+    color: '#007aff',
+  },
   containerButton: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   containerIcon: {
     fontSize: 40,
@@ -159,41 +204,14 @@ const styles = StyleSheet.create({
   },
   containerTextBox: {
     flex: 1,
-    backgroundColor: '#fff',
-    flex: 1,
-    borderRadius: 12,
-    marginLeft: 20,
-    marginRight: 20,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-  },
-  containerTextTitle: {
-    top: 10,
-    padding: 18,
-    flex: 0,
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 25,
-    color: '#000',
-    alignItems: 'center',
+    marginLeft: 15,
+    marginRight: 15,
   },
   containerText: {
-    padding: 18,
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: 15,
-    lineHeight: 25,
-    color: '#444444',
-  },
+    color: 'rgb(178, 181, 182)',
+  },  
   modalContainer: {
     flex: 1,
     alignItems: 'center',

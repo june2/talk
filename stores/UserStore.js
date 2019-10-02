@@ -19,7 +19,7 @@ class UserStore {
     images.forEach((obj, i) => {
       this.slider.push({
         url: config.apiHost + obj.thumbnail,
-        title: (i === 0) ? name : '',
+        // title: (i === 0) ? name : '',
         // caption: 'Caption 3',
       })
     });

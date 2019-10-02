@@ -10,7 +10,6 @@ import {
 import { observer } from 'mobx-react';
 import { ImagePicker, Permissions, Constants } from 'expo';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
-import moment from 'moment';
 import { locations, gender, age } from '../constants/Items';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
@@ -46,6 +45,7 @@ export default class SettingsScreen extends Component {
   }
 
   _action = async (index) => {
+    console.log(authStore.images[index].thumbnail)
     if (authStore.images[index].thumbnail == null) this._pickImage();
     else this._openActionSheet(index);
   };
@@ -92,8 +92,7 @@ export default class SettingsScreen extends Component {
       authStore.me.intro,
       authStore.me.gender,
       authStore.age
-    );
-    // new Date(`${i}-01-01`)
+    );    
     if (res.status === 200) this.props.navigation.navigate('My');
     else Alert.alert('Server error')
   }

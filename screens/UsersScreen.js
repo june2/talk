@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { AdMobBanner } from 'expo-ads-admob'
 import {
   FlatList,
   Modal, View, Alert,
@@ -6,7 +7,7 @@ import {
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,
-  Thumbnail, Text
+  Thumbnail, Text, Grid
 } from 'native-base';
 import { observer } from 'mobx-react';
 import { getLocation } from '../constants/Items';
@@ -115,6 +116,16 @@ export default class UsersScreen extends Component {
           refreshing={this.state.refreshing}
           onRefresh={this._handleRefresh}
         />
+        
+        <Grid></Grid>
+        <AdMobBanner
+          style={styles.bottomBanner}
+          bannerSize="fullBanner"
+          adUnitID="ca-app-pub-3940256099942544/6300978111"
+          // Test ID, Replace with your-admob-unit-id
+          testDeviceID="EMULATOR"
+          didFailToReceiveAdWithError={this.bannerError}
+        />
       </View>
     );
   }
@@ -128,5 +139,9 @@ UsersScreen.navigationOptions = {
 const styles = StyleSheet.create({
   introBox: {
     height: 34
-  }
+  },
+  bottomBanner: {
+    position: "absolute",
+    bottom: 0
+  },
 });

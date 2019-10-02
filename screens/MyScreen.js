@@ -5,10 +5,12 @@ import {
   Dimensions,
   Platform
 } from 'react-native';
-import { Text, Button, Icon, Left, Body, Right } from 'native-base';
+import { Text, Thumbnail, Button, Icon, Left, Right, ListItem } from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 import Slideshow from 'react-native-image-slider-show';
 import { observer } from 'mobx-react';
 import authStore from './../stores/AuthStore';
+import { getAge } from './../components/Util';
 
 @observer
 export default class MyScreen extends Component {
@@ -24,31 +26,37 @@ export default class MyScreen extends Component {
       <View style={styles.container}>
         <View style={styles.containerImgBox}>
           <Slideshow
-            height={this.state.screenHeight / 2}
+            height={this.state.screenHeight / 1.5}
             titleStyle={styles.containerImgTitle}
             containerStyle={styles.containerImg}
             dataSource={authStore.slider} />
         </View>
-        <View style={styles.containerButtonBox}>
-          <View style={styles.containerButton}>
-            <Button block title="update" onPress={() => this.props.navigation.navigate('MyUpdate')} style={styles.formBoxButton}>
-              <Text>프로필 수정</Text>
-            </Button>
-          </View>
+        <View style={styles.containerTitleBox}>
+          <Grid>
+            <Col>
+              <Text style={styles.containerTitleBoxName}>{authStore.me.name}</Text>
+              <Text style={styles.containerTitleBoxLocation}>
+                {getAge(authStore.me.birthday)}   {authStore.me.location}
+              </Text>
+            </Col>
+            <Col style={styles.containerTitleBoxButton}>
+              <Button block transparent style={{ height: 55 }} onPress={() => this.props.navigation.navigate('MyUpdate')}>
+                <Icon active name='md-create' style={styles.containerTitleBoxButtonIcon} />
+              </Button>
+            </Col>
+          </Grid>
         </View>
         <View style={styles.containerTextBox}>
-          {/* <Text style={styles.containerTextTitle}>ABOUT ME</Text> */}
           <Text style={styles.containerText}>
             {authStore.me.intro}
           </Text>
         </View>
-        <View style={{flex:0.1}}></View>
       </View >
     );
   }
 }
 
-MyScreen.navigationOptions = {  
+MyScreen.navigationOptions = {
   title: 'My page',
   header: null,
 };
@@ -58,7 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   containerImgBox: {
-    flex: 2,
+    flex: 3.5,
   },
   containerImg: {
     flex: 1,
@@ -68,12 +76,34 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 30,
   },
-  containerButtonBox: {
+  containerTitleBox: {
     flexDirection: 'row',
     flex: 0.5,
   },
+  containerTitleBoxName: {
+    marginTop: 15,
+    marginLeft: 15,
+    fontWeight: 'bold',
+    fontSize: 25
+  },
+  containerTitleBoxLocation: {
+    marginLeft: 15,
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'rgb(178, 181, 182)'
+  },
+  containerTitleBoxButton: {
+    marginTop: 10,
+    marginRight: 10,
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  containerTitleBoxButtonIcon: {
+    fontSize: 40,
+    color: '#007aff',
+  },
   containerButton: {
-    flex: 1,    
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -83,42 +113,12 @@ const styles = StyleSheet.create({
   },
   containerTextBox: {
     flex: 1,
-    backgroundColor: '#fff',    
-    borderRadius: 12,
-    marginLeft: 20,
-    marginRight: 20,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: -1 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,        
-      },
-    }),
-  },
-  containerTextTitle: {
-    top: 10,
-    padding: 18,
-    flex: 0,
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 25,
-    color: '#000',
-    alignItems: 'center',
+    marginLeft: 15,
+    marginRight: 15,
   },
   containerText: {
-    padding: 18,
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: 15,
-    lineHeight: 25,
-    color: '#444444',
-  },
-  formBoxButton: {    
-    marginLeft: 20,
-    marginRight: 20,
-  },
+    color: 'rgb(178, 181, 182)',
+  },  
 });
