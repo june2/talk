@@ -27,3 +27,8 @@ export const getAge = (date) => {
   let age = now - year;
   return Number.isInteger(age) ? age : null;  
 }
+
+// Get year
+export const getYear = (date) => {
+  return moment(date).year();
+}

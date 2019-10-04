@@ -26,7 +26,7 @@ export default class SettingsScreen extends Component {
   }
 
   _logOut = async () => {
-    await AsyncStorage.clear();    
+    await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
   }
 
@@ -36,7 +36,7 @@ export default class SettingsScreen extends Component {
 
   render() {
     return (
-      <Container>        
+      <Container>
         <Content>
           <Separator bordered>
             <Text>ID</Text>
@@ -47,6 +47,14 @@ export default class SettingsScreen extends Component {
                 <Icon active name="ios-person" />
               </Button>
             </Left> */}
+            <Body>
+              <Text>{authStore.me.id}</Text>
+            </Body>
+          </ListItem>
+          <Separator bordered>
+            <Text>E-mail</Text>
+          </Separator>
+          <ListItem icon last>            
             <Body>
               <Text>{authStore.me.email}</Text>
             </Body>

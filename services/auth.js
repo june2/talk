@@ -5,11 +5,15 @@ class AuthService {
     this._api = api('auth');
   }
 
-  async register(email, password) {
+  async register(email, password, name, gender, birthday, location) {
     try {
       let data = {
         email: email,
-        password: password
+        password: password,
+        name: name,
+        gender: gender,
+        birthday: birthday,
+        location: location,
       }
       return await this._api.post('/register', data);
     } catch (err) {

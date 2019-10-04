@@ -5,7 +5,7 @@ import {
   View,
   Alert,
 } from 'react-native';
-import {  
+import {
   Content,
   Form,
   Item,
@@ -13,8 +13,11 @@ import {
   Input,
   Button,
   Text,
+  Grid
 } from 'native-base';
 import { observer } from 'mobx-react';
+import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
+import { locations, gender, age } from '../constants/Items';
 import authService from '../services/auth'
 import authStore from './../stores/AuthStore';
 
@@ -24,14 +27,22 @@ export default class RegisterScreen extends Component {
     super(props);
     this._auth = authService;
     this.state = {
-      email: 'test@test.com',
-      password: 'string'
+      email: null,
+      password: 'password',
+      name: null,
+      gender: 'M',
+      location: 'seoul',
+      age: 1990,
     }
   }
 
   _signUpAsync = async () => {
-    try {
-      let res = await authStore.register(this.state.email, this.state.password);
+    try { 
+      let res = await authStore.register(
+        this.state.email, this.state.password,
+        this.state.name, this.state.gender,
+        new Date(`${this.state.age}-01-01`), this.state.location
+      );
       if (res.id) {
         res = await this._auth.login(this.state.email, this.state.password);
         await AsyncStorage.setItem('token', res.accessToken);
@@ -66,20 +77,73 @@ export default class RegisterScreen extends Component {
               <Item inlineLabel style={styles.formBoxItem}>
                 <Label>Password</Label>
                 <Input
+                  secureTextEntry={true}
                   onChangeText={(text) => this.setState({ password: text })}
                   value={this.state.password}
                 />
               </Item>
+              <Item inlineLabel style={styles.formBoxItem}>
+                <Label>Nickname</Label>
+                <Input
+                  onChangeText={(text) => this.setState({ name: text })}
+                  value={this.state.name}
+                />
+              </Item>
+              <Item inlineLabel style={styles.formBoxItem}>
+                <Label>Gender</Label>
+                <Grid>
+                  <RNPickerSelect
+                    placeholder={{}}
+                    items={gender}
+                    onValueChange={val => {
+                      this.setState({ gender: val })
+                    }}
+                    InputAccessoryView={() => null}
+                    style={pickerSelectStyles}
+                    value={this.state.gender}
+                  />
+                </Grid>
+              </Item>
+              <Item inlineLabel style={styles.formBoxItem}>
+                <Label>Age</Label>
+                <Grid>
+                  <RNPickerSelect
+                    // placeholder={{}}
+                    items={age}
+                    onValueChange={val => {
+                      this.setState({ age: val })
+                    }}
+                    InputAccessoryView={() => null}
+                    style={pickerSelectStyles}
+                    value={this.state.age}
+                  />
+                </Grid>
+              </Item>
+              <Item inlineLabel style={styles.formBoxItem}>
+                <Label>Location</Label>
+                <Grid>
+                  <RNPickerSelect
+                    // placeholder={{}}
+                    items={locations}
+                    onValueChange={val => {
+                      this.setState({ location: val })
+                    }}
+                    InputAccessoryView={() => null}
+                    style={pickerSelectStyles}
+                    value={this.state.location}
+                  />
+                </Grid>
+              </Item>
             </Form>
             <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
-              <Text>Sing up</Text>
+              <Text>Getting started</Text>
             </Button>
           </Content>
         </View>
         <View style={styles.bottomBox}>
           <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Text style={styles.bottomBoxText}>
-              이미 계정이 없으신가요?&nbsp;&nbsp;&nbsp;
+              이미 계정이 있으신가요?&nbsp;&nbsp;&nbsp;
             <Text onPress={() => this.props.navigation.navigate('SignIn')} style={styles.bottomBoxTextLink}>
                 로그인
             </Text>
@@ -101,7 +165,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#FA4971',
   },
   logoBox: {
-    flex: 1.2,
+    flex: 1.5,
   },
   content: {
     flexDirection: 'column',
@@ -122,7 +186,7 @@ const styles = StyleSheet.create({
     marginTop: -10
   },
   formBox: {
-    flex: 1,
+    flex: 1.5,
   },
   formBoxButton: {
     margin: 30
@@ -130,9 +194,10 @@ const styles = StyleSheet.create({
   formBoxItem: {
     marginLeft: 32,
     marginRight: 32,
+    height: 50
   },
   bottomBox: {
-    flex: 1,
+    flex: 0.5,
   },
   bottomBoxText: {
     flex: 1.5,
@@ -148,3 +213,15 @@ const styles = StyleSheet.create({
   },
 });
 
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+  },
+  inputAndroid: {
+    fontSize: 16,
+  },
+  iconContainer: {
+    top: 10,
+    right: 12,
+  },
+});

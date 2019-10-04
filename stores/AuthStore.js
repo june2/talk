@@ -10,8 +10,7 @@ class AuthStore {
   }
 
   @observable token = null;
-  @observable slider = [];  
-  @observable age = null;
+  @observable slider = [];    
   @observable me = {
     images: [],
     tabBadgeCount: 0
@@ -27,9 +26,9 @@ class AuthStore {
     });
   }
 
-  @action async register(email, password) {
+  @action async register(email, password, name, gender, birthday, location) {
     try {
-      this.me = await this._auth.register(email, password);
+      this.me = await this._auth.register(email, password, name, gender, birthday, location);
       return this.me;
     } catch (err) {
       // Alert.alert('Error', err.message)
@@ -51,8 +50,8 @@ class AuthStore {
   @action async uploadImage(uri) {
     try {
       let res = await this._user.uploadImage(uri);
-      this._updateSlider(res.images, res.name);
-      this.me = res;
+      this._updateSlider(res.images, res.name);      
+      this.me.images = res.images;
     } catch (err) {
       // Alert.alert('Error', err.message)
       throw err;

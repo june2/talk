@@ -16,6 +16,7 @@ import { observer } from 'mobx-react';
 import Slideshow from 'react-native-image-slider-show';
 import userStore from './../stores/UserStore';
 import authStore from '../stores/AuthStore';
+import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 
 @observer
@@ -98,8 +99,18 @@ export default class UserBox extends Component {
             <Grid>
               <Col>
                 <Text style={styles.containerTitleBoxName}>{userStore.user.name}</Text>
-                <Text style={styles.containerTitleBoxLocation}>
+                {/* <Text style={styles.containerTitleBoxLocation}>
                   {getAge(userStore.user.birthday)}   {userStore.user.location}
+                </Text> */}
+                <Text style={styles.containerTitleBoxLocation}>
+                  {getAge(userStore.user.birthday)}&nbsp;&nbsp;&nbsp;
+                  {getLocation(userStore.user.location)}&nbsp;&nbsp;&nbsp;
+                <Icon active name={
+                    userStore.user.gender === 'M' ? 'md-female' : 'md-male'
+                  } style={{
+                    ...styles.containerGenderIcon,
+                    color: userStore.user.gender === 'M' ? '#007aff' : 'red',
+                  }} />
                 </Text>
               </Col>
               <Col style={styles.containerTitleBoxButton}>
@@ -166,6 +177,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
+  containerGenderIcon: {
+    marginLeft: 15,
+    fontSize: 12,
+  },
   containerTitleBoxButtonIcon: {
     fontSize: 40,
     color: '#007aff',
@@ -188,7 +203,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: 'rgb(178, 181, 182)',
-  },  
+  },
   modalContainer: {
     flex: 1,
     alignItems: 'center',

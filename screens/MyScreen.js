@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import {
-  View, Alert,
+  View, 
   StyleSheet,
   Dimensions,
-  Platform
 } from 'react-native';
-import { Text, Thumbnail, Button, Icon, Left, Right, ListItem } from 'native-base';
+import { Text, Button, Icon, } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Slideshow from 'react-native-image-slider-show';
 import { observer } from 'mobx-react';
 import authStore from './../stores/AuthStore';
+import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 
 @observer
@@ -34,9 +34,18 @@ export default class MyScreen extends Component {
         <View style={styles.containerTitleBox}>
           <Grid>
             <Col>
-              <Text style={styles.containerTitleBoxName}>{authStore.me.name}</Text>
+              <Text style={styles.containerTitleBoxName}>
+                {authStore.me.name}
+              </Text>
               <Text style={styles.containerTitleBoxLocation}>
-                {getAge(authStore.me.birthday)}   {authStore.me.location}
+                {getAge(authStore.me.birthday)}&nbsp;&nbsp;&nbsp;
+                {getLocation(authStore.me.location)}&nbsp;&nbsp;&nbsp;
+                <Icon active name={
+                  authStore.me.gender === 'M' ? 'md-female' : 'md-male'
+                } style={{
+                  ...styles.containerGenderIcon,
+                  color: authStore.me.gender === 'M' ? '#007aff' : 'red',
+                }} />
               </Text>
             </Col>
             <Col style={styles.containerTitleBoxButton}>
@@ -98,6 +107,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
+  containerGenderIcon: {
+    marginLeft: 15,
+    fontSize: 12,
+  },
   containerTitleBoxButtonIcon: {
     fontSize: 40,
     color: '#007aff',
@@ -120,5 +133,5 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: 'rgb(178, 181, 182)',
-  },  
+  },
 });

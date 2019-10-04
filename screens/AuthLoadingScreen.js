@@ -28,7 +28,8 @@ export default class AuthLoadingScreen extends React.Component {
       authStore.updateLastLogin();
       this.props.navigation.navigate('Main');
     } else {
-      this.props.navigation.navigate('Auth');
+      // this.props.navigation.navigate('Auth');
+      this.props.navigation.navigate('Register');      
     }
   };
 

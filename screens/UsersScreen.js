@@ -7,10 +7,11 @@ import {
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,
-  Thumbnail, Text, Grid
+  Thumbnail, Text, Grid, Icon
 } from 'native-base';
 import { observer } from 'mobx-react';
 import { getLocation } from '../constants/Items';
+import { getAge } from './../components/Util';
 import config from '../constants/Config';
 import UserBox from '../components/UserBox';
 import userStore from '../stores/UserStore';
@@ -55,8 +56,16 @@ export default class UsersScreen extends Component {
         <Text>{item.name}</Text>
         <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} note>{item.intro}{"\n"}</Text>
       </Body>
-      <Right>
-        <Text note>{(item.gender === 'M') ? '남자' : '여자'}</Text>
+      <Right>        
+        <Text note>
+          <Icon active name={
+            item.gender === 'M' ? 'md-female' : 'md-male'
+          } style={{
+            ...styles.containerGenderIcon,
+            color: item.gender === 'M' ? '#007aff' : 'red',
+          }} />
+        </Text>
+        <Text note>{getAge(item.birthday)}</Text>
         <Text note>{getLocation(item.location)}</Text>
       </Right>
     </ListItem>
@@ -116,7 +125,7 @@ export default class UsersScreen extends Component {
           refreshing={this.state.refreshing}
           onRefresh={this._handleRefresh}
         />
-        
+
         <Grid></Grid>
         {/* <AdMobBanner
           style={styles.bottomBanner}
@@ -143,5 +152,8 @@ const styles = StyleSheet.create({
   bottomBanner: {
     position: "absolute",
     bottom: 0
+  },
+  containerGenderIcon: {
+    fontSize: 12,
   },
 });

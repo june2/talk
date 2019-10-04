@@ -11,6 +11,7 @@ import { observer } from 'mobx-react';
 import { ImagePicker, Permissions, Constants } from 'expo';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import { locations, gender, age } from '../constants/Items';
+import { getAge, getYear } from '../components/Util';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
 import userStore from './../stores/UserStore';
@@ -91,7 +92,7 @@ export default class SettingsScreen extends Component {
       authStore.me.location,
       authStore.me.intro,
       authStore.me.gender,
-      authStore.age
+      authStore.me.birthday
     );
     if (res.status === 200) this.props.navigation.navigate('My');
     else Alert.alert('Server error')
@@ -124,29 +125,29 @@ export default class SettingsScreen extends Component {
                 </Col>
                 <Col style={{ alignSelf: 'center' }}>
                   <TouchableHighlight onPress={() => this._action(1)} underlayColor="#ffffff00">
-                  <Thumbnail large source={{ uri: (authStore.me.images.length > 1) ? authStore.me.images[1] : null }} style={styles.ImageBox} />
+                    <Thumbnail large source={{ uri: (authStore.me.images.length > 1) ? authStore.me.images[1] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col style={{ alignSelf: 'center' }}>
                   <TouchableHighlight onPress={() => this._action(2)} underlayColor="#ffffff00">
-                  <Thumbnail large source={{ uri: (authStore.me.images.length > 2) ? authStore.me.images[2] : null }} style={styles.ImageBox} />
+                    <Thumbnail large source={{ uri: (authStore.me.images.length > 2) ? authStore.me.images[2] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
               </Grid>
               <Grid style={{ marginTop: 10 }}>
                 <Col>
                   <TouchableHighlight onPress={() => this._action(3)} underlayColor="#ffffff00">
-                  <Thumbnail large source={{ uri: (authStore.me.images.length > 3) ? authStore.me.images[3] : null }} style={styles.ImageBox} />
+                    <Thumbnail large source={{ uri: (authStore.me.images.length > 3) ? authStore.me.images[3] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col>
                   <TouchableHighlight onPress={() => this._action(4)} underlayColor="#ffffff00">
-                  <Thumbnail large source={{ uri: (authStore.me.images.length > 4) ? authStore.me.images[4] : null }} style={styles.ImageBox} />
+                    <Thumbnail large source={{ uri: (authStore.me.images.length > 4) ? authStore.me.images[4] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
                 <Col>
                   <TouchableHighlight onPress={() => this._action(5)} underlayColor="#ffffff00">
-                  <Thumbnail large source={{ uri: (authStore.me.images.length > 5) ? authStore.me.images[5] : null }} style={styles.ImageBox} />
+                    <Thumbnail large source={{ uri: (authStore.me.images.length > 5) ? authStore.me.images[5] : null }} style={styles.ImageBox} />
                   </TouchableHighlight>
                 </Col>
               </Grid>
@@ -208,11 +209,11 @@ export default class SettingsScreen extends Component {
                 placeholder={{}}
                 items={age}
                 onValueChange={val => {
-                  authStore.age = val
+                  authStore.me.birthday = new Date(`${val}-01-01`);
                 }}
                 InputAccessoryView={() => null}
                 style={pickerSelectStyles}
-                value={authStore.age}
+                value={getYear(authStore.me.birthday)}
               />
             </Body>
           </ListItem>
@@ -289,6 +290,7 @@ const styles = StyleSheet.create({
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 16,
+    height: 40
   },
   inputAndroid: {
     fontSize: 16,

@@ -26,8 +26,8 @@ export default class LoginScreen extends Component {
     super(props);
     this._auth = authService;
     this.state = {
-      email: 'test123@test.com',
-      password: 'string'
+      email: null,
+      password: 'password',
     }
   }
 

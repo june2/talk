@@ -42,12 +42,12 @@ class UserStore {
     }
   }
 
-  @action async updateUser(name, location, intro, gender, age) {
+  @action async updateUser(name, location, intro, gender, birthday) {
     try {
       return this.users = await this._user.updateMe(
         name, location,
         intro, gender,
-        new Date(`${age}-01-01`));
+        birthday);
     } catch (err) {
       // Alert.alert('Error', err.message)
     }
