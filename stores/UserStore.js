@@ -12,6 +12,7 @@ class UserStore {
   @observable slider = [];
   @observable users = [];
   @observable token = null;
+  @observable isChat = false;
 
   _updateSlider(images, name) {
     this.slider = [];
@@ -24,10 +25,11 @@ class UserStore {
     });
   }
 
-  @action async setUser(user) {
+  @action async setUser(user, isChat = false) {
     try {
       this._updateSlider(user.images, user.name);
       this.user = user;
+      this.isChat = isChat;
     } catch (err) {
       // Alert.alert('Error', err.message)
     }

@@ -2,7 +2,8 @@ import moment from 'moment';
 
 export const dateConvert = (date) => {
   let diff = moment().diff(moment(date), 'minutes');
-  return diff + ' 분전';
+  if (diff < 1) return 'now';
+  else return diff + ' 분전';
 }
 
 // Get ages array
@@ -25,7 +26,7 @@ export const getAge = (date) => {
   let now = moment().year();
   let year = moment(date).year();
   let age = now - year;
-  return Number.isInteger(age) ? age : null;  
+  return Number.isInteger(age) ? age : null;
 }
 
 // Get year

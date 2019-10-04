@@ -40,7 +40,7 @@ export default class UsersScreen extends Component {
   }
 
   _handleClick(user) {
-    userStore.setUser(user);
+    userStore.setUser(user, false);
     this.setState({ userId: user.id });
     this.setModalVisible(true);
   }

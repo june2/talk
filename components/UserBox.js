@@ -113,7 +113,10 @@ export default class UserBox extends Component {
                   }} />
                 </Text>
               </Col>
-              <Col style={styles.containerTitleBoxButton}>
+              <Col style={{
+                ...styles.containerTitleBoxButton,
+                display: userStore.isChat ? 'none' : 'block'
+              }}>
                 <Button block transparent style={{ height: 55 }} onPress={() => this._setModalVisible(true)}>
                   <Icon active name='ios-chatboxes' style={styles.containerTitleBoxButtonIcon} />
                 </Button>

@@ -67,14 +67,15 @@ class RoomStore {
   @action updateValue(lastMsg) {
     let obj = this.list[this.roomIndex];
     obj.lastMsg = lastMsg;
+    obj.updatedAt = new Date();
     this.list.splice(this.roomIndex, 1);
     this.list = [obj, ...this.list];
   }
 
-  @action setValue(id, index, name, userId, count) {    
-    this.roomId = id; 
+  @action setValue(id, index, name, userId, count) {
+    this.roomId = id;
     this.roomIndex = index;
-    this.roomName = name; 
+    this.roomName = name;
     this.roomUserId = userId;
     this.list[this.roomIndex].count -= count;
   }
