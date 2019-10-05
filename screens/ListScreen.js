@@ -9,11 +9,11 @@ import {
   ListItem, Left, Body, Right,
   Thumbnail, Text
 } from 'native-base';
+// import UserBox from '../components/UserBox';
 import { observer, Observer } from 'mobx-react';
 import BadgeIcon from '../components/Badge';
 import { dateConvert } from '../components/Util';
 import config from '../constants/Config';
-import UserBox from '../components/UserBox';
 import userStore from '../stores/UserStore';
 import roomStore from './../stores/RoomStore';
 import authStore from './../stores/AuthStore';
@@ -51,7 +51,8 @@ export default class ListScreen extends Component {
   _openModal(user) {
     userStore.setUser(user, true);
     this.setState({ userId: user.id });
-    this.setModalVisible(true);
+    // this.setModalVisible(true);
+    this.props.navigation.navigate('User');
   }
 
   _renderItem = (item, i) => {
@@ -108,8 +109,8 @@ export default class ListScreen extends Component {
 
   render() {
     return (
-      <View >
-        <Modal
+      <View style={styles.container} >
+        {/* <Modal
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
@@ -119,7 +120,7 @@ export default class ListScreen extends Component {
           <View style={{ flex: 1 }}>
             <UserBox closeModal={(visible) => this.setModalVisible(visible)} sendMsg={(msg) => this.sendMsg(msg)} />
           </View>
-        </Modal>
+        </Modal> */}
 
         <FlatList
           data={roomStore.list}
@@ -130,6 +131,7 @@ export default class ListScreen extends Component {
           refreshing={this.state.refreshing}
           onRefresh={this._handleRefresh}
           extraData={[this.state, this.props]}
+          style={styles.flatList}
         />
       </View>
     );
@@ -137,12 +139,18 @@ export default class ListScreen extends Component {
 }
 
 ListScreen.navigationOptions = {
-  title: 'Chat',
+  // title: 'Chat',
   // header: null,
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   introBox: {
     height: 34
+  },
+  flatList: {
+    flexGrow: 1
   }
 });

@@ -26,7 +26,7 @@ export default class LoginScreen extends Component {
     super(props);
     this._auth = authService;
     this.state = {
-      email: null,
+      email: 'Kimjy4536@hotmail.com',
       password: 'password',
     }
   }
@@ -68,6 +68,7 @@ export default class LoginScreen extends Component {
               <Item inlineLabel style={styles.formBoxItem}>
                 <Label>Password</Label>
                 <Input
+                secureTextEntry={true}
                   onChangeText={(text) => this.setState({ password: text })}
                   value={this.state.password}
                 />

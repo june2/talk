@@ -18,9 +18,31 @@ import userStore from './../stores/UserStore';
 import authStore from '../stores/AuthStore';
 import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
+import Carousel from '../components/Carousel';
 
 @observer
-export default class UserBox extends Component {
+export default class UserScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: userStore.user.name,
+      navigatorStyle: {
+        navBarHidden: false,
+      },
+      headerLeft: (
+        <Icon name='md-arrow-round-back'
+          style={{
+            fontSize: 30,
+            fontWeight: 600,
+            color: 'rgba(0, 0, 0, .9)',
+            marginHorizontal: 16,
+            textAlign: 'center',
+          }}
+          onPress={() => navigation.navigate('Users')}
+        />
+      ),
+    }
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -56,81 +78,74 @@ export default class UserBox extends Component {
       //   numberOfPointers={0}
       //   onHandlerStateChange={() => this._test()}>
       //     {/* onHandlerStateChange={() => this.props.closeModal(false)}> */}
-        <View style={styles.container}>
-          <Modal
-            animationType='fade'
-            transparent={true}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-              if (this.state.isSent) this.props.closeModal(false);
-            }}
-            onDismiss={() => {
-              if (this.state.isSent) this.props.closeModal(false);
-            }}            
-            // onBackdropPress={() => this.setState({ isVisible: false })
-          >
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContainerTransparentStyle}>
-                <Textarea rowSpan={5} placeholder="메시지를 보내세요!" style={styles.modalButton} onChangeText={(text) => this.setState({ text })} />
-                <Grid>
-                  <Col style={styles.modalButton}>
-                    <Button block title="send" onPress={() => this._sendMsg()} >
-                      <Text>보내기</Text>
-                    </Button>
-                  </Col>
-                  <Col style={styles.modalButton}>
-                    <Button block title="cancel" onPress={() => this._setModalVisible(false)} >
-                      <Text>취소</Text>
-                    </Button>
-                  </Col>
-                </Grid>
-              </View>
+      <View style={styles.container}>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            if (this.state.isSent) this.props.closeModal(false);
+          }}
+          onDismiss={() => {
+            if (this.state.isSent) this.props.closeModal(false);
+          }}
+        // onBackdropPress={() => this.setState({ isVisible: false })
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContainerTransparentStyle}>
+              <Textarea rowSpan={5} placeholder="메시지를 보내세요!" style={styles.modalButton} onChangeText={(text) => this.setState({ text })} />
+              <Grid>
+                <Col style={styles.modalButton}>
+                  <Button block title="send" onPress={() => this._sendMsg()} >
+                    <Text>보내기</Text>
+                  </Button>
+                </Col>
+                <Col style={styles.modalButton}>
+                  <Button block title="cancel" onPress={() => this._setModalVisible(false)} >
+                    <Text>취소</Text>
+                  </Button>
+                </Col>
+              </Grid>
             </View>
-          </Modal>
-          <View style={styles.containerImgBox}>
-            <Slideshow
-              height={this.state.screenHeight / 1.5}
-              titleStyle={styles.containerImgTitle}
-              containerStyle={styles.containerImg}
-              dataSource={userStore.slider} />
-            <TouchableHighlight onPress={() => this.props.closeModal(false)} style={styles.containerCloseBox}>
-              <Icon active name='ios-close' style={styles.containerCloseBoxButton} />
-            </TouchableHighlight>
           </View>
-          <View style={styles.containerTitleBox}>
-            <Grid>
-              <Col>
-                <Text style={styles.containerTitleBoxName}>{userStore.user.name}</Text>
-                {/* <Text style={styles.containerTitleBoxLocation}>
+        </Modal>
+        <View style={styles.containerImgBox}>
+          <Carousel />
+        </View>
+        <View style={styles.containerTitleBox}>
+          <Grid>
+            <Col>
+              <Text style={styles.containerTitleBoxName}>{userStore.user.name}</Text>
+              {/* <Text style={styles.containerTitleBoxLocation}>
                   {getAge(userStore.user.birthday)}   {userStore.user.location}
                 </Text> */}
-                <Text style={styles.containerTitleBoxLocation}>
-                  {getAge(userStore.user.birthday)}&nbsp;&nbsp;&nbsp;
+              <Text style={styles.containerTitleBoxLocation}>
+                {getAge(userStore.user.birthday)}&nbsp;&nbsp;&nbsp;
                   {getLocation(userStore.user.location)}&nbsp;&nbsp;&nbsp;
                 <Icon active name={
-                    userStore.user.gender === 'M' ? 'md-female' : 'md-male'
-                  } style={{
-                    ...styles.containerGenderIcon,
-                    color: userStore.user.gender === 'M' ? '#007aff' : 'red',
-                  }} />
-                </Text>
-              </Col>
-              <Col style={{
-                ...styles.containerTitleBoxButton,
-                display: userStore.isChat ? 'none' : 'block'
-              }}>
-                <Button block transparent style={{ height: 55 }} onPress={() => this._setModalVisible(true)}>
-                  <Icon active name='ios-chatboxes' style={styles.containerTitleBoxButtonIcon} />
-                </Button>
-              </Col>
-            </Grid>
-          </View>
-          <View style={styles.containerTextBox}>
-            <Text style={styles.containerText}>
-              {userStore.user.intro}
-            </Text>
-          </View>
+                  userStore.user.gender === 'M' ? 'md-female' : 'md-male'
+                } style={{
+                  ...styles.containerGenderIcon,
+                  color: userStore.user.gender === 'M' ? '#007aff' : 'red',
+                }} />
+              </Text>
+            </Col>
+            <Col style={{
+              ...styles.containerTitleBoxButton,
+              display: userStore.isChat ? 'none' : 'block'
+            }}>
+              <Button block transparent style={{ height: 55 }} onPress={() => this._setModalVisible(true)}>
+                <Icon active name='ios-chatboxes' style={styles.containerTitleBoxButtonIcon} />
+              </Button>
+            </Col>
+          </Grid>
         </View>
+        <View style={styles.containerTextBox}>
+          <Text style={styles.containerText}>
+            {userStore.user.intro}
+          </Text>
+        </View>
+      </View>
       // </FlingGestureHandler>
     );
   }
@@ -201,7 +216,7 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   containerTextBox: {
-    flex: 1,    
+    flex: 1,
     backgroundColor: '#fff',
   },
   containerText: {

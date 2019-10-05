@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { AdMobBanner } from 'expo-ads-admob'
 import {
   FlatList,
-  Modal, View, Alert,
+  View, Alert,
   StyleSheet,
 } from 'react-native';
+// import Modal from "react-native-modal";
+// import Modal from "react-native-modalbox";
 import {
   ListItem, Left, Body, Right,
   Thumbnail, Text, Grid, Icon
@@ -42,7 +44,8 @@ export default class UsersScreen extends Component {
   _handleClick(user) {
     userStore.setUser(user, false);
     this.setState({ userId: user.id });
-    this.setModalVisible(true);
+    // this.setModalVisible(true);
+    this.props.navigation.navigate('User');
   }
 
   _renderItem = ({ item }, i) => (
@@ -56,7 +59,7 @@ export default class UsersScreen extends Component {
         <Text>{item.name}</Text>
         <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} note>{item.intro}{"\n"}</Text>
       </Body>
-      <Right>        
+      <Right>
         <Text note>
           <Icon active name={
             item.gender === 'M' ? 'md-female' : 'md-male'
@@ -103,18 +106,34 @@ export default class UsersScreen extends Component {
 
   render() {
     return (
-      <View >
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}>
+      <View style={styles.container} >
+        {/* <Modal
+          isVisible={this.state.modalVisible}
+          onSwipeComplete={(obj) => {
+            if (obj.swipingDirection === 'down') return this.setModalVisible(false);
+          }}
+          scrollHorizontal={true}
+          swipeDirection={['down']}
+          // swipeDirection={['right', 'left', 'down']}
+          // useNativeDriver={true}
+          style={{
+            flex: 1,
+            margin: 0
+          }}
+        > */}
+        {/* <Modal          
+          coverScreen={true}
+          swipeToClose={true}
+          // swipeArea={1} // The height in pixels of the swipeable area, window height by default
+          swipeThreshold={10} // The threshold to reach in pixels to close the modal
+          isOpen={this.state.modalVisible}
+          onClosed={() => this.setModalVisible(false)}          
+          useNativeDriver={false}
+        >
           <View style={{ flex: 1 }}>
             <UserBox closeModal={(visible) => this.setModalVisible(visible)} sendMsg={(msg) => this.sendMsg(msg)} />
           </View>
-        </Modal>
+        </Modal> */}
 
         <FlatList
           data={this.state.data}
@@ -124,6 +143,7 @@ export default class UsersScreen extends Component {
           onEndReachedThreshold={0.01}
           refreshing={this.state.refreshing}
           onRefresh={this._handleRefresh}
+          style={styles.flatList}
         />
 
         <Grid></Grid>
@@ -141,11 +161,14 @@ export default class UsersScreen extends Component {
 }
 
 UsersScreen.navigationOptions = {
-  title: 'USERS',
+  // title: 'USERS',
   // header: null,
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   introBox: {
     height: 34
   },
@@ -156,4 +179,7 @@ const styles = StyleSheet.create({
   containerGenderIcon: {
     fontSize: 12,
   },
+  flatList: {
+    flexGrow: 1
+  }
 });
