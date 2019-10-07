@@ -13,9 +13,9 @@ import {
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Textarea, Text, Button, Icon, } from 'native-base';
 import { observer } from 'mobx-react';
-import Slideshow from 'react-native-image-slider-show';
 import userStore from './../stores/UserStore';
 import authStore from '../stores/AuthStore';
+import roomStore from '../stores/RoomStore';
 import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 import Carousel from '../components/Carousel';
@@ -57,7 +57,7 @@ export default class UserScreen extends Component {
     this.setState({ modalVisible: visible });
   }
 
-  _sendMsg() {
+  _sendMsg = async () => {
     if (!authStore.me.point || authStore.me.point < 50) {
       return Alert.alert('포인트가 부족합니다.');
     }
@@ -67,28 +67,26 @@ export default class UserScreen extends Component {
     // 차감
     authStore.me.point -= 50;
     this.setState({ isSent: true });
-    this.props.sendMsg(this.state.text);
+    let room = await roomStore.createRoom(userStore.user.id, this.state.text);    
+    roomStore.getRooms();
+    roomStore.setValue(room.id, 0, userStore.user.name, userStore.user.userId);
     this._setModalVisible(false);
+    this.props.navigation.navigate('Chat');
   }
 
   render() {
     return (
-      // <FlingGestureHandler
-      //   direction={Directions.DOWN}
-      //   numberOfPointers={0}
-      //   onHandlerStateChange={() => this._test()}>
-      //     {/* onHandlerStateChange={() => this.props.closeModal(false)}> */}
       <View style={styles.container}>
         <Modal
           animationType='fade'
           transparent={true}
           visible={this.state.modalVisible}
-          onRequestClose={() => {
-            if (this.state.isSent) this.props.closeModal(false);
-          }}
-          onDismiss={() => {
-            if (this.state.isSent) this.props.closeModal(false);
-          }}
+        // onRequestClose={() => {
+        //   if (this.state.isSent) this.props.closeModal(false);
+        // }}
+        // onDismiss={() => {
+        //   if (this.state.isSent) this.props.closeModal(false);
+        // }}
         // onBackdropPress={() => this.setState({ isVisible: false })
         >
           <View style={styles.modalContainer}>
@@ -110,7 +108,7 @@ export default class UserScreen extends Component {
           </View>
         </Modal>
         <View style={styles.containerImgBox}>
-          <Carousel />
+          <Carousel images={userStore.user.images} />
         </View>
         <View style={styles.containerTitleBox}>
           <Grid>
@@ -146,7 +144,6 @@ export default class UserScreen extends Component {
           </Text>
         </View>
       </View>
-      // </FlingGestureHandler>
     );
   }
 }

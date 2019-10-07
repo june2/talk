@@ -77,7 +77,7 @@ class RoomStore {
     this.roomIndex = index;
     this.roomName = name;
     this.roomUserId = userId;
-    this.list[this.roomIndex].count -= count;
+    if (count) this.list[this.roomIndex].count -= count;
   }
 }
 

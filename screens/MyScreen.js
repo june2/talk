@@ -6,11 +6,11 @@ import {
 } from 'react-native';
 import { Text, Button, Icon, } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import Slideshow from 'react-native-image-slider-show';
 import { observer } from 'mobx-react';
 import authStore from './../stores/AuthStore';
 import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
+import Carousel  from '../components/Carousel';
 
 @observer
 export default class MyScreen extends Component {
@@ -24,12 +24,8 @@ export default class MyScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.containerImgBox}>
-          <Slideshow
-            height={this.state.screenHeight / 1.5}
-            titleStyle={styles.containerImgTitle}
-            containerStyle={styles.containerImg}
-            dataSource={authStore.slider} />
+        <View style={styles.containerImgBox}>          
+          <Carousel images={authStore.me.images} />
         </View>
         <View style={styles.containerTitleBox}>
           <Grid>

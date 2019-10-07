@@ -46,8 +46,8 @@ export default class SettingsScreen extends Component {
   }
 
   _action = async (index) => {
-    console.log(authStore.me.images[index])
-    if (authStore.me.images[index] == null) this._pickImage();
+    // if (authStore.me.images[index] == null) this._pickImage();
+    if (index >= authStore.me.images.length) this._pickImage();
     else this._openActionSheet(index);
   };
 

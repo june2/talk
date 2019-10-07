@@ -20,8 +20,7 @@ export default class CarouselScreen extends Component {
   render() {
     let imageArray = []
     let barArray = []
-    images.forEach((image, i) => {
-      console.log(image, i)
+    images.forEach((image, i) => {      
       const thisImage = (
         <Image
           key={`image${i}`}

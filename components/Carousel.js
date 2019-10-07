@@ -1,23 +1,22 @@
 import React, { Component } from 'react'
 import { Animated, View, StyleSheet, Image, Dimensions, ScrollView } from 'react-native'
 import { observer } from 'mobx-react';
-import userStore from './../stores/UserStore';
 
 const deviceWidth = Dimensions.get('window').width
-const FIXED_BAR_WIDTH = 280
+const FIXED_BAR_WIDTH = 30
 const BAR_SPACE = 10
 
 @observer
 export default class CarouselScreen extends Component {
-
-  numItems = userStore.user.images.length
-  itemWidth = (FIXED_BAR_WIDTH / this.numItems) - ((this.numItems - 1) * BAR_SPACE)
+  numItems = this.props.images.length;
+  // itemWidth = (FIXED_BAR_WIDTH / this.numItems) - ((this.numItems - 1) * BAR_SPACE)  
+  itemWidth = FIXED_BAR_WIDTH;
   animVal = new Animated.Value(0)
 
   render() {
     let imageArray = []
     let barArray = []
-    userStore.user.images.forEach((image, i) => {
+    this.props.images.forEach((image, i) => {
       const thisImage = (
         <Image
           key={`image${i}`}
@@ -93,10 +92,10 @@ const styles = StyleSheet.create({
   barContainer: {
     position: 'absolute',
     zIndex: 2,
-    top: 10,
+    bottom: 10,
     flexDirection: 'row',
   },
-  track: {
+  track: {    
     backgroundColor: '#ccc',
     overflow: 'hidden',
     height: 2,

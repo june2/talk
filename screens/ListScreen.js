@@ -62,7 +62,7 @@ export default class ListScreen extends Component {
           <TouchableOpacity key={item.id} onPress={() => this._openModal(item.user)}>
             <Thumbnail
               source={{
-                uri: item.user.images.length !== 0 ? item.user.images[0] : config.defaultUserImg
+                uri: (item.user && item.user.images.length !== 0) ? item.user.images[0] : config.defaultUserImg
               }} />
           </TouchableOpacity>
         </Left>

@@ -9,22 +9,11 @@ class AuthStore {
     this._user = userService;
   }
 
-  @observable token = null;
-  @observable slider = [];    
+  @observable token = null;  
   @observable me = {
     images: [],
     tabBadgeCount: 0
   };
-
-  _updateSlider(images, name) {
-    this.slider = [];
-    images.forEach((obj, i) => {
-      this.slider.push({
-        url: obj,
-        // title: (i === 0) ? name : '',
-      })
-    });
-  }
 
   @action async register(email, password, name, gender, birthday, location) {
     try {
@@ -38,8 +27,7 @@ class AuthStore {
 
   @action async getMe() {
     try {
-      let res = await this._auth.me();
-      this._updateSlider(res.images, res.name);
+      let res = await this._auth.me();      
       this.me = res;
       return this.me;
     } catch (err) {
@@ -49,9 +37,8 @@ class AuthStore {
 
   @action async uploadImage(uri) {
     try {
-      let res = await this._user.uploadImage(uri);
-      this._updateSlider(res.images, res.name);      
-      this.me.images = res.images;
+      let res = await this._user.uploadImage(uri);      
+      this.me.images = res.images;           
     } catch (err) {
       // Alert.alert('Error', err.message)
       throw err;
@@ -61,8 +48,7 @@ class AuthStore {
   @action async deleteImage(index) {
     try {
       this.me.images.splice(index, 1);
-      let res = await this._user.deleteImage(this.me.images);      
-      this._updateSlider(res.data.images, res.data.name);
+      let res = await this._user.deleteImage(this.me.images); 
       this.me = res.data;
     } catch (err) {
       // Alert.alert('Error', err.message)

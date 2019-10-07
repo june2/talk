@@ -37,7 +37,7 @@ export default class RegisterScreen extends Component {
   }
 
   _signUpAsync = async () => {
-    try { 
+    try {
       let res = await authStore.register(
         this.state.email, this.state.password,
         this.state.name, this.state.gender,
@@ -58,6 +58,8 @@ export default class RegisterScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.logoBox}>
+          <Grid></Grid>
+          <Grid></Grid>
           <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Text style={styles.logoBoxTitle}>TALK</Text>
             <Text style={styles.logoBoxSub}>TALK TALK</Text>
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#FA4971',
   },
   logoBox: {
-    flex: 1.5,
+    flex: 1,
   },
   content: {
     flexDirection: 'column',
@@ -186,7 +188,7 @@ const styles = StyleSheet.create({
     marginTop: -10
   },
   formBox: {
-    flex: 1.5,
+    flex: 3,
   },
   formBoxButton: {
     margin: 30
@@ -197,7 +199,7 @@ const styles = StyleSheet.create({
     height: 50
   },
   bottomBox: {
-    flex: 0.5,
+    flex: 1,
   },
   bottomBoxText: {
     flex: 1.5,
