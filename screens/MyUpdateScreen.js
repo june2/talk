@@ -5,7 +5,9 @@ import {
 } from 'native-base';
 import {
   StyleSheet, Dimensions,
-  Alert, TouchableHighlight
+  Alert, TouchableHighlight,
+  Modal,
+  View
 } from 'react-native';
 import { observer } from 'mobx-react';
 import { ImagePicker, Permissions, Constants } from 'expo';
@@ -43,6 +45,9 @@ export default class SettingsScreen extends Component {
   constructor(props) {
     super(props);
     this._user = userService;
+    this.state = {
+      isLoading: false
+    }
   }
 
   _action = async (index) => {
@@ -52,13 +57,20 @@ export default class SettingsScreen extends Component {
   };
 
   _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [3, 4],
-    });
-    if (!result.cancelled) {
-      authStore.uploadImage(result.uri);
+    try { 
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [3, 4],
+      });
+      if (!result.cancelled) {
+        this.setState({ isLoading: true });
+        await authStore.uploadImage(result.uri);
+        this.setState({ isLoading: false });
+      }
+    } catch (err) {
+      this.setState({ isLoading: false });
+      Alert.alert('Server error');
     }
   };
 
@@ -95,7 +107,7 @@ export default class SettingsScreen extends Component {
       authStore.me.birthday
     );
     if (res.status === 200) this.props.navigation.navigate('My');
-    else Alert.alert('Server error')
+    else Alert.alert('Server error');
   }
 
   componentDidMount() {
@@ -114,6 +126,17 @@ export default class SettingsScreen extends Component {
   render() {
     return (
       <Container>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.isLoading}
+          onRequestClose={() => {
+            // Alert.alert('Modal has been closed.');
+          }}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+
+          </View>
+        </Modal>
         <Content>
           <ListItem>
             <Body>

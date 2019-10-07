@@ -38,7 +38,8 @@ class AuthStore {
   @action async uploadImage(uri) {
     try {
       let res = await this._user.uploadImage(uri);      
-      this.me.images = res.images;           
+      this.me.images = res.images;   
+      return res.images;         
     } catch (err) {
       // Alert.alert('Error', err.message)
       throw err;

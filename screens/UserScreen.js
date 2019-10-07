@@ -37,7 +37,7 @@ export default class UserScreen extends Component {
             marginHorizontal: 16,
             textAlign: 'center',
           }}
-          onPress={() => navigation.navigate('Users')}
+          onPress={() => navigation.goBack()}
         />
       ),
     }

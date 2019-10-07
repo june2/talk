@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Container, Content, ListItem, Separator,
-  Button, Text, Icon, Left, Right, Body,
+  Button, Text, Icon, Left, Right, Body, Switch
 } from 'native-base';
 import {
   AsyncStorage,
@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { observer } from 'mobx-react';
+import { AdMobBanner } from 'expo-ads-admob'
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
 
@@ -25,6 +26,11 @@ export default class SettingsScreen extends Component {
     else Alert.alert('Server error')
   }
 
+  _change = (evt) => {
+    authStore.me.isActivePush = evt;
+    //TODO: save api 
+  }
+
   _logOut = async () => {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Auth');
@@ -38,6 +44,7 @@ export default class SettingsScreen extends Component {
     return (
       <Container>
         <Content>
+          {/* ID */}
           <Separator bordered>
             <Text>ID</Text>
           </Separator>
@@ -51,14 +58,16 @@ export default class SettingsScreen extends Component {
               <Text>{authStore.me.id}</Text>
             </Body>
           </ListItem>
+          {/* email */}
           <Separator bordered>
             <Text>E-mail</Text>
           </Separator>
-          <ListItem icon last>            
+          <ListItem icon last>
             <Body>
               <Text>{authStore.me.email}</Text>
             </Body>
           </ListItem>
+          {/* point */}
           <Separator bordered>
             <Text>Point</Text>
           </Separator>
@@ -70,6 +79,15 @@ export default class SettingsScreen extends Component {
             </Left> */}
             <Body>
               <Text>{authStore.me.point}</Text>
+            </Body>
+          </ListItem>
+          {/* push */}
+          <Separator bordered>
+            <Text>Push</Text>
+          </Separator>
+          <ListItem icon last>
+            <Body>
+              <Switch value={authStore.me.isActivePush} onValueChange={(evt) => this._change(evt)} />
             </Body>
           </ListItem>
           <Separator bordered>
@@ -96,6 +114,15 @@ export default class SettingsScreen extends Component {
             <Text>로그아웃</Text>
           </Button>
         </Content>
+        <AdMobBanner
+          style={styles.bottomBanner}
+          bannerSize="fullBanner"
+          adUnitID="ca-app-pub-3940256099942544/6300978111"
+          // Test ID, Replace with your-admob-unit-id
+          testDeviceID="EMULATOR"
+          onDidFailToReceiveAdWithError={(err) => console.log(err)}
+          onAdMobDispatchAppEvent={(evt) => console.log(evt)}
+        />
       </Container>
     );
   }
@@ -113,6 +140,11 @@ const styles = StyleSheet.create({
   },
   formBoxButton: {
     margin: 30
+  },
+  bottomBanner: {
+    position: "absolute",
+    bottom: 0,
+    zIndex: 2,
   },
 });
 

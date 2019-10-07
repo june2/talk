@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Animated, View, StyleSheet, Image, Dimensions, ScrollView } from 'react-native'
 import { observer } from 'mobx-react';
+import config from '../constants/Config';
 
 const deviceWidth = Dimensions.get('window').width
 const FIXED_BAR_WIDTH = 30
@@ -24,7 +25,7 @@ export default class CarouselScreen extends Component {
           style={{ width: deviceWidth }}
         />
       )
-      imageArray.push(thisImage)
+      imageArray.push(thisImage);
 
       const scrollBarVal = this.animVal.interpolate({
         inputRange: [deviceWidth * (i - 1), deviceWidth * (i + 1)],
@@ -58,6 +59,15 @@ export default class CarouselScreen extends Component {
       )
       barArray.push(thisBar)
     })
+
+    // if image empty 
+    if (imageArray.length === 0) {
+      imageArray.push(<Image
+        key='0'
+        source={{ uri: config.defaultUserImg }}
+        style={{ width: deviceWidth }}
+      />);
+    }
 
     return (
       <View style={styles.container}>
@@ -95,7 +105,7 @@ const styles = StyleSheet.create({
     bottom: 10,
     flexDirection: 'row',
   },
-  track: {    
+  track: {
     backgroundColor: '#ccc',
     overflow: 'hidden',
     height: 2,

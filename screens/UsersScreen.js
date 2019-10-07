@@ -107,6 +107,17 @@ export default class UsersScreen extends Component {
   render() {
     return (
       <View style={styles.container} >
+        <View>
+          <AdMobBanner
+            style={styles.bottomBanner}
+            bannerSize="fullBanner"
+            adUnitID="ca-app-pub-3940256099942544/6300978111"
+            // Test ID, Replace with your-admob-unit-id
+            testDeviceID="EMULATOR"
+            onDidFailToReceiveAdWithError={(err) => console.log(err)}
+            onAdMobDispatchAppEvent={(evt) => console.log(evt)}
+          />
+        </View>
         {/* <Modal
           isVisible={this.state.modalVisible}
           onSwipeComplete={(obj) => {
@@ -134,27 +145,18 @@ export default class UsersScreen extends Component {
             <UserBox closeModal={(visible) => this.setModalVisible(visible)} sendMsg={(msg) => this.sendMsg(msg)} />
           </View>
         </Modal> */}
-
-        <FlatList
-          data={this.state.data}
-          renderItem={this._renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          onEndReached={this._handleLoadMore}
-          onEndReachedThreshold={0.01}
-          refreshing={this.state.refreshing}
-          onRefresh={this._handleRefresh}
-          style={styles.flatList}
-        />
-
-        <Grid></Grid>
-        {/* <AdMobBanner
-          style={styles.bottomBanner}
-          bannerSize="fullBanner"
-          adUnitID="ca-app-pub-3940256099942544/6300978111"
-          // Test ID, Replace with your-admob-unit-id
-          testDeviceID="EMULATOR"
-          didFailToReceiveAdWithError={this.bannerError}
-        /> */}
+        <View style={{ paddingBottom: 60 }}>
+          <FlatList
+            data={this.state.data}
+            renderItem={this._renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            onEndReached={this._handleLoadMore}
+            onEndReachedThreshold={0.01}
+            refreshing={this.state.refreshing}
+            onRefresh={this._handleRefresh}
+            style={styles.flatList}
+          />
+        </View>
       </View>
     );
   }
@@ -174,12 +176,14 @@ const styles = StyleSheet.create({
   },
   bottomBanner: {
     position: "absolute",
-    bottom: 0
+    top: 0,
+    zIndex: 2,
   },
   containerGenderIcon: {
     fontSize: 12,
   },
   flatList: {
-    flexGrow: 1
+    flexGrow: 1,
+    top: 60,
   }
 });

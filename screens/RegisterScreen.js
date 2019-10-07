@@ -57,14 +57,14 @@ export default class RegisterScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.logoBox}>
+        {/* <View style={styles.logoBox}>
           <Grid></Grid>
           <Grid></Grid>
           <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Text style={styles.logoBoxTitle}>TALK</Text>
             <Text style={styles.logoBoxSub}>TALK TALK</Text>
           </Content>
-        </View>
+        </View> */}
         <View style={styles.formBox}>
           <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Form style={{ margin: 0 }}>
