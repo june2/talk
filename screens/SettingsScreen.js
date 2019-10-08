@@ -20,15 +20,12 @@ export default class SettingsScreen extends Component {
     this._user = userService;
   }
 
-  _save = async () => {
-    let res = await userService.updateMe(authStore.me.name, authStore.me.locaiton, authStore.me.intro);
-    if (res.status === 200) this.props.navigation.navigate('My');
-    else Alert.alert('Server error')
-  }
-
   _change = (evt) => {
     authStore.me.isActivePush = evt;
-    //TODO: save api 
+    let data = {
+      isActivePush: evt
+    }
+    authStore.updateMe(data);
   }
 
   _showAlert = () => {
@@ -46,20 +43,26 @@ export default class SettingsScreen extends Component {
     );
   }
 
-  _logOut = async () => {    
-    //TODO: 게정 탈퇴
-    await AsyncStorage.clear();    
+  _logOut = async () => {
+    // 게정 탈퇴
+    authStore.leave();
+    await AsyncStorage.clear();
     this.props.navigation.navigate('Register');
-  }
-
-  componentDidMount() {
-
   }
 
   render() {
     return (
       <Container>
-        <Content>
+        <AdMobBanner
+          style={styles.bottomBanner}
+          bannerSize="fullBanner"
+          adUnitID="ca-app-pub-3940256099942544/6300978111"
+          // Test ID, Replace with your-admob-unit-id
+          testDeviceID="EMULATOR"
+          onDidFailToReceiveAdWithError={(err) => console.log(err)}
+          onAdMobDispatchAppEvent={(evt) => console.log(evt)}
+        />
+        <Content style={styles.container}>
           {/* ID */}
           <Separator bordered>
             <Text>ID</Text>
@@ -87,7 +90,7 @@ export default class SettingsScreen extends Component {
           <Separator bordered>
             <Text>Point</Text>
           </Separator>
-          <ListItem icon last>
+          <ListItem icon >
             {/* <Left>
               <Button style={{ backgroundColor: "#FF9501" }}>
                 <Icon active name="ios-person" />
@@ -96,6 +99,30 @@ export default class SettingsScreen extends Component {
             <Body>
               <Text>{authStore.me.point}</Text>
             </Body>
+          </ListItem>
+          <ListItem icon last onPress={() => this.props.navigation.navigate('Term')}>
+            <Body>
+              <Text>700 포인트 구매</Text>
+            </Body>
+            <Right>
+              <Icon name="arrow-forward" />
+            </Right>
+          </ListItem>
+          <ListItem icon last onPress={() => this.props.navigation.navigate('Term')}>
+            <Body>
+              <Text>4000 포인트 구매</Text>
+            </Body>
+            <Right>
+              <Icon name="arrow-forward" />
+            </Right>
+          </ListItem>
+          <ListItem icon last onPress={() => this.props.navigation.navigate('Term')}>
+            <Body>
+              <Text>8000 포인트 구매</Text>
+            </Body>
+            <Right>
+              <Icon name="arrow-forward" />
+            </Right>
           </ListItem>
           {/* push */}
           <Separator bordered>
@@ -130,15 +157,6 @@ export default class SettingsScreen extends Component {
             <Text>계겅 탈퇴</Text>
           </Button>
         </Content>
-        <AdMobBanner
-          style={styles.bottomBanner}
-          bannerSize="fullBanner"
-          adUnitID="ca-app-pub-3940256099942544/6300978111"
-          // Test ID, Replace with your-admob-unit-id
-          testDeviceID="EMULATOR"
-          onDidFailToReceiveAdWithError={(err) => console.log(err)}
-          onAdMobDispatchAppEvent={(evt) => console.log(evt)}
-        />
       </Container>
     );
   }
@@ -150,25 +168,15 @@ SettingsScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-  ImageBoxImg: {
-    backgroundColor: 'gray',
-    marginRight: 15,
+  container: {
+    top: 60
   },
   formBoxButton: {
     margin: 30
   },
   bottomBanner: {
     position: "absolute",
-    bottom: 0,
+    top: 0,
     zIndex: 2,
-  },
-});
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 16,
-  },
-  inputAndroid: {
-    fontSize: 16,
   },
 });

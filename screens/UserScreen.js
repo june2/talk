@@ -67,9 +67,9 @@ export default class UserScreen extends Component {
     // 차감
     authStore.me.point -= 50;
     this.setState({ isSent: true });
-    let room = await roomStore.createRoom(userStore.user.id, this.state.text);    
-    roomStore.getRooms();
-    roomStore.setValue(room.id, 0, userStore.user.name, userStore.user.userId);
+    let room = await roomStore.createRoom(userStore.user.id, this.state.text);
+    await roomStore.getRooms();
+    roomStore.setValue(room.id, 0, userStore.user.name, userStore.user.id);
     this._setModalVisible(false);
     this.props.navigation.navigate('Chat');
   }
@@ -133,7 +133,7 @@ export default class UserScreen extends Component {
               display: userStore.isChat ? 'none' : 'block'
             }}>
               <Button block transparent style={{ height: 55 }} onPress={() => this._setModalVisible(true)}>
-                <Icon active name='ios-chatboxes' style={styles.containerTitleBoxButtonIcon} />
+                <Icon active name='ios-chatbubbles' style={styles.containerTitleBoxButtonIcon} />
               </Button>
             </Col>
           </Grid>

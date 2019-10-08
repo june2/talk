@@ -1,3 +1,4 @@
+import { Notifications } from 'expo';
 import React, { Component } from 'react';
 import {
   AsyncStorage,
@@ -17,13 +18,15 @@ import {
 } from 'native-base';
 import { observer } from 'mobx-react';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
-import { locations, gender, age, getTimestamp} from '../constants/Items';
+import { locations, gender, age, getTimestamp } from '../constants/Items';
 import authService from '../services/auth'
 import authStore from './../stores/AuthStore';
+import NotificationHandler from './../notification/handler'
+import NotificationRegister from './../notification/register'
 
 @observer
 export default class RegisterScreen extends Component {
-  constructor(props) {    
+  constructor(props) {
     super(props);
     this._auth = authService;
     this.state = {
@@ -36,6 +39,15 @@ export default class RegisterScreen extends Component {
     }
   }
 
+  _savePushToken() {
+    new NotificationRegister();
+    this._notificationSubscription = Notifications.addListener(({ origin, data }) => {
+      if (data.type) {
+        new NotificationHandler(data);
+      }
+    });
+  }
+
   _signUpAsync = async () => {
     try {
       let res = await authStore.register(
@@ -44,9 +56,11 @@ export default class RegisterScreen extends Component {
         new Date(`${this.state.age}-01-01`), this.state.location
       );
       if (res.id) {
+        this._savePushToken();
         res = await this._auth.login(this.state.email, this.state.password);
         await AsyncStorage.setItem('token', res.accessToken);
         await authStore.getMe();
+        authStore.token = res.accessToken;
         this.props.navigation.navigate('Settings');
       }
     } catch (err) {

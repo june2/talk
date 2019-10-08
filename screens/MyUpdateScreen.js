@@ -14,7 +14,6 @@ import { ImagePicker, Permissions, Constants } from 'expo';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import { locations, gender, age } from '../constants/Items';
 import { getAge, getYear } from '../components/Util';
-import userService from './../services/users';
 import authStore from './../stores/AuthStore';
 import userStore from './../stores/UserStore';
 
@@ -44,7 +43,6 @@ export default class SettingsScreen extends Component {
 
   constructor(props) {
     super(props);
-    this._user = userService;
     this.state = {
       isLoading: false
     }
@@ -57,7 +55,7 @@ export default class SettingsScreen extends Component {
   };
 
   _pickImage = async () => {
-    try { 
+    try {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
@@ -100,12 +98,14 @@ export default class SettingsScreen extends Component {
   }
 
   _save = async () => {
-    let res = await userStore.updateUser(authStore.me.name,
-      authStore.me.location,
-      authStore.me.intro,
-      authStore.me.gender,
-      authStore.me.birthday
-    );
+    let data = {
+      name: authStore.me.name,
+      location: authStore.me.location,
+      intro: authStore.me.intro,
+      gender: authStore.me.gender,
+      birthday: authStore.me.birthday,
+    }
+    let res = await authStore.updateMe(data);
     if (res.status === 200) this.props.navigation.navigate('My');
     else Alert.alert('Server error');
   }

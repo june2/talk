@@ -90,7 +90,7 @@ export default class ChatScreen extends Component {
     if (this.state.totalDocs >= this.state.limit * this.state.offset) {
       let res = await roomStore.getMsgByRoomId(this.state.roomId);
       let messages = res.docs;
-      messages = messages.map((chatMessage) => {        
+      messages = messages.map((chatMessage) => {
         return {
           _id: chatMessage._id,
           text: chatMessage.text,
@@ -99,7 +99,7 @@ export default class ChatScreen extends Component {
           user: {
             _id: chatMessage.user._id,
             name: chatMessage.user.name,
-            avatar: chatMessage.user.images.length !== 0 ? config.apiHost + chatMessage.user.images[0].thumbnail : config.defaultUserImg
+            avatar: chatMessage.user.images.length !== 0 ? chatMessage.user.images[0] : config.defaultUserImg
           }
         };
       });
@@ -114,7 +114,7 @@ export default class ChatScreen extends Component {
   }
 
   _onSend(messages = []) {
-    roomStore.createMessage(authStore.me.id, messages[0].text);
+    roomStore.createMessage(authStore.me.id, roomStore.roomUserId, messages[0].text);
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }))

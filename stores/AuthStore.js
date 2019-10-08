@@ -9,7 +9,7 @@ class AuthStore {
     this._user = userService;
   }
 
-  @observable token = null;  
+  @observable token = null;
   @observable me = {
     images: [],
     tabBadgeCount: 0
@@ -27,7 +27,7 @@ class AuthStore {
 
   @action async getMe() {
     try {
-      let res = await this._auth.me();      
+      let res = await this._auth.me();
       this.me = res;
       return this.me;
     } catch (err) {
@@ -37,9 +37,9 @@ class AuthStore {
 
   @action async uploadImage(uri) {
     try {
-      let res = await this._user.uploadImage(uri);      
-      this.me.images = res.images;   
-      return res.images;         
+      let res = await this._user.uploadImage(uri);
+      this.me.images = res.images;
+      return res.images;
     } catch (err) {
       // Alert.alert('Error', err.message)
       throw err;
@@ -49,7 +49,7 @@ class AuthStore {
   @action async deleteImage(index) {
     try {
       this.me.images.splice(index, 1);
-      let res = await this._user.deleteImage(this.me.images); 
+      let res = await this._user.deleteImage(this.me.images);
       this.me = res.data;
     } catch (err) {
       // Alert.alert('Error', err.message)
@@ -57,10 +57,30 @@ class AuthStore {
     }
   }
 
+  @action async updateMe(data) {
+    try {
+      let res = await this._user.updateMe(data);
+      this.me = Object.assign(this.me, res.data);
+      return res;
+    } catch (err) {
+      // Alert.alert('Error', err.message)
+    }
+  }
+
   @action async updateLastLogin() {
     try {
       if (this.token) {
         this._user.updateLastLogin();
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  @action async leave() {
+    try {
+      if (this.token) {
+        this._user.leave();
       }
     } catch (err) {
       throw err;

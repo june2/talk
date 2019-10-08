@@ -14,14 +14,18 @@ class UserService {
     }
   }
 
-  async updateMe(name, location, intro, gender, birthday) {
+  async updateMe(data) {
+    try {
+      return await this._api.put('/me', data);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updatePush(isActivePush) {
     try {
       let data = {
-        name: name,
-        location: location,
-        intro: intro,
-        gender: gender,
-        birthday: birthday,
+        isActivePush: isActivePush
       }
       return await this._api.put('/me', data);
     } catch (err) {
@@ -53,6 +57,14 @@ class UserService {
   async updateLastLogin() {
     try {
       return await this._api.put('/me/updateLastLogin');
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async leave() {
+    try {
+      return await this._api.put('/me/leave');
     } catch (err) {
       throw err;
     }
