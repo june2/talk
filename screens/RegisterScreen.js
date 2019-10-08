@@ -17,17 +17,17 @@ import {
 } from 'native-base';
 import { observer } from 'mobx-react';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
-import { locations, gender, age } from '../constants/Items';
+import { locations, gender, age, getTimestamp} from '../constants/Items';
 import authService from '../services/auth'
 import authStore from './../stores/AuthStore';
 
 @observer
 export default class RegisterScreen extends Component {
-  constructor(props) {
+  constructor(props) {    
     super(props);
     this._auth = authService;
     this.state = {
-      email: null,
+      email: `${getTimestamp}@talk.com`,
       password: 'password',
       name: null,
       gender: 'M',
@@ -57,18 +57,18 @@ export default class RegisterScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <View style={styles.logoBox}>
+        <View style={styles.logoBox}>
           <Grid></Grid>
           <Grid></Grid>
           <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Text style={styles.logoBoxTitle}>TALK</Text>
             <Text style={styles.logoBoxSub}>TALK TALK</Text>
           </Content>
-        </View> */}
+        </View>
         <View style={styles.formBox}>
           <Content contentContainerStyle={styles.content} scrollEnabled={false}>
             <Form style={{ margin: 0 }}>
-              <Item inlineLabel style={styles.formBoxItem}>
+              {/* <Item inlineLabel style={styles.formBoxItem}>
                 <Label>E-mail</Label>
                 <Input
                   ref="emailInput"
@@ -83,7 +83,7 @@ export default class RegisterScreen extends Component {
                   onChangeText={(text) => this.setState({ password: text })}
                   value={this.state.password}
                 />
-              </Item>
+              </Item> */}
               <Item inlineLabel style={styles.formBoxItem}>
                 <Label>Nickname</Label>
                 <Input

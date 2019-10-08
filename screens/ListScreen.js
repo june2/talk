@@ -121,11 +121,22 @@ export default class ListScreen extends Component {
             <UserBox closeModal={(visible) => this.setModalVisible(visible)} sendMsg={(msg) => this.sendMsg(msg)} />
           </View>
         </Modal> */}
-
+        <ListItem key={1} button={true} style={{
+          display: (roomStore.isEmpty) ? 'flex' : 'none'
+        }}>
+          <Body>
+            <Text>진행 중인 채팅 내역이 없습니다.</Text>
+            <Text>마음에 드는 사람에게 메시지를 보내보세요!</Text>
+          </Body>
+        </ListItem>
         <FlatList
+          keyExtractor={(item, index) => index.toString()}
+          initialNumToRender={5}
+          windowSize={10}
+          // removeClippedSubviews={true}
+          legacyImplementation={true}
           data={roomStore.list}
           renderItem={({ item, index }) => this._renderItem(item, index)}
-          keyExtractor={(item, index) => index.toString()}
           onEndReached={this._handleLoadMore}
           onEndReachedThreshold={0.01}
           refreshing={this.state.refreshing}
@@ -151,6 +162,6 @@ const styles = StyleSheet.create({
     height: 34
   },
   flatList: {
-    flexGrow: 1
+    flexGrow: 1,
   }
 });

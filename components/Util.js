@@ -33,3 +33,6 @@ export const getAge = (date) => {
 export const getYear = (date) => {
   return moment(date).year();
 }
+
+// Get year
+export const timestamp = moment().unix().toString();

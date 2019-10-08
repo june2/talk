@@ -31,9 +31,25 @@ export default class SettingsScreen extends Component {
     //TODO: save api 
   }
 
-  _logOut = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
+  _showAlert = () => {
+    Alert.alert(
+      '계정 삭제',
+      '계정 삭제시, 복원이 되지 않습니다. 정말로 삭제 하시겠습니까?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => this._logOut() },
+      ],
+      { cancelable: false },
+    );
+  }
+
+  _logOut = async () => {    
+    //TODO: 게정 탈퇴
+    await AsyncStorage.clear();    
+    this.props.navigation.navigate('Register');
   }
 
   componentDidMount() {
@@ -59,14 +75,14 @@ export default class SettingsScreen extends Component {
             </Body>
           </ListItem>
           {/* email */}
-          <Separator bordered>
+          {/* <Separator bordered>
             <Text>E-mail</Text>
           </Separator>
           <ListItem icon last>
             <Body>
               <Text>{authStore.me.email}</Text>
             </Body>
-          </ListItem>
+          </ListItem> */}
           {/* point */}
           <Separator bordered>
             <Text>Point</Text>
@@ -110,8 +126,8 @@ export default class SettingsScreen extends Component {
             </Right>
           </ListItem>
           <Separator bordered />
-          <Button block title="update" onPress={(e) => this._logOut(e)} style={styles.formBoxButton}>
-            <Text>로그아웃</Text>
+          <Button block title="update" onPress={(e) => this._showAlert(e)} style={styles.formBoxButton}>
+            <Text>계겅 탈퇴</Text>
           </Button>
         </Content>
         <AdMobBanner

@@ -30,7 +30,7 @@ export default class UsersScreen extends Component {
       data: [],
       totalDocs: 0,
       offset: 0,
-      limit: 10
+      limit: 30
     }
   }
 
@@ -147,11 +147,15 @@ export default class UsersScreen extends Component {
         </Modal> */}
         <View style={{ paddingBottom: 60 }}>
           <FlatList
+            keyExtractor={item => item.id}
+            initialNumToRender={5}
+            windowSize={10}
+            removeClippedSubviews={true}
+            legacyImplementation={true}
             data={this.state.data}
             renderItem={this._renderItem}
-            keyExtractor={(item, index) => index.toString()}
             onEndReached={this._handleLoadMore}
-            onEndReachedThreshold={0.01}
+            onEndReachedThreshold={0.05}
             refreshing={this.state.refreshing}
             onRefresh={this._handleRefresh}
             style={styles.flatList}

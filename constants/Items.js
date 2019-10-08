@@ -1,4 +1,4 @@
-import { getAges } from './../components/Util'
+import { getAges, timestamp } from './../components/Util'
 
 export const gender = [
   {
@@ -93,3 +93,5 @@ export const getLocation = (key) => {
   }
   return '';
 }
+
+export const getTimestamp = timestamp;
