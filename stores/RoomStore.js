@@ -16,7 +16,8 @@ class RoomStore {
   @observable isEmpty = true;
   @observable room = {};
   @observable rooms = {};
-  @observable messages = {};
+  // @observable messages = {};
+  @observable message = [];
 
   @action async createRoom(userId, lastMsg) {
     try {
@@ -35,7 +36,7 @@ class RoomStore {
       } else {
         this.list = this.list.concat(this.rooms.docs);
       }
-      if(this.list.length > 0) this.isEmpty = false;
+      if (this.list.length > 0) this.isEmpty = false;
       return this.rooms;
     } catch (err) {
       // Alert.alert('Error', err.message)
@@ -44,8 +45,23 @@ class RoomStore {
 
   @action async getMsgByRoomId(id) {
     try {
-      this.messages = await this._room.getMsgByRoomId(id);
-      return this.messages;
+      let res = await this._room.getMsgByRoomId(id);
+      if (res.docs) {
+        this.messages = res.docs;
+        this.messages = this.messages.map((chatMessage) => {
+          return {
+            _id: chatMessage._id,
+            text: chatMessage.text,
+            createdAt: chatMessage.createdAt,
+            system: chatMessage.system,
+            user: {
+              _id: chatMessage.user._id,
+              name: chatMessage.user.name,
+              avatar: chatMessage.user.images.length !== 0 ? chatMessage.user.images[0] : config.defaultUserImg
+            }
+          };
+        });
+      }
     } catch (err) {
       // Alert.alert('Error', err.message)
     }
@@ -55,7 +71,7 @@ class RoomStore {
     try {
       this._room.deleteRoomByRoomId(id);
       this.list.splice(index, 1);
-      if(this.list.length === 0) this.isEmpty = true;
+      if (this.list.length === 0) this.isEmpty = true;
       return this.list;
     } catch (err) {
       // Alert.alert('Error', err.message)
@@ -83,10 +99,27 @@ class RoomStore {
     if (count) this.list[this.roomIndex].count -= count;
   }
 
-  @action handlePush(id, msg) {
-    let index = 0;
-    this.list[index].count += 1;
-    this.list[index].lastMsg = msg
+  @action handlePush(roomId, msg, newVal) {
+    let roomIndex = this._findIndex(roomId);
+    if (null != index) {
+      let obj = this.list[roomIndex];
+      obj.count += 1;
+      obj.lastMsg = msg;
+      obj.updatedAt = new Date();
+      this.list.splice(this.roomIndex, 1);
+      this.list = [obj, ...this.list];
+    } else {
+      let obj = newVal;
+      this.list = [obj, ...this.list];
+    }
+  }
+
+  @action handlePushMsg(newVal) {
+    this.message.push(newVal);
+  }
+
+  _findIndex(id) {
+    return this.list.findIndex(el => el.id === id);
   }
 }
 

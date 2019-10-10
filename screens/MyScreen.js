@@ -10,6 +10,7 @@ import { observer } from 'mobx-react';
 import authStore from './../stores/AuthStore';
 import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
+import Notification from '../components/Notification';
 import Carousel  from '../components/Carousel';
 
 @observer
@@ -24,6 +25,7 @@ export default class MyScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Notification />
         <View style={styles.containerImgBox}>          
           <Carousel images={authStore.me.images} />
         </View>

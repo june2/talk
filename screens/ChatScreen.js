@@ -4,7 +4,6 @@ import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat'
 import { observer } from 'mobx-react';
 import Report from '../components/Report';
-import config from '../constants/Config';
 import msgService from './../services/messages';
 import roomStore from './../stores/RoomStore';
 import authStore from './../stores/AuthStore';
@@ -88,26 +87,11 @@ export default class ChatScreen extends Component {
 
   _getData = async () => {
     if (this.state.totalDocs >= this.state.limit * this.state.offset) {
-      let res = await roomStore.getMsgByRoomId(this.state.roomId);
-      let messages = res.docs;
-      messages = messages.map((chatMessage) => {
-        return {
-          _id: chatMessage._id,
-          text: chatMessage.text,
-          createdAt: chatMessage.createdAt,
-          system: chatMessage.system,
-          user: {
-            _id: chatMessage.user._id,
-            name: chatMessage.user.name,
-            avatar: chatMessage.user.images.length !== 0 ? chatMessage.user.images[0] : config.defaultUserImg
-          }
-        };
-      });
+      await roomStore.getMsgByRoomId(this.state.roomId);      
       this.setState({
-        messages: this.state.refreshing ? messages : this.state.messages.concat(messages),
-        offset: res.offset + 1,
-        limit: res.limit,
-        totalDocs: res.totalDocs,
+        // offset: res.offset + 1,
+        // limit: res.limit,
+        // totalDocs: res.totalDocs,
         refreshing: false
       })
     }
@@ -126,9 +110,7 @@ export default class ChatScreen extends Component {
 
   componentDidMount() {
     this._getData();
-    this.setState({
-      messages: [],
-    })
+    roomStore.messages = [];
     this.props.navigation.setParams({ openModal: this.setModalVisible });
   }
 
@@ -153,7 +135,7 @@ export default class ChatScreen extends Component {
               style={{ flex: 1 }}
             >
               <GiftedChat
-                messages={this.state.messages}
+                messages={roomStore.messages}
                 onSend={messages => this._onSend(messages)}
                 alwaysShowSend={true}
                 textInputProps={{ autoFocus: false, placeholder: '' }}
@@ -163,7 +145,7 @@ export default class ChatScreen extends Component {
               />
             </KeyboardAvoidingView> :
             <GiftedChat
-              messages={this.state.messages}
+              messages={roomStore.messages}
               onSend={messages => this._onSend(messages)}
               alwaysShowSend={true}
               textInputProps={{ autoFocus: false, placeholder: '' }}

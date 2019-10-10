@@ -1,9 +1,8 @@
 import { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Notifications } from 'expo';
-import * as Permissions from 'expo-permissions';
 import authStore from '../stores/AuthStore';
 import roomStore from '../stores/RoomStore';
+import notificationStore from '../stores/NotificationStore';
 
 @observer
 export default class Handler extends Component {
@@ -13,19 +12,37 @@ export default class Handler extends Component {
   }
 
   _handleData(data) {
-    console.log(data);
-    roomStore.messages.docs.push({
-      _id: 1,
-      text: 'test',
-      createdAt: new Date(),
-    })
     switch (data.type) {
-      case 'message':
+      case 'msg':
+        let msgObj = {
+          _id: 0,
+          text: data.msg,
+          createdAt: new Date(),
+          user: {
+            _id: data.userId,
+            name: data.userName,
+            avatar: data.userImage,
+          }
+        };
+        roomStore.handlePushMsg(msgObj);
         break;
       case 'room':
-        roomStore.handlePush(1, 'test');
+        let roomObj = {
+          _id: data.roomId,
+          lastMsg: data.msg,
+          user: {
+            id: data.userId,
+            name: data.userName,
+            images: [data.userImage],
+          },
+          updatedAt: new Date(),
+          count: 1,
+        }
+        roomStore.handlePush(roomId, data.msg, roomObj);
         authStore.tabBadgeCount += 1;
         break;
     }
+    // alert   
+    notificationStore.show();
   }
 }

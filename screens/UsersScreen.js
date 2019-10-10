@@ -3,6 +3,7 @@ import { View, Text, Dimensions, ActivityIndicator, RefreshControl } from "react
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 import { observer } from 'mobx-react';
 import { AdMobBanner } from 'expo-ads-admob'
+import Notification from '../components/Notification';
 import UserItem from '../components/UserItem';
 import userStore from '../stores/UserStore';
 
@@ -12,7 +13,7 @@ let { width } = Dimensions.get("window");
 export default class UsersScreen extends React.Component {
   constructor(args) {
     super(args);
-    this._rowRenderer = this._rowRenderer.bind(this);
+    this._rowRenderer = this._rowRenderer.bind(this);    
     this.state = {
       dataProvider: new DataProvider((r1, r2) => {
         return r1 !== r2;
@@ -77,6 +78,7 @@ export default class UsersScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Notification />
         <View>
           <AdMobBanner
             style={styles.banner}
