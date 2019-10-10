@@ -82,6 +82,12 @@ class RoomStore {
     this.roomUserId = userId;
     if (count) this.list[this.roomIndex].count -= count;
   }
+
+  @action handlePush(id, msg) {
+    let index = 0;
+    this.list[index].count += 1;
+    this.list[index].lastMsg = msg
+  }
 }
 
 const store = new RoomStore();

@@ -52,7 +52,7 @@ export default class SettingsScreen extends Component {
 
   render() {
     return (
-      <Container>
+      <Container style={styles.container}>
         <AdMobBanner
           style={styles.bottomBanner}
           bannerSize="fullBanner"
@@ -62,7 +62,7 @@ export default class SettingsScreen extends Component {
           onDidFailToReceiveAdWithError={(err) => console.log(err)}
           onAdMobDispatchAppEvent={(evt) => console.log(evt)}
         />
-        <Content style={styles.container}>
+        <Content style={styles.content}>
           {/* ID */}
           <Separator bordered>
             <Text>ID</Text>
@@ -169,6 +169,9 @@ SettingsScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
+    paddingBottom: 60    
+  },
+  content: {
     top: 60
   },
   formBoxButton: {

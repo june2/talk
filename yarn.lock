@@ -4468,6 +4468,10 @@ locate-path@^3.0.0:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
 
+lodash.debounce@4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+
 lodash.isequal@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
@@ -5586,6 +5590,12 @@ prompts@^2.0.1:
     kleur "^3.0.2"
     sisteransi "^1.0.0"
 
+prop-types@15.5.8:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  dependencies:
+    fbjs "^0.8.9"
+
 prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
@@ -5814,6 +5824,12 @@ react-native-modalbox@^2.0.0:
   resolved "https://registry.yarnpkg.com/react-native-modalbox/-/react-native-modalbox-2.0.0.tgz#ff3cddfb73a740e7669c2d2cc80d03cbd4890731"
   dependencies:
     prop-types "^15.5.10"
+
+react-native-optimized-flatlist@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-optimized-flatlist/-/react-native-optimized-flatlist-1.0.4.tgz#15c817ffb545e3c62e56a1b3c4654c1316414941"
+  dependencies:
+    prop-types "^15.6.0"
 
 react-native-parsed-text@^0.0.20:
   version "0.0.20"
@@ -6087,6 +6103,14 @@ recompose@^0.26.0:
     fbjs "^0.8.1"
     hoist-non-react-statics "^2.3.1"
     symbol-observable "^1.0.4"
+
+recyclerlistview@^2.0.12:
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/recyclerlistview/-/recyclerlistview-2.0.12.tgz#d50ee959409947faccd3f3abf2789e7acfdc31f9"
+  dependencies:
+    lodash.debounce "4.0.8"
+    prop-types "15.5.8"
+    ts-object-utils "0.0.5"
 
 regenerate-unicode-properties@^8.0.2:
   version "8.1.0"
@@ -6831,6 +6855,10 @@ tr46@^1.0.1:
 trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
+
+ts-object-utils@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/ts-object-utils/-/ts-object-utils-0.0.5.tgz#95361cdecd7e52167cfc5e634c76345e90a26077"
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

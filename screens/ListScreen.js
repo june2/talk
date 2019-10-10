@@ -67,8 +67,8 @@ export default class ListScreen extends Component {
           </TouchableOpacity>
         </Left>
         <Body>
-          <TouchableOpacity key={item.id} onPress={() => this._handleClick(item._id, i, item.user.name, item.user._id, item.count)}>
-            <Text>{(item.user && item.user) ? item.user.name : ''}</Text>
+          <TouchableOpacity key={item.id} onPress={() => this._handleClick(item._id, i, (item.user) ? item.user.name : '', (item.user) ? item.user._id : '', item.count)}>
+            <Text>{(item.user && item.user.name) ? item.user.name : ''}</Text>
             <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} style={{ height: 34 }} note>{item.lastMsg}</Text>
           </TouchableOpacity>
         </Body>
@@ -99,6 +99,7 @@ export default class ListScreen extends Component {
     this._getData();
   }
 
+
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
@@ -121,29 +122,30 @@ export default class ListScreen extends Component {
             <UserBox closeModal={(visible) => this.setModalVisible(visible)} sendMsg={(msg) => this.sendMsg(msg)} />
           </View>
         </Modal> */}
-        <ListItem key={1} button={true} style={{
-          display: (roomStore.isEmpty) ? 'flex' : 'none'
-        }}>
-          <Body>
-            <Text>진행 중인 채팅 내역이 없습니다.</Text>
-            <Text>마음에 드는 사람에게 메시지를 보내보세요!</Text>
-          </Body>
-        </ListItem>
-        <FlatList
-          keyExtractor={(item, index) => index.toString()}
-          initialNumToRender={5}
-          windowSize={10}
-          // removeClippedSubviews={true}
-          legacyImplementation={true}
-          data={roomStore.list}
-          renderItem={({ item, index }) => this._renderItem(item, index)}
-          onEndReached={this._handleLoadMore}
-          onEndReachedThreshold={0.01}
-          refreshing={this.state.refreshing}
-          onRefresh={this._handleRefresh}
-          extraData={[this.state, this.props]}
-          style={styles.flatList}
-        />
+        {(roomStore.isEmpty) ? (
+          <ListItem key={1} button={true} >
+            <Body>
+              <Text>진행 중인 채팅 내역이 없습니다.</Text>
+              <Text>마음에 드는 사람에게 메시지를 보내보세요!</Text>
+            </Body>
+          </ListItem>
+        ) : (
+            <FlatList
+              keyExtractor={(item, index) => index.toString()}
+              initialNumToRender={5}
+              windowSize={10}
+              // removeClippedSubviews={true}
+              legacyImplementation={true}
+              data={roomStore.list}
+              renderItem={({ item, index }) => this._renderItem(item, index)}
+              onEndReached={this._handleLoadMore}
+              onEndReachedThreshold={0.01}
+              refreshing={this.state.refreshing}
+              onRefresh={this._handleRefresh}
+              extraData={[this.state, this.props]}
+              style={styles.flatList}
+            />
+          )}
       </View>
     );
   }

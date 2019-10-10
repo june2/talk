@@ -35,7 +35,7 @@ class UserStore {
     }
   }
 
-  @action async getUsers(limit, offset) {
+  @action async getUsers(limit = 20, offset = 0) {
     try {
       this.users = await this._user.getUsers(limit, offset);
       return this.users;
