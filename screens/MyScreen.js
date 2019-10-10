@@ -27,7 +27,7 @@ export default class MyScreen extends Component {
       <View style={styles.container}>
         <Notification />
         <View style={styles.containerImgBox}>          
-          <Carousel images={authStore.me.images} />
+          <Carousel images={authStore.me.images} isMe={true} />
         </View>
         <View style={styles.containerTitleBox}>
           <Grid>
@@ -36,14 +36,14 @@ export default class MyScreen extends Component {
                 {authStore.me.name}
               </Text>
               <Text style={styles.containerTitleBoxLocation}>
-                {getAge(authStore.me.birthday)}&nbsp;&nbsp;&nbsp;
-                {getLocation(authStore.me.location)}&nbsp;&nbsp;&nbsp;
                 <Icon active name={
                   authStore.me.gender === 'M' ? 'md-female' : 'md-male'
                 } style={{
                   ...styles.containerGenderIcon,
                   color: authStore.me.gender === 'M' ? '#007aff' : 'red',
-                }} />
+                }} />&nbsp;&nbsp;&nbsp;
+                {getAge(authStore.me.birthday)}&nbsp;&nbsp;&nbsp;
+                {getLocation(authStore.me.location)}
               </Text>
             </Col>
             <Col style={styles.containerTitleBoxButton}>

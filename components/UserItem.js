@@ -33,27 +33,28 @@ export default class UserItem extends PureComponent {
   render() {
     return (
       <ListItem avatar key={this._id} button={true} onPress={() => this._handleClick(this.props.user)} >
-        <Left>
+        <Left style={styles.itemLeft}>
           <Thumbnail
             source={{
-              uri: (this.props.user && this.props.user.images.length !== 0) ? this.props.user.images[0] : config.defaultUserImg
+              uri: (this.props.user && this.props.user.images && this.props.user.images.length !== 0) ? this.props.user.images[0] : config.defaultUserImg
             }} />
         </Left>
         <Body>
           <Text>{this.props.user.name}</Text>
-          <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} note>{this.props.user.intro}{"\n"}</Text>
+          <Text numberOfLines={1} ellipsizeMode='tail' style={styles.introBox} note>{this.props.user.intro}{"\n"}</Text>
         </Body>
-        <Right>
+        <Right style={styles.itemRight}>
           <Text note>
             <Icon active name={
               this.props.user.gender === 'M' ? 'md-female' : 'md-male'
             } style={{
               ...styles.containerGenderIcon,
               color: this.props.user.gender === 'M' ? '#007aff' : 'red',
-            }} />
+            }} />&nbsp;&nbsp;&nbsp;
+            {getAge(this.props.user.birthday)}
           </Text>
-          <Text note>{getAge(this.props.user.birthday)}</Text>
-          <Text note>{getLocation(this.props.user.location)}</Text>
+          {/* <Text note>{getAge(this.props.user.birthday)}</Text> */}
+          <Text style={styles.introBox}>{getLocation(this.props.user.location)}</Text>          
         </Right>
       </ListItem>
     );
@@ -61,8 +62,21 @@ export default class UserItem extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  itemLeft: {
+    paddingTop: 10
+  },
+  itemRight: {
+    paddingBottom: 0
+  },
+  text: {
+    color: 'red'
+  },
   introBox: {
-    height: 34
+    height: 34,
+    fontSize: 12,
+    lineHeight: 20,
+    // fontWeight: '200',
+    color: '#808080'
   },
   containerGenderIcon: {
     fontSize: 12,

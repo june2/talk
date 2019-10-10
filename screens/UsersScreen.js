@@ -22,7 +22,7 @@ export default class UsersScreen extends React.Component {
         index => 0,
         (type, dim) => {
           dim.width = width;
-          dim.height = 65;
+          dim.height = 69;
         }
       ),
       data: [],

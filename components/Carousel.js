@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import { Animated, View, StyleSheet, Image, Dimensions, ScrollView } from 'react-native'
+import { Animated, View, StyleSheet, Image, Dimensions, ScrollView, Text } from 'react-native'
 import { observer } from 'mobx-react';
+import { BlurView } from 'expo-blur';
+import authStore from '../stores/AuthStore';
 import config from '../constants/Config';
+
 
 const deviceWidth = Dimensions.get('window').width
 const FIXED_BAR_WIDTH = 30
@@ -17,6 +20,7 @@ export default class CarouselScreen extends Component {
   render() {
     let imageArray = []
     let barArray = []
+
     this.props.images.forEach((image, i) => {
       const thisImage = (
         <Image
@@ -71,6 +75,22 @@ export default class CarouselScreen extends Component {
 
     return (
       <View style={styles.container}>
+        {(!this.props.isMe)
+          ?
+          <BlurView tint="light"
+            intensity={(authStore.me.images.length === 0) ? 85 : 0}
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              zIndex: 3
+            }}>
+            <View style={styles.blurView}>
+              <Text>사진을 보려면 자기 사진 한개이상 등록해주세요.</Text>
+            </View>
+          </BlurView>
+          : null
+        }
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -87,6 +107,7 @@ export default class CarouselScreen extends Component {
         <View style={styles.barContainer}>
           {barArray}
         </View>
+
       </View>
     )
   }
@@ -117,4 +138,10 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
   },
+  blurView: {
+    alignSelf: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    flex: 1
+  }
 })

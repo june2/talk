@@ -81,13 +81,6 @@ export default class UserScreen extends Component {
           animationType='fade'
           transparent={true}
           visible={this.state.modalVisible}
-        // onRequestClose={() => {
-        //   if (this.state.isSent) this.props.closeModal(false);
-        // }}
-        // onDismiss={() => {
-        //   if (this.state.isSent) this.props.closeModal(false);
-        // }}
-        // onBackdropPress={() => this.setState({ isVisible: false })
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContainerTransparentStyle}>
@@ -108,7 +101,7 @@ export default class UserScreen extends Component {
           </View>
         </Modal>
         <View style={styles.containerImgBox}>
-          <Carousel images={userStore.user.images} />
+          <Carousel images={userStore.user.images} isMe={false}/>
         </View>
         <View style={styles.containerTitleBox}>
           <Grid>
@@ -118,14 +111,14 @@ export default class UserScreen extends Component {
                   {getAge(userStore.user.birthday)}   {userStore.user.location}
                 </Text> */}
               <Text style={styles.containerTitleBoxLocation}>
-                {getAge(userStore.user.birthday)}&nbsp;&nbsp;&nbsp;
-                  {getLocation(userStore.user.location)}&nbsp;&nbsp;&nbsp;
                 <Icon active name={
                   userStore.user.gender === 'M' ? 'md-female' : 'md-male'
                 } style={{
                   ...styles.containerGenderIcon,
                   color: userStore.user.gender === 'M' ? '#007aff' : 'red',
-                }} />
+                }} />&nbsp;&nbsp;&nbsp;
+                {getAge(userStore.user.birthday)}&nbsp;&nbsp;&nbsp;
+                {getLocation(userStore.user.location)}
               </Text>
             </Col>
             <Col style={{

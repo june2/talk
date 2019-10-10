@@ -16,8 +16,9 @@ class RoomStore {
   @observable isEmpty = true;
   @observable room = {};
   @observable rooms = {};
+  //TODO: unsolved warning 
   // @observable messages = {};
-  @observable message = [];
+  // @observable message = [];
 
   @action async createRoom(userId, lastMsg) {
     try {

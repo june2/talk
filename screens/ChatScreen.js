@@ -87,7 +87,7 @@ export default class ChatScreen extends Component {
 
   _getData = async () => {
     if (this.state.totalDocs >= this.state.limit * this.state.offset) {
-      await roomStore.getMsgByRoomId(this.state.roomId);      
+      await roomStore.getMsgByRoomId(this.state.roomId);
       this.setState({
         // offset: res.offset + 1,
         // limit: res.limit,
@@ -98,10 +98,11 @@ export default class ChatScreen extends Component {
   }
 
   _onSend(messages = []) {
-    roomStore.createMessage(authStore.me.id, roomStore.roomUserId, messages[0].text);
+    roomStore.createMessage(authStore.me.id, roomStore.roomUserId, messages[0].text);    
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
-    }))
+    }))  
+    roomStore.messages = GiftedChat.append(roomStore.messages, messages);    
   }
 
   setModalVisible(visible) {
