@@ -11,11 +11,11 @@ import {
   Thumbnail, Text
 } from 'native-base';
 import { observer, Observer } from 'mobx-react';
+import config from '../constants/Config';
 import BadgeIcon from '../components/Badge';
 import { dateConvert } from '../components/Util';
 import Admob from '../components/Admob';
 import Notification from '../components/Notification';
-import config from '../constants/Config';
 import userStore from '../stores/UserStore';
 import roomStore from './../stores/RoomStore';
 import authStore from './../stores/AuthStore';
@@ -75,9 +75,9 @@ export default class ListScreen extends Component {
           </TouchableOpacity>
         </Body>
         <Right>
-          <TouchableOpacity key={item.id} onPress={() => this._handleClick(item._id, i, item.user.name, item.user._id, item.count)}>
+          <TouchableOpacity style={styles.listRight} key={item.id} onPress={() => this._handleClick(item._id, i, item.user.name, item.user._id, item.count)}>
             <Text note>{dateConvert(item.updatedAt)}</Text>
-            <View style={{ paddingTop: 4 }}>
+            <View style={{ paddingTop: 4, width: 25 }}>
               <BadgeIcon num={item.count} />
             </View>
           </TouchableOpacity>
@@ -160,5 +160,8 @@ const styles = StyleSheet.create({
     paddingBottom: 60,
     top: 60,
     flex: 1
+  },
+  listRight: {
+    alignItems: 'flex-end'
   }
 });

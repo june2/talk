@@ -15,7 +15,7 @@ export default class Handler extends Component {
     switch (data.type) {
       case 'msg':
         let msgObj = {
-          _id: 0,
+          _id: new Date().toISOString(),
           text: data.msg,
           createdAt: new Date(),
           user: {
@@ -26,7 +26,7 @@ export default class Handler extends Component {
         };
         roomStore.handlePushMsg(msgObj);
         break;
-      case 'room':       
+      case 'room':
         authStore.tabBadgeCount += 1;
         break;
     }

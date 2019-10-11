@@ -16,8 +16,6 @@ class RoomStore {
   @observable isEmpty = true;
   @observable room = {};
   @observable rooms = {};
-  //TODO: unsolved warning 
-  // @observable messages = {};
   @observable messages = [];
 
   @action async createRoom(userId, lastMsg) {
@@ -48,8 +46,8 @@ class RoomStore {
     try {
       let res = await this._room.getMsgByRoomId(id);
       if (res.docs) {
-        this.messages = res.docs;
-        this.messages = this.messages.map((chatMessage) => {
+        let arr = res.docs;
+        this.messages = arr.map((chatMessage) => {
           return {
             _id: chatMessage._id,
             text: chatMessage.text,
@@ -58,7 +56,8 @@ class RoomStore {
             user: {
               _id: chatMessage.user._id,
               name: chatMessage.user.name,
-              avatar: chatMessage.user.images.length !== 0 ? chatMessage.user.images[0] : config.defaultUserImg
+              // avatar: chatMessage.user.images.length !== 0 ? chatMessage.user.images[0] : config.defaultUserImg
+              avatar: chatMessage.user.images[0]
             }
           };
         });

@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
-import { AppState, Text } from 'react-native';
+// import { AppState } from 'react-native';
 import { observer } from 'mobx-react';
 import authStore from '../stores/AuthStore';
 
 @observer
 export default class State extends Component {
-  state = {
-    appState: AppState.currentState,
-  };
-
-  componentDidMount() {    
-    // setInterval(() => {
-    //   this._update();
-    // }, 1000 * 60 * 10);
-  }
+  // state = {
+  //   appState: AppState.currentState,
+  // };
+  
   _update = () => {
     authStore.updateLastLogin();
   }
