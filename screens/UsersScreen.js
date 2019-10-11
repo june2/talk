@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Dimensions, ActivityIndicator, RefreshControl } from "react-native";
+import { Platform, View, Dimensions, ActivityIndicator, RefreshControl } from "react-native";
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
@@ -10,7 +10,7 @@ import userStore from '../stores/UserStore';
 let { width } = Dimensions.get("window");
 
 @observer
-export default class UsersScreen extends React.Component {
+export default class UsersScreen extends Component {
   constructor(args) {
     super(args);
     this._rowRenderer = this._rowRenderer.bind(this);
@@ -22,7 +22,7 @@ export default class UsersScreen extends React.Component {
         index => 0,
         (type, dim) => {
           dim.width = width;
-          dim.height = 68;
+          dim.height = 65;
         }
       ),
       data: [],
@@ -112,6 +112,13 @@ export default class UsersScreen extends React.Component {
     );
   }
 }
+
+if(Platform.OS === 'android'){
+  UsersScreen.navigationOptions = {
+    header: null,
+  };
+}
+
 const styles = {
   container: {
     flex: 1

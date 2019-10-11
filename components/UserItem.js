@@ -32,14 +32,14 @@ export default class UserItem extends PureComponent {
 
   render() {
     return (
-      <ListItem avatar key={this._id} button={true} onPress={() => this._handleClick(this.props.user)} >
+      <ListItem style={{ height: 65 }} avatar key={this._id} button={true} onPress={() => this._handleClick(this.props.user)} >
         <Left style={styles.itemLeft}>
           <Thumbnail
             source={{
               uri: (this.props.user && this.props.user.images && this.props.user.images.length !== 0) ? this.props.user.images[0] : config.defaultUserImg
             }} />
         </Left>
-        <Body>
+        <Body style={{ height: 65 }}>
           <Text>{this.props.user.name}</Text>
           <Text numberOfLines={1} ellipsizeMode='tail' style={styles.introBox} note>{this.props.user.intro}{"\n"}</Text>
         </Body>
@@ -54,8 +54,8 @@ export default class UserItem extends PureComponent {
             {getAge(this.props.user.birthday)}
           </Text>
           {/* <Text note>{getAge(this.props.user.birthday)}</Text> */}
-          <Text style={styles.introBox}>{getLocation(this.props.user.location)}</Text>          
-        </Right>
+          <Text style={styles.introBox}>{getLocation(this.props.user.location)}</Text>
+        </Right> 
       </ListItem>
     );
   }
@@ -63,10 +63,10 @@ export default class UserItem extends PureComponent {
 
 const styles = StyleSheet.create({
   itemLeft: {
-    paddingTop: 10
+    paddingTop: 4
   },
   itemRight: {
-    paddingBottom: 0
+    // paddingBottom: 0
   },
   text: {
     color: 'red'

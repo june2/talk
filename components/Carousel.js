@@ -78,7 +78,7 @@ export default class CarouselScreen extends Component {
         {(!this.props.isMe)
           ?
           <BlurView tint="light"
-            intensity={(authStore.me.images.length === 0) ? 85 : 0}
+            intensity={(authStore.me.images.length === 0) ? 90 : 0}
             style={{
               position: 'absolute',
               width: '100%',
@@ -112,7 +112,6 @@ export default class CarouselScreen extends Component {
     )
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {

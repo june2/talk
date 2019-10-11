@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, KeyboardAvoidingView, StyleSheet, View, Modal } from 'react-native';
+import { Platform, KeyboardAvoidingView, View, Modal } from 'react-native';
 import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat'
 import { observer } from 'mobx-react';
@@ -98,11 +98,11 @@ export default class ChatScreen extends Component {
   }
 
   _onSend(messages = []) {
-    roomStore.createMessage(authStore.me.id, roomStore.roomUserId, messages[0].text);    
+    roomStore.createMessage(authStore.me.id, roomStore.roomUserId, messages[0].text);
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
-    }))  
-    roomStore.messages = GiftedChat.append(roomStore.messages, messages);    
+    }))
+    roomStore.messages = GiftedChat.append(roomStore.messages, messages);
   }
 
   setModalVisible(visible) {
@@ -131,28 +131,23 @@ export default class ChatScreen extends Component {
         </Modal>
         {
           Platform.OS === 'android' ?
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : null}
-              style={{ flex: 1 }}
-            >
+            <View style={{ flex: 1 }}>
               <GiftedChat
                 messages={roomStore.messages}
                 onSend={messages => this._onSend(messages)}
                 alwaysShowSend={true}
                 textInputProps={{ autoFocus: false, placeholder: '' }}
-                user={{
-                  _id: authStore.me.id,
-                }}
+                user={{ _id: authStore.me.id }}
               />
-            </KeyboardAvoidingView> :
+              <KeyboardAvoidingView />
+            </View>
+            :
             <GiftedChat
               messages={roomStore.messages}
               onSend={messages => this._onSend(messages)}
               alwaysShowSend={true}
               textInputProps={{ autoFocus: false, placeholder: '' }}
-              user={{
-                _id: authStore.me.id,
-              }}
+              user={{ _id: authStore.me.id }}
             />
         }
       </View>

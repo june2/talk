@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
+  Platform,
   FlatList,
-  View, Alert,
+  View,
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
@@ -9,7 +10,6 @@ import {
   ListItem, Left, Body, Right,
   Thumbnail, Text
 } from 'native-base';
-// import UserBox from '../components/UserBox';
 import { observer, Observer } from 'mobx-react';
 import BadgeIcon from '../components/Badge';
 import { dateConvert } from '../components/Util';
@@ -117,7 +117,7 @@ export default class ListScreen extends Component {
         <Notification />
         <Admob />
         {(roomStore.isEmpty) ? (
-          <ListItem key={1} button={true} >
+          <ListItem key={1} button={true} style={{ paddingTop: 70 }}>
             <Body>
               <Text>진행 중인 채팅 내역이 없습니다.</Text>
               <Text>마음에 드는 사람에게 메시지를 보내보세요!</Text>
@@ -145,10 +145,12 @@ export default class ListScreen extends Component {
   }
 }
 
-ListScreen.navigationOptions = {
-  // title: 'Chat',
-  // header: null,
-};
+if (Platform.OS === 'android') {
+  ListScreen.navigationOptions = {
+    // title: 'Chat',
+    header: null,
+  };
+}
 
 const styles = StyleSheet.create({
   container: {

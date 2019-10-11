@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {
   Container, Content, ListItem, Separator,
-  Button, Text, Icon, Left, Right, Body, Switch
+  Button, Text, Icon, Right, Body, Switch
 } from 'native-base';
 import {
+  Platform,
   AsyncStorage,
   StyleSheet,
   Alert,
@@ -132,20 +133,20 @@ export default class SettingsScreen extends Component {
           </Separator>
           <ListItem icon onPress={() => this.props.navigation.navigate('Term')}>
             <Body>
-              <Text>약관</Text>
+              <Text>약관 및 개인정보처리방침</Text>
             </Body>
             <Right>
               <Icon name="arrow-forward" />
             </Right>
           </ListItem>
-          <ListItem icon last onPress={() => this.props.navigation.navigate('Term')}>
+          {/* <ListItem icon last onPress={() => this.props.navigation.navigate('Term')}>
             <Body>
               <Text>약관</Text>
             </Body>
             <Right>
               <Icon name="arrow-forward" />
             </Right>
-          </ListItem>
+          </ListItem> */}
           <Separator bordered />
           <Button block title="update" onPress={(e) => this._showAlert(e)} style={styles.formBoxButton}>
             <Text>계겅 탈퇴</Text>
@@ -156,10 +157,11 @@ export default class SettingsScreen extends Component {
   }
 }
 
-SettingsScreen.navigationOptions = {
-  // title: 'Setting',
-  // header: null,
-};
+if (Platform.OS === 'android') {
+  SettingsScreen.navigationOptions = {
+    header: null,
+  };
+}
 
 const styles = StyleSheet.create({
   container: {

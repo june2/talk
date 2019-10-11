@@ -27,6 +27,9 @@
       "bundleIdentifier": "com.indeefun.talk",
       "supportsTablet": true
     },
-    "description": ""
+    "description": "talkx3",
+    "androidStatusBar": {
+      "backgroundColor": "#C2185B"
+    }
   }
 }

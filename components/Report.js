@@ -35,19 +35,19 @@ export default class Report extends Component {
     return (
       <View style={styles.modalContainer}>
         <View style={styles.modalContainerTransparentStyle}>
-          <Textarea rowSpan={5} placeholder="신고 사유를 작성해주세요!" style={styles.modalButton} onChangeText={(text) => this.setState({ text })} />
-          <Grid>
-            <Col style={styles.modalButton}>
+          <Textarea rowSpan={5} placeholder="신고 사유를 작성해주세요!" style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
+          <View style={{ flexDirection: 'row' }}>
+            <View style={styles.modalButton}>
               <Button block title="report" onPress={() => this._report()} >
                 <Text>신고하기</Text>
               </Button>
-            </Col>
-            <Col style={styles.modalButton}>
+            </View>
+            <View style={styles.modalButton}>
               <Button block title="Login" onPress={() => this.props.closeModal(false)} >
                 <Text>취소</Text>
               </Button>
-            </Col>
-          </Grid>
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -74,11 +74,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalText: {
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontSize: 28,
+    padding: 10,
+    width: '100%'
   },
   modalButton: {
     padding: 10,
+    width: '50%'
   }
 });

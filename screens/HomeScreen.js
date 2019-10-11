@@ -12,7 +12,7 @@ import { observer } from 'mobx-react';
 import userStore from './../stores/UserStore';
 
 @observer
-export default class UserBox extends Component {
+export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
   }

@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Modal, TouchableHighlight,
+  Modal,
   View, Alert,
   StyleSheet,
   Dimensions,
   Platform,
 } from 'react-native';
-import {
-  FlingGestureHandler,
-  Directions,
-} from 'react-native-gesture-handler';
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Col, Grid } from 'react-native-easy-grid';
 import { Textarea, Text, Button, Icon, } from 'native-base';
 import { observer } from 'mobx-react';
 import userStore from './../stores/UserStore';
@@ -84,24 +80,24 @@ export default class UserScreen extends Component {
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContainerTransparentStyle}>
-              <Textarea rowSpan={5} placeholder="메시지를 보내세요!" style={styles.modalButton} onChangeText={(text) => this.setState({ text })} />
-              <Grid>
-                <Col style={styles.modalButton}>
+              <Textarea rowSpan={5} placeholder="메시지를 보내세요!" style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
+              <View style={{ flexDirection: 'row' }}>
+                <View style={styles.modalButton}>
                   <Button block title="send" onPress={() => this._sendMsg()} >
                     <Text>보내기</Text>
                   </Button>
-                </Col>
-                <Col style={styles.modalButton}>
+                </View>
+                <View style={styles.modalButton}>
                   <Button block title="cancel" onPress={() => this._setModalVisible(false)} >
                     <Text>취소</Text>
                   </Button>
-                </Col>
-              </Grid>
+                </View>
+              </View>
             </View>
           </View>
         </Modal>
         <View style={styles.containerImgBox}>
-          <Carousel images={userStore.user.images} isMe={false}/>
+          <Carousel images={userStore.user.images} isMe={false} />
         </View>
         <View style={styles.containerTitleBox}>
           <Grid>
@@ -121,14 +117,12 @@ export default class UserScreen extends Component {
                 {getLocation(userStore.user.location)}
               </Text>
             </Col>
-            <Col style={{
-              ...styles.containerTitleBoxButton,
-              display: userStore.isChat ? 'none' : 'block'
-            }}>
-              <Button block transparent style={{ height: 55 }} onPress={() => this._setModalVisible(true)}>
-                <Icon active name='ios-chatbubbles' style={styles.containerTitleBoxButtonIcon} />
-              </Button>
-            </Col>
+            {(!userStore.isChat) ?
+              <Col style={styles.containerTitleBoxButton}>
+                <Button block transparent style={{ height: 55 }} onPress={() => this._setModalVisible(true)}>
+                  <Icon active name='ios-chatbubbles' style={styles.containerTitleBoxButtonIcon} />
+                </Button>
+              </Col> : null}
           </Grid>
         </View>
         <View style={styles.containerTextBox}>
@@ -136,9 +130,17 @@ export default class UserScreen extends Component {
             {userStore.user.intro}
           </Text>
         </View>
-      </View>
+      </View >
     );
   }
+}
+
+
+if (Platform.OS === 'android') {
+  UserScreen.navigationOptions = {
+    // title: 'Chat',
+    header: null,
+  };
 }
 
 const styles = StyleSheet.create({
@@ -208,8 +210,10 @@ const styles = StyleSheet.create({
   containerTextBox: {
     flex: 1,
     backgroundColor: '#fff',
+    height: '100%'
   },
   containerText: {
+    height: '100%',
     marginLeft: 15,
     marginRight: 15,
     fontStyle: 'normal',
@@ -220,7 +224,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     // justifyContent: 'center',
-    paddingTop: Math.round(Dimensions.get('window').height) * 0.3,
+    paddingTop: Math.round(Dimensions.get('window').height) * 0.2,
     backgroundColor: '#ecf0f1',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
@@ -235,11 +239,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalText: {
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontSize: 28,
+    top: 10,
+    padding: 10,
+    width: '100%'
   },
   modalButton: {
     padding: 10,
+    width: '50%'
   }
 });

@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   containerText: {
+    paddingTop: 10,
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: 'rgb(178, 181, 182)',

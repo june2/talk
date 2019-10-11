@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   Alert,
+  Dimensions
 } from 'react-native';
 import {
   Content,
@@ -17,7 +18,7 @@ import {
   Grid
 } from 'native-base';
 import { observer } from 'mobx-react';
-import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
+import RNPickerSelect from 'react-native-picker-select';
 import { locations, gender, age, getTimestamp } from '../constants/Items';
 import authService from '../services/auth'
 import authStore from './../stores/AuthStore';
@@ -50,7 +51,7 @@ export default class RegisterScreen extends Component {
 
   _signUpAsync = async () => {
     try {
-      if(!this.state.name) Alert.alert('닉네임을 입력해주세요!');
+      if (!this.state.name) return Alert.alert('닉네임을 입력해주세요!');
       let res = await authStore.register(
         this.state.email, this.state.password,
         this.state.name, this.state.gender,
@@ -100,13 +101,6 @@ export default class RegisterScreen extends Component {
                 />
               </Item> */}
               <Item inlineLabel style={styles.formBoxItem}>
-                <Label>Nickname</Label>
-                <Input
-                  onChangeText={(text) => this.setState({ name: text })}
-                  value={this.state.name}
-                />
-              </Item>
-              <Item inlineLabel style={styles.formBoxItem}>
                 <Label>Gender</Label>
                 <Grid>
                   <RNPickerSelect
@@ -151,6 +145,13 @@ export default class RegisterScreen extends Component {
                   />
                 </Grid>
               </Item>
+              <Item inlineLabel style={styles.formBoxItem}>
+                <Label>Nickname</Label>
+                <Input
+                  onChangeText={(text) => this.setState({ name: text })}
+                  value={this.state.name}
+                />
+              </Item>
             </Form>
             <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
               <Text>Getting started</Text>
@@ -175,6 +176,8 @@ export default class RegisterScreen extends Component {
 RegisterScreen.navigationOptions = {
   header: null,
 };
+
+const deviceWidth = Dimensions.get('window').width
 
 const styles = StyleSheet.create({
   container: {
@@ -233,9 +236,17 @@ const styles = StyleSheet.create({
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 16,
+    width: '100%'
+  },
+  inputAndroidContainer: {
+    width: 2000
   },
   inputAndroid: {
     fontSize: 16,
+    width: '100%'
+  },
+  viewContainer: {
+    width: '100%'
   },
   iconContainer: {
     top: 10,

@@ -10,9 +10,9 @@ export default class State extends Component {
   };
 
   componentDidMount() {    
-    setInterval(() => {
-      this._update();
-    }, 1000 * 60 * 10);
+    // setInterval(() => {
+    //   this._update();
+    // }, 1000 * 60 * 10);
   }
   _update = () => {
     authStore.updateLastLogin();

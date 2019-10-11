@@ -55,7 +55,7 @@ const UsersStack = createStackNavigator(
 UsersStack.navigationOptions = {
   tabBarLabel: 'Users',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-list-box' : 'md-list-box'} />
   ),
 };
 
@@ -105,8 +105,7 @@ MyStack.path = '';
  */
 const SettingsStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
-    Term: TermScreen,
+    Settings: SettingsScreen,    
   },
   config
 );

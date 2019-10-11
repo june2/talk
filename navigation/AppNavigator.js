@@ -8,6 +8,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import ChatScreen from '../screens/ChatScreen';
 import MyUpdateScreen from '../screens/MyUpdateScreen';
 import UserScreen from '../screens/UserScreen';
+import TermScreen from '../screens/TermScreen';
 
 export default createAppContainer(
   createSwitchNavigator(
@@ -23,8 +24,9 @@ export default createAppContainer(
           },
         },
         Chat: ChatScreen,
-        MyUpdate: MyUpdateScreen,        
+        MyUpdate: MyUpdateScreen,
         User: UserScreen,
+        Term: TermScreen,
       })
     },
     {
