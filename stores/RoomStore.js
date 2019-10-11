@@ -18,7 +18,7 @@ class RoomStore {
   @observable rooms = {};
   //TODO: unsolved warning 
   // @observable messages = {};
-  // @observable message = [];
+  @observable messages = [];
 
   @action async createRoom(userId, lastMsg) {
     try {
@@ -101,9 +101,9 @@ class RoomStore {
   }
 
   @action handlePush(roomId, msg, newVal) {
-    let roomIndex = this._findIndex(roomId);
-    if (null != index) {
-      let obj = this.list[roomIndex];
+    let roomIndex = this._findIndex(roomId);    
+    if (roomIndex != -1) {
+      let obj = this.list[roomIndex];      
       obj.count += 1;
       obj.lastMsg = msg;
       obj.updatedAt = new Date();
@@ -116,11 +116,11 @@ class RoomStore {
   }
 
   @action handlePushMsg(newVal) {
-    this.message.push(newVal);
+    this.messages = [newVal].concat(this.messages);
   }
 
   _findIndex(id) {
-    return this.list.findIndex(el => el.id === id);
+    return this.list.findIndex(el => el._id === id);
   }
 }
 

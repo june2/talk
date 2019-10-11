@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   FlatList,
-  Modal, View, Alert,
+  View, Alert,
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
@@ -13,6 +13,8 @@ import {
 import { observer, Observer } from 'mobx-react';
 import BadgeIcon from '../components/Badge';
 import { dateConvert } from '../components/Util';
+import Admob from '../components/Admob';
+import Notification from '../components/Notification';
 import config from '../constants/Config';
 import userStore from '../stores/UserStore';
 import roomStore from './../stores/RoomStore';
@@ -58,7 +60,7 @@ export default class ListScreen extends Component {
   _renderItem = (item, i) => {
     return <Observer>{() =>
       <ListItem avatar key={i} button={true} >
-        <Left>
+        <Left style={{ paddingTop: 10 }}>
           <TouchableOpacity key={item.id} onPress={() => this._openModal(item.user)}>
             <Thumbnail
               source={{
@@ -75,8 +77,9 @@ export default class ListScreen extends Component {
         <Right>
           <TouchableOpacity key={item.id} onPress={() => this._handleClick(item._id, i, item.user.name, item.user._id, item.count)}>
             <Text note>{dateConvert(item.updatedAt)}</Text>
-            <Text note></Text>
-            <BadgeIcon num={item.count} />
+            <View style={{ paddingTop: 4 }}>
+              <BadgeIcon num={item.count} />
+            </View>
           </TouchableOpacity>
         </Right>
       </ListItem>}
@@ -111,17 +114,8 @@ export default class ListScreen extends Component {
   render() {
     return (
       <View style={styles.container} >
-        {/* <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}>
-          <View style={{ flex: 1 }}>
-            <UserBox closeModal={(visible) => this.setModalVisible(visible)} sendMsg={(msg) => this.sendMsg(msg)} />
-          </View>
-        </Modal> */}
+        <Notification />
+        <Admob />
         {(roomStore.isEmpty) ? (
           <ListItem key={1} button={true} >
             <Body>
@@ -143,7 +137,7 @@ export default class ListScreen extends Component {
               refreshing={this.state.refreshing}
               onRefresh={this._handleRefresh}
               extraData={[this.state, this.props]}
-              style={styles.flatList}
+              style={styles.list}
             />
           )}
       </View>
@@ -160,10 +154,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  introBox: {
-    height: 34
-  },
-  flatList: {
-    flexGrow: 1,
+  list: {
+    paddingBottom: 60,
+    top: 60,
+    flex: 1
   }
 });

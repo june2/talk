@@ -83,7 +83,7 @@ export default class CarouselScreen extends Component {
               position: 'absolute',
               width: '100%',
               height: '100%',
-              zIndex: 3
+              zIndex: (authStore.me.images.length === 0) ? 3 : -1
             }}>
             <View style={styles.blurView}>
               <Text>사진을 보려면 자기 사진 한개이상 등록해주세요.</Text>

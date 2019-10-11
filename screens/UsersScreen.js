@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { View, Text, Dimensions, ActivityIndicator, RefreshControl } from "react-native";
+import { View, Dimensions, ActivityIndicator, RefreshControl } from "react-native";
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 import { observer } from 'mobx-react';
-import { AdMobBanner } from 'expo-ads-admob'
+import Admob from '../components/Admob';
 import Notification from '../components/Notification';
 import UserItem from '../components/UserItem';
 import userStore from '../stores/UserStore';
@@ -13,7 +13,7 @@ let { width } = Dimensions.get("window");
 export default class UsersScreen extends React.Component {
   constructor(args) {
     super(args);
-    this._rowRenderer = this._rowRenderer.bind(this);    
+    this._rowRenderer = this._rowRenderer.bind(this);
     this.state = {
       dataProvider: new DataProvider((r1, r2) => {
         return r1 !== r2;
@@ -22,7 +22,7 @@ export default class UsersScreen extends React.Component {
         index => 0,
         (type, dim) => {
           dim.width = width;
-          dim.height = 69;
+          dim.height = 68;
         }
       ),
       data: [],
@@ -37,7 +37,7 @@ export default class UsersScreen extends React.Component {
     if (!this.state.isLoading && this.state.totalDocs >= this.state.data.length) {
       this.state.isLoading = true;
       const res = await userStore.getUsers(this.state.limit, this.state.offset);
-      const data = res.docs
+      const data = res.docs;
       this.state.isLoading = false;
       this.setState({
         dataProvider: this.state.dataProvider.cloneWithRows(
@@ -79,23 +79,14 @@ export default class UsersScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Notification />
-        <View>
-          <AdMobBanner
-            style={styles.banner}
-            bannerSize="fullBanner"
-            adUnitID="ca-app-pub-3940256099942544/6300978111"
-            // Test ID, Replace with your-admob-unit-id
-            testDeviceID="EMULATOR"
-            onDidFailToReceiveAdWithError={(err) => console.log(err)}
-            onAdMobDispatchAppEvent={(evt) => console.log(evt)}
-          />
-        </View>
+        <Admob />
         {this.state.totalDocs > 0
           ?
           <View style={styles.list}>
             <RecyclerListView
               style={{ flex: 1 }}
               contentContainerStyle={{}}
+              initialRenderIndex={0}
               onEndReached={this._handleListEnd}
               dataProvider={this.state.dataProvider}
               layoutProvider={this.state.layoutProvider}
@@ -129,10 +120,5 @@ const styles = {
     paddingBottom: 60,
     top: 60,
     flex: 1
-  },
-  banner: {
-    position: "absolute",
-    top: 0,
-    zIndex: 2,
   },
 };

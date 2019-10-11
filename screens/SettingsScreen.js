@@ -9,7 +9,8 @@ import {
   Alert,
 } from 'react-native';
 import { observer } from 'mobx-react';
-import { AdMobBanner } from 'expo-ads-admob'
+import Admob from '../components/Admob';
+import Notification from '../components/Notification';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
 
@@ -53,15 +54,8 @@ export default class SettingsScreen extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <AdMobBanner
-          style={styles.bottomBanner}
-          bannerSize="fullBanner"
-          adUnitID="ca-app-pub-3940256099942544/6300978111"
-          // Test ID, Replace with your-admob-unit-id
-          testDeviceID="EMULATOR"
-          onDidFailToReceiveAdWithError={(err) => console.log(err)}
-          onAdMobDispatchAppEvent={(evt) => console.log(evt)}
-        />
+        <Notification />
+        <Admob />
         <Content style={styles.content}>
           {/* ID */}
           <Separator bordered>
@@ -169,7 +163,7 @@ SettingsScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 60    
+    paddingBottom: 60
   },
   content: {
     top: 60

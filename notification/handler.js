@@ -26,23 +26,23 @@ export default class Handler extends Component {
         };
         roomStore.handlePushMsg(msgObj);
         break;
-      case 'room':
-        let roomObj = {
-          _id: data.roomId,
-          lastMsg: data.msg,
-          user: {
-            id: data.userId,
-            name: data.userName,
-            images: [data.userImage],
-          },
-          updatedAt: new Date(),
-          count: 1,
-        }
-        roomStore.handlePush(roomId, data.msg, roomObj);
+      case 'room':       
         authStore.tabBadgeCount += 1;
         break;
     }
     // alert   
+    let roomObj = {
+      _id: data.roomId,
+      lastMsg: data.msg,
+      user: {
+        id: data.userId,
+        name: data.userName,
+        images: [data.userImage],
+      },
+      updatedAt: new Date(),
+      count: 1,
+    }
+    roomStore.handlePush(data.roomId, data.msg, roomObj);
     notificationStore.show();
   }
 }
