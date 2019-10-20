@@ -1,3 +1,9 @@
+
+
+
+
+// TODO: iphone6 list view error (test)
+
 import React, { Component } from 'react';
 import { View, StyleSheet, ActivityIndicator, Dimensions, Text } from 'react-native';
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview';

@@ -19,6 +19,7 @@ import Notification from '../components/Notification';
 import userStore from '../stores/UserStore';
 import roomStore from './../stores/RoomStore';
 import authStore from './../stores/AuthStore';
+import Colors from '../constants/Colors';
 
 @observer
 export default class ListScreen extends Component {
@@ -62,10 +63,10 @@ export default class ListScreen extends Component {
       <ListItem avatar key={i} button={true} >
         <Left style={{ paddingTop: 10 }}>
           <TouchableOpacity key={item.id} onPress={() => this._openModal(item.user)}>
-            <Thumbnail
-              source={{
-                uri: (item.user && item.user.images.length !== 0) ? item.user.images[0] : config.defaultUserImg
-              }} />
+            {(item.user && item.user.images.length !== 0) ?
+              <Thumbnail source={{ uri: item.user.images[0] }} /> :
+              <Thumbnail source={config.defaultUserImg(item.user.gender)} style={styles.defaultUserImg} />
+            }
           </TouchableOpacity>
         </Left>
         <Body>
@@ -155,6 +156,9 @@ if (Platform.OS === 'android') {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  defaultUserImg: {
+    backgroundColor: Colors.tabIconDefault
   },
   list: {
     paddingBottom: 60,

@@ -15,6 +15,7 @@ import roomStore from '../stores/RoomStore';
 import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 import Carousel from '../components/Carousel';
+import Colors from './../constants/Colors'
 
 @observer
 export default class UserScreen extends Component {
@@ -103,15 +104,12 @@ export default class UserScreen extends Component {
           <Grid>
             <Col>
               <Text style={styles.containerTitleBoxName}>{userStore.user.name}</Text>
-              {/* <Text style={styles.containerTitleBoxLocation}>
-                  {getAge(userStore.user.birthday)}   {userStore.user.location}
-                </Text> */}
               <Text style={styles.containerTitleBoxLocation}>
                 <Icon active name={
                   userStore.user.gender === 'M' ? 'md-female' : 'md-male'
                 } style={{
                   ...styles.containerGenderIcon,
-                  color: userStore.user.gender === 'M' ? '#007aff' : 'red',
+                  color: userStore.user.gender === 'M' ? '#FA4971' : 'red',
                 }} />&nbsp;&nbsp;&nbsp;
                 {getAge(userStore.user.birthday)}&nbsp;&nbsp;&nbsp;
                 {getLocation(userStore.user.location)}
@@ -196,7 +194,7 @@ const styles = StyleSheet.create({
   },
   containerTitleBoxButtonIcon: {
     fontSize: 40,
-    color: '#007aff',
+    color: Colors.tintColor,
   },
   containerButton: {
     flex: 1,

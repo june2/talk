@@ -149,7 +149,7 @@ export default class SettingsScreen extends Component {
           </ListItem> */}
           <Separator bordered />
           <Button block title="update" onPress={(e) => this._showAlert(e)} style={styles.formBoxButton}>
-            <Text>계겅 탈퇴</Text>
+            <Text>계정 탈퇴</Text>
           </Button>
         </Content>
       </Container>

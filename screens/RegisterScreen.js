@@ -5,7 +5,7 @@ import {
   StyleSheet,
   View,
   Alert,
-  Dimensions
+  Image
 } from 'react-native';
 import {
   Content,
@@ -15,7 +15,7 @@ import {
   Input,
   Button,
   Text,
-  Grid
+  Grid,
 } from 'native-base';
 import { observer } from 'mobx-react';
 import RNPickerSelect from 'react-native-picker-select';
@@ -24,6 +24,7 @@ import authService from '../services/auth'
 import authStore from './../stores/AuthStore';
 import NotificationHandler from './../notification/handler'
 import NotificationRegister from './../notification/register'
+import Colors from './../constants/Colors'
 
 @observer
 export default class RegisterScreen extends Component {
@@ -73,35 +74,19 @@ export default class RegisterScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Grid></Grid>
         <View style={styles.logoBox}>
-          <Grid></Grid>
-          <Grid></Grid>
-          <Content contentContainerStyle={styles.content} scrollEnabled={false}>
-            <Text style={styles.logoBoxTitle}>TALK</Text>
-            <Text style={styles.logoBoxSub}>TALK TALK</Text>
-          </Content>
+          <Image
+            source={require('./../assets/images/logo.png')}
+            resizeMode='contain'
+            style={styles.logoBoxImg}
+          />
         </View>
-        <View style={styles.formBox}>
-          <Content contentContainerStyle={styles.content} scrollEnabled={false}>
-            <Form style={{ margin: 0 }}>
-              {/* <Item inlineLabel style={styles.formBoxItem}>
-                <Label>E-mail</Label>
-                <Input
-                  ref="emailInput"
-                  onChangeText={(text) => this.setState({ email: text })}
-                  value={this.state.email}
-                />
-              </Item>
+        <View style={styles.middleBox}>
+          <Content contentContainerStyle={styles.content} >
+            <Form style={styles.formBox}>
               <Item inlineLabel style={styles.formBoxItem}>
-                <Label>Password</Label>
-                <Input
-                  secureTextEntry={true}
-                  onChangeText={(text) => this.setState({ password: text })}
-                  value={this.state.password}
-                />
-              </Item> */}
-              <Item inlineLabel style={styles.formBoxItem}>
-                <Label>Gender</Label>
+                <Label style={styles.label}>성별</Label>
                 <Grid>
                   <RNPickerSelect
                     placeholder={{}}
@@ -116,10 +101,9 @@ export default class RegisterScreen extends Component {
                 </Grid>
               </Item>
               <Item inlineLabel style={styles.formBoxItem}>
-                <Label>Age</Label>
+                <Label style={styles.label}>나이</Label>
                 <Grid>
                   <RNPickerSelect
-                    // placeholder={{}}
                     items={age}
                     onValueChange={val => {
                       this.setState({ age: val })
@@ -131,10 +115,9 @@ export default class RegisterScreen extends Component {
                 </Grid>
               </Item>
               <Item inlineLabel style={styles.formBoxItem}>
-                <Label>Location</Label>
+                <Label style={styles.label}>지역</Label>
                 <Grid>
                   <RNPickerSelect
-                    // placeholder={{}}
                     items={locations}
                     onValueChange={val => {
                       this.setState({ location: val })
@@ -146,26 +129,27 @@ export default class RegisterScreen extends Component {
                 </Grid>
               </Item>
               <Item inlineLabel style={styles.formBoxItem}>
-                <Label>Nickname</Label>
+                <Label style={styles.label}>닉네임</Label>
                 <Input
+                  style={styles.label}
                   onChangeText={(text) => this.setState({ name: text })}
                   value={this.state.name}
                 />
               </Item>
+              <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
+                <Text>시작하기</Text>
+              </Button>
             </Form>
-            <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
-              <Text>Getting started</Text>
-            </Button>
           </Content>
         </View>
         <View style={styles.bottomBox}>
           <Content contentContainerStyle={styles.content} scrollEnabled={false}>
-            <Text style={styles.bottomBoxText}>
+            {/* <Text style={styles.bottomBoxText}>
               이미 계정이 있으신가요?&nbsp;&nbsp;&nbsp;
             <Text onPress={() => this.props.navigation.navigate('SignIn')} style={styles.bottomBoxTextLink}>
                 로그인
             </Text>
-            </Text>
+            </Text> */}
           </Content>
         </View>
       </View >
@@ -177,36 +161,35 @@ RegisterScreen.navigationOptions = {
   header: null,
 };
 
-const deviceWidth = Dimensions.get('window').width
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#FA4971',
+    backgroundColor: Colors.tintColor,
   },
   logoBox: {
+    flex: 1.5,
+    alignItems: 'center',
+    width: '100%',
+  },
+  logoBoxImg: {
     flex: 1,
+    width: '40%',
   },
   content: {
     flexDirection: 'column',
     justifyContent: 'center',
     flex: 1
   },
-  logoBoxTitle: {
-    alignSelf: 'center',
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    fontSize: 48,
-  },
-  logoBoxSub: {
-    alignSelf: 'center',
-    fontStyle: 'normal',
-    fontWeight: '300',
-    fontSize: 22,
-    marginTop: -10
+  middleBox: {
+    flex: 3,
   },
   formBox: {
-    flex: 3,
+    width: '100%',
+    position: 'absolute',
+    top: 0
+  },
+  label: {
+    color: Colors.noticeText
   },
   formBoxButton: {
     margin: 30
@@ -214,7 +197,7 @@ const styles = StyleSheet.create({
   formBoxItem: {
     marginLeft: 32,
     marginRight: 32,
-    height: 50
+    height: 50,
   },
   bottomBox: {
     flex: 1,
@@ -235,6 +218,7 @@ const styles = StyleSheet.create({
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
+    color: Colors.noticeText,
     fontSize: 16,
     width: '100%'
   },
@@ -242,6 +226,7 @@ const pickerSelectStyles = StyleSheet.create({
     width: 2000
   },
   inputAndroid: {
+    color: Colors.noticeText,
     fontSize: 16,
     width: '100%'
   },

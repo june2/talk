@@ -4,7 +4,6 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import TabBarChatIcon from '../components/TabBarChatIcon';
-import HomeScreen from '../screens/HomeScreen';
 import UsersScreen from '../screens/UsersScreen';
 import ListScreen from '../screens/ListScreen';
 import MyScreen from '../screens/MyScreen';
@@ -13,34 +12,28 @@ import TermScreen from '../screens/TermScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
-  default: {},  
+  default: {},
 });
 
 /**
- * home
+ * My
  */
-const HomeStack = createStackNavigator(
+const MyStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    My: MyScreen,
+    // MyUpdate: MyUpdateScreen,
   },
   config
 );
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+MyStack.navigationOptions = {
+  tabBarLabel: 'My',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
   ),
 };
 
-HomeStack.path = '';
+MyStack.path = '';
 
 /**
  * Link
@@ -81,31 +74,11 @@ ListStack.navigationOptions = {
 ListStack.path = '';
 
 /**
- * My
- */
-const MyStack = createStackNavigator(
-  {
-    My: MyScreen,
-    // MyUpdate: MyUpdateScreen,
-  },
-  config
-);
-
-MyStack.navigationOptions = {
-  tabBarLabel: 'My',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
-  ),
-};
-
-MyStack.path = '';
-
-/**
  * Setting
  */
 const SettingsStack = createStackNavigator(
   {
-    Settings: SettingsScreen,    
+    Settings: SettingsScreen,
   },
   config
 );
@@ -120,7 +93,6 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  // HomeStack,  
   MyStack,
   UsersStack,
   ListStack,

@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import {
   StyleSheet,
-  View, Text,
-  Image
+  Text,
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,
@@ -14,6 +13,7 @@ import { getLocation } from '../constants/Items';
 import { getAge } from './../components/Util';
 import { observer } from 'mobx-react';
 import userStore from '../stores/UserStore';
+import Colors from '../constants/Colors';
 
 let id = 0;
 
@@ -34,10 +34,10 @@ export default class UserItem extends PureComponent {
     return (
       <ListItem style={{ height: 65 }} avatar key={this._id} button={true} onPress={() => this._handleClick(this.props.user)} >
         <Left style={styles.itemLeft}>
-          <Thumbnail
-            source={{
-              uri: (this.props.user && this.props.user.images && this.props.user.images.length !== 0) ? this.props.user.images[0] : config.defaultUserImg
-            }} />
+          {(this.props.user && this.props.user.images && this.props.user.images.length !== 0) ?
+            <Thumbnail source={{ uri: this.props.user.images[0] }} /> :
+            <Thumbnail source={config.defaultUserImg(this.props.user.gender)} style={styles.defaultUserImg} />
+          }
         </Left>
         <Body style={{ height: 65 }}>
           <Text>{this.props.user.name}</Text>
@@ -53,9 +53,8 @@ export default class UserItem extends PureComponent {
             }} />&nbsp;&nbsp;&nbsp;
             {getAge(this.props.user.birthday)}
           </Text>
-          {/* <Text note>{getAge(this.props.user.birthday)}</Text> */}
           <Text style={styles.introBox}>{getLocation(this.props.user.location)}</Text>
-        </Right> 
+        </Right>
       </ListItem>
     );
   }
@@ -68,8 +67,8 @@ const styles = StyleSheet.create({
   itemRight: {
     // paddingBottom: 0
   },
-  text: {
-    color: 'red'
+  defaultUserImg: {
+    backgroundColor: Colors.tabIconDefault
   },
   introBox: {
     height: 34,

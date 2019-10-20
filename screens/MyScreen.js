@@ -5,13 +5,14 @@ import {
   Dimensions,
 } from 'react-native';
 import { Text, Button, Icon, } from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Col, Grid } from 'react-native-easy-grid';
 import { observer } from 'mobx-react';
 import authStore from './../stores/AuthStore';
 import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 import Notification from '../components/Notification';
 import Carousel  from '../components/Carousel';
+import color from './../constants/Colors'
 
 @observer
 export default class MyScreen extends Component {
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
   },
   containerTitleBoxButtonIcon: {
     fontSize: 40,
-    color: '#007aff',
+    color: color.tintColor,
   },
   containerButton: {
     flex: 1,
