@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Platform, KeyboardAvoidingView, View, Modal } from 'react-native';
+import { Platform, KeyboardAvoidingView, View, Modal, Text, Image } from 'react-native';
 import { Icon, ActionSheet } from 'native-base';
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, Send } from 'react-native-gifted-chat'
 import { observer } from 'mobx-react';
 import Report from '../components/Report';
 import msgService from './../services/messages';
@@ -42,9 +42,9 @@ export default class ChatScreen extends Component {
             ActionSheet.show(
               {
                 options: [
-                  { text: "report" },
-                  { text: "leave" },
-                  { text: "cancle" }
+                  { text: "신고하기" },
+                  { text: "나가기" },
+                  { text: "취소" }
                 ],
                 cancelButtonIndex: 2,
                 // destructiveButtonIndex: 4,
@@ -145,9 +145,16 @@ export default class ChatScreen extends Component {
             <GiftedChat
               messages={roomStore.messages}
               onSend={messages => this._onSend(messages)}
-              alwaysShowSend={true}
               textInputProps={{ autoFocus: false, placeholder: '' }}
               user={{ _id: authStore.me.id }}
+              alwaysShowSend={true}
+              renderSend={(props) => <Send
+                {...props}
+              >
+                <View style={{ marginRight: 10, marginBottom: 5 }}>
+                  <Icon name='md-send' />
+                </View>
+              </Send>}
             />
         }
       </View>

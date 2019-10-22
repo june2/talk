@@ -12,7 +12,8 @@ class AuthStore {
   @observable token = null;
   @observable me = {
     images: [],
-    tabBadgeCount: 0
+    tabBadgeCount: 0,
+    point: 0,
   };
 
   @action async register(email, password, name, gender, birthday, location) {
@@ -70,7 +71,7 @@ class AuthStore {
   @action async updateLastLogin() {
     try {
       if (this.token) {
-        this._user.updateLastLogin();
+        return this._user.updateLastLogin();
       }
     } catch (err) {
       throw err;
@@ -91,6 +92,14 @@ class AuthStore {
     try {
       this.slider[0].title = name;
       this.slider = this.slider;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  @action async updatePoint(point) {
+    try {
+      this.me.point = point;
     } catch (err) {
       throw err;
     }

@@ -15,6 +15,7 @@ import Notification from '../components/Notification';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
 
+
 @observer
 export default class SettingsScreen extends Component {
   constructor(props) {

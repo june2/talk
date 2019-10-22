@@ -17,6 +17,7 @@ class AuthService {
       }
       return await this._api.post('/register', data);
     } catch (err) {
+      console.log(err);
       throw err;
     }
   }

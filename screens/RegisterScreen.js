@@ -104,6 +104,7 @@ export default class RegisterScreen extends Component {
                 <Label style={styles.label}>나이</Label>
                 <Grid>
                   <RNPickerSelect
+                    placeholder={{}}
                     items={age}
                     onValueChange={val => {
                       this.setState({ age: val })
@@ -118,6 +119,7 @@ export default class RegisterScreen extends Component {
                 <Label style={styles.label}>지역</Label>
                 <Grid>
                   <RNPickerSelect
+                    placeholder={{}}
                     items={locations}
                     onValueChange={val => {
                       this.setState({ location: val })
@@ -232,9 +234,5 @@ const pickerSelectStyles = StyleSheet.create({
   },
   viewContainer: {
     width: '100%'
-  },
-  iconContainer: {
-    top: 10,
-    right: 12,
   },
 });
