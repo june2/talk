@@ -24,10 +24,14 @@
     ],
     "ios": {
       "bundleIdentifier": "com.indeefun.talk",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "publishBundlePath": "ios/---/Supporting/shell-app.bundle",
+      "publishManifestPath": "ios/---/Supporting/shell-app-manifest.json"
     },
     "android": {
-      "package": "com.indeefun.talk"
+      "package": "com.indeefun.talk",
+      "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
+      "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
     },
     "description": "talk talk talk",
     "androidStatusBar": {

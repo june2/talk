@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import {
   Container, Content, ListItem, Separator, Thumbnail, Grid, Col,
-  Button, Text, Icon, Left, Body, Right, DatePicker, Textarea, Input, ActionSheet
+  Button, Text, Icon, Left, Body, Textarea, Input, ActionSheet,
+  Label
 } from 'native-base';
 import {
   StyleSheet, Dimensions,
   Alert, TouchableHighlight,
   Modal,
-  View
+  View,
 } from 'react-native';
 import { observer } from 'mobx-react';
-import { ImagePicker, Permissions, Constants } from 'expo';
-import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions'
+import RNPickerSelect from 'react-native-picker-select';
 import { locations, gender, age } from '../constants/Items';
-import { getAge, getYear } from '../components/Util';
+import Colors from './../constants/Colors'
+import { getYear } from '../components/Util';
 import authStore from './../stores/AuthStore';
-import userStore from './../stores/UserStore';
 
 @observer
 export default class SettingsScreen extends Component {
@@ -68,7 +70,7 @@ export default class SettingsScreen extends Component {
       }
     } catch (err) {
       this.setState({ isLoading: false });
-      Alert.alert('Server error');
+      Alert.alert('서버 에러입니다.');
     }
   };
 
@@ -80,8 +82,8 @@ export default class SettingsScreen extends Component {
     ActionSheet.show(
       {
         options: [
-          { text: "Delete", icon: "trash", iconColor: "#fa213b" },
-          { text: "Cancle", icon: "close", iconColor: "#25de5b" }
+          { text: "삭제", icon: "trash", iconColor: "#fa213b" },
+          { text: "취소", icon: "close", iconColor: "#25de5b" }
         ],
         cancelButtonIndex: 1,
       },
@@ -117,9 +119,7 @@ export default class SettingsScreen extends Component {
   getPermissionAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
-    } else {
-      throw new Error('Camera permission not granted');
+      Alert.alert('사진 사용을 허용해주세요!');
     }
   }
 
@@ -176,76 +176,13 @@ export default class SettingsScreen extends Component {
               </Grid>
             </Body>
           </ListItem>
-          {/* name */}
           <Separator bordered>
             <Text>Information</Text>
           </Separator>
-          <ListItem icon>
-            <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="ios-person" />
-              </Button>
-            </Left>
-            <Body>
-              <Input
-                value={authStore.me.name}
-                style={{ paddingLeft: 0 }}
-                onChangeText={val => { authStore.me.name = val }}
-              />
-            </Body>
-          </ListItem>
-          {/* <ListItem icon>
-            <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="calendar" />
-              </Button>
-            </Left>
-            <Body>
-              <DatePicker
-                defaultDate={new Date(1900, 1, 1)}
-                minimumDate={new Date(1950, 1, 1)}
-                maximumDate={new Date(2000, 12, 31)}
-                locale={"en"}
-                timeZoneOffsetInMinutes={undefined}
-                formatChosenDate={date => { return moment(date).format('YYYY-MM-DD'); }}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"default"}
-                placeHolderText=""
-                textStyle={{ color: "black", margin: 0, padding: 0 }}
-                placeHolderTextStyle={{ color: "#fff" }}
-                onDateChange={() => authStore.me.birth}
-              />
-            </Body>
-            <Right>
-            </Right>
-          </ListItem> */}
-          {/* age */}
-          <ListItem icon >
-            <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="locate" />
-              </Button>
-            </Left>
-            <Body>
-              <RNPickerSelect
-                placeholder={{}}
-                items={age}
-                onValueChange={val => {
-                  authStore.me.birthday = new Date(`${val}-01-01`);
-                }}
-                InputAccessoryView={() => null}
-                style={pickerSelectStyles}
-                value={getYear(authStore.me.birthday)}
-              />
-            </Body>
-          </ListItem>
           {/* gender */}
           <ListItem icon >
             <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="locate" />
-              </Button>
+              <Label style={styles.label}>성별</Label>
             </Left>
             <Body>
               <RNPickerSelect
@@ -260,12 +197,28 @@ export default class SettingsScreen extends Component {
               />
             </Body>
           </ListItem>
-          {/* location */}
-          <ListItem icon last>
+          {/* age */}
+          <ListItem icon >
             <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="locate" />
-              </Button>
+              <Label style={styles.label}>나이</Label>
+            </Left>
+            <Body>
+              <RNPickerSelect
+                placeholder={{}}
+                items={age}
+                onValueChange={val => {
+                  authStore.me.birthday = new Date(`${val}-01-01`);
+                }}
+                InputAccessoryView={() => null}
+                style={pickerSelectStyles}
+                value={getYear(authStore.me.birthday)}
+              />
+            </Body>
+          </ListItem>
+          {/* location */}
+          <ListItem icon >
+            <Left>
+              <Label style={styles.label}>지역</Label>
             </Left>
             <Body>
               <RNPickerSelect
@@ -277,6 +230,19 @@ export default class SettingsScreen extends Component {
                 InputAccessoryView={() => null}
                 style={pickerSelectStyles}
                 value={authStore.me.location}
+              />
+            </Body>
+          </ListItem>
+          {/* 닉네임 */}
+          <ListItem icon last>
+            <Left>
+              <Label style={styles.label}>닉네임</Label>
+            </Left>
+            <Body>
+              <Input
+                value={authStore.me.name}
+                style={{ paddingLeft: 0 }}
+                onChangeText={val => { authStore.me.name = val }}
               />
             </Body>
           </ListItem>
@@ -307,6 +273,9 @@ const styles = StyleSheet.create({
   },
   formBoxButton: {
     margin: 30
+  },
+  label: {
+    color: Colors.textColor
   },
 });
 
