@@ -28,7 +28,7 @@ export default class AuthLoadingScreen extends React.Component {
       authStore.token = userToken;
       let res = await authStore.updateLastLogin();
       this._checkLogin(res.data);
-      this.props.navigation.navigate('Main');
+      this.props.navigation.navigate('Users');
     } else {
       // this.props.navigation.navigate('Auth');
       this.props.navigation.navigate('Register');

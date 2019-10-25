@@ -1,7 +1,3 @@
-
-
-
-
 // TODO: iphone6 list view error (test)
 
 import React, { Component } from 'react';

@@ -116,7 +116,7 @@ export default class ListScreen extends Component {
     return (
       <View style={styles.container} >
         <Notification />
-        <Admob />
+        {/* <Admob /> */}
         {(roomStore.isEmpty) ? (
           <ListItem key={1} button={true} style={{ paddingTop: 70 }}>
             <Body>
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.tabIconDefault
   },
   list: {
-    paddingBottom: 60,
-    top: 60,
+    // paddingBottom: 60,
+    // top: 60,
     flex: 1
   },
   listRight: {

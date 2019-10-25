@@ -64,7 +64,7 @@ export default class RegisterScreen extends Component {
         await AsyncStorage.setItem('token', res.accessToken);
         await authStore.getMe();
         authStore.token = res.accessToken;
-        this.props.navigation.navigate('Settings');
+        this.props.navigation.navigate('My');
       }
     } catch (err) {
       Alert.alert('Error', err.message)

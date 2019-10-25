@@ -79,7 +79,7 @@ export default class UsersScreen extends Component {
     return (
       <View style={styles.container}>
         <Notification />
-        <Admob />
+        {/* <Admob /> */}
         {this.state.totalDocs > 0
           ?
           <View style={styles.list}>
@@ -124,8 +124,8 @@ const styles = {
     flex: 1
   },
   list: {
-    paddingBottom: 60,
-    top: 60,
+    // paddingBottom: 60,
+    // top: 60,
     flex: 1
   },
 };

@@ -9,6 +9,8 @@ import ChatScreen from '../screens/ChatScreen';
 import MyUpdateScreen from '../screens/MyUpdateScreen';
 import UserScreen from '../screens/UserScreen';
 import TermScreen from '../screens/TermScreen';
+import PaymentScreen from '../screens/PaymentScreen';
+
 
 export default createAppContainer(
   createSwitchNavigator(
@@ -16,7 +18,7 @@ export default createAppContainer(
       AuthLoading: AuthLoadingScreen,
       Auth: createStackNavigator({ SignIn: LoginScreen }),
       Register: createStackNavigator({ Register: RegisterScreen }),
-      Chat: createStackNavigator({
+      Main: createStackNavigator({
         Main: {
           screen: MainTabNavigator,
           navigationOptions: {
@@ -27,6 +29,7 @@ export default createAppContainer(
         MyUpdate: MyUpdateScreen,
         User: UserScreen,
         Term: TermScreen,
+        Payment: PaymentScreen,
       })
     },
     {

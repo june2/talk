@@ -72,69 +72,34 @@ export default class SettingsScreen extends Component {
     return (
       <Container style={styles.container}>
         <Notification />
-        <Admob />
+        {/* <Admob /> */}
         <Content style={styles.content}>
           {/* ID */}
           <Separator bordered>
             <Text>ID</Text>
           </Separator>
           <ListItem icon last>
-            {/* <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="ios-person" />
-              </Button>
-            </Left> */}
             <Body>
               <Text>{authStore.me.id}</Text>
             </Body>
           </ListItem>
-          {/* email */}
-          {/* <Separator bordered>
-            <Text>E-mail</Text>
-          </Separator>
-          <ListItem icon last>
-            <Body>
-              <Text>{authStore.me.email}</Text>
-            </Body>
-          </ListItem> */}
           {/* point */}
           <Separator bordered>
             <Text>Point</Text>
           </Separator>
           <ListItem icon >
-            {/* <Left>
-              <Button style={{ backgroundColor: "#FF9501" }}>
-                <Icon active name="ios-person" />
-              </Button>
-            </Left> */}
             <Body>
-              <Text>{authStore.me.point}</Text>
+              <Text>보유 포인트 : {authStore.me.point}</Text>
             </Body>
           </ListItem>
-          <ListItem icon last onPress={() => this.props.navigation.navigate('Term')}>
+          <ListItem icon last onPress={() => this.props.navigation.navigate('Payment')}>
             <Body>
-              <Text>700 포인트 구매</Text>
+              <Text>포인트 구매하기</Text>
             </Body>
             <Right>
               <Icon name="arrow-forward" />
             </Right>
-          </ListItem>
-          <ListItem icon last onPress={() => this.props.navigation.navigate('Term')}>
-            <Body>
-              <Text>4000 포인트 구매</Text>
-            </Body>
-            <Right>
-              <Icon name="arrow-forward" />
-            </Right>
-          </ListItem>
-          <ListItem icon last onPress={() => this.props.navigation.navigate('Term')}>
-            <Body>
-              <Text>8000 포인트 구매</Text>
-            </Body>
-            <Right>
-              <Icon name="arrow-forward" />
-            </Right>
-          </ListItem>
+          </ListItem>          
           {/* push */}
           <Separator bordered>
             <Text>Push</Text>
@@ -155,14 +120,6 @@ export default class SettingsScreen extends Component {
               <Icon name="arrow-forward" />
             </Right>
           </ListItem>
-          {/* <ListItem icon last onPress={() => this.props.navigation.navigate('Term')}>
-            <Body>
-              <Text>약관</Text>
-            </Body>
-            <Right>
-              <Icon name="arrow-forward" />
-            </Right>
-          </ListItem> */}
           <Separator bordered />
           <Button block title="update" onPress={(e) => this._showAlert(e)} style={styles.formBoxButton}>
             <Text>계정 탈퇴</Text>
@@ -184,7 +141,7 @@ const styles = StyleSheet.create({
     paddingBottom: 60
   },
   content: {
-    top: 60
+    // top: 60
   },
   formBoxButton: {
     margin: 30
