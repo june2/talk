@@ -6,9 +6,9 @@ class UserService {
     this._api = api('users');
   }
 
-  async getUsers(limit, offset) {
+  async getUsers(limit, page) {
     try {
-      return await this._api.get(`/?limit=${limit}&offset=${offset}`);
+      return await this._api.get(`/?limit=${limit}&page=${page}`);
     } catch (err) {
       throw err;
     }

@@ -4,9 +4,9 @@ import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
 import Notification from '../components/Notification';
-import UserItem from '../components/UserItem2';
+import UserItem from '../components/UserItem';
 import userStore from '../stores/UserStore';
-import { DataCall } from './UsersScreen2_DataCall';
+import userService from '../services/users';
 
 let { width } = Dimensions.get("window");
 
@@ -15,6 +15,7 @@ export default class UsersScreen extends Component {
   constructor(args) {
     super(args);
     this._rowRenderer = this._rowRenderer.bind(this);
+    this._users = userService;
     this.state = {
       dataProvider: new DataProvider((r1, r2) => {
         return r1 !== r2;
@@ -29,7 +30,7 @@ export default class UsersScreen extends Component {
       data: [],
       totalDocs: 0,
       page: 1,
-      limit: 10,
+      limit: 30,
       hasNextPage: true,
       isLoading: false,
     };
@@ -38,7 +39,7 @@ export default class UsersScreen extends Component {
   _fetchMoreData = async () => {
     if (!this.state.isLoading && this.state.hasNextPage) {
       this.state.isLoading = true;
-      const res = await DataCall.get('users', '/', this.state.count, 20);
+      const res = await userService.getUsers(this.state.limit, this.state.page);
       this.state.isLoading = false;
       this.setState({
         dataProvider: this.state.dataProvider.cloneWithRows(
