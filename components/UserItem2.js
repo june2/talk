@@ -3,7 +3,7 @@ import { Text, View, Image, TouchableHighlight } from "react-native";
 import { Icon } from 'native-base';
 import { observer } from 'mobx-react';
 import { getLocation } from '../constants/Items';
-import { getAge } from './../components/Util';
+import { getAge } from './Util';
 import config from '../constants/Config';
 import userStore from '../stores/UserStore';
 
