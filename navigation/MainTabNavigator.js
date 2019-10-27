@@ -8,7 +8,6 @@ import UsersScreen from '../screens/UsersScreen';
 import ListScreen from '../screens/ListScreen';
 import MyScreen from '../screens/MyScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import TermScreen from '../screens/TermScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },

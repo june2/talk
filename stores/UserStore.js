@@ -1,5 +1,4 @@
 import { observable, action, computed, configure } from 'mobx';
-import config from '../constants/Config';
 import userService from './../services/users'
 
 class UserStore {
@@ -10,7 +9,8 @@ class UserStore {
     images: []
   };
   @observable slider = [];
-  @observable users = [];
+  @observable list = [];
+  @observable users = {};
   @observable token = null;
   @observable isChat = false;
 
@@ -35,9 +35,15 @@ class UserStore {
     }
   }
 
-  @action async getUsers(limit = 20, offset = 0) {
+  @action async getUsers(limit = 20, page = 1) {
     try {
-      this.users = await this._user.getUsers(limit, offset);
+      this.users = await this._user.getUsers(limit, page);                  
+      if (page === 1) {
+        this.list = this.users.docs;
+      } else {
+        this.list = this.list.concat(this.users.docs);
+      }
+      if (this.list.length > 0) this.isEmpty = false;
       return this.users;
     } catch (err) {
       // Alert.alert('Error', err.message)

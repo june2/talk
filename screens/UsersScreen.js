@@ -4,8 +4,9 @@ import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
 import Notification from '../components/Notification';
-import UserItem from '../components/UserItem';
+import UserItem from '../components/UserItem2';
 import userStore from '../stores/UserStore';
+import { DataCall } from './UsersScreen2_DataCall';
 
 let { width } = Dimensions.get("window");
 
@@ -27,25 +28,27 @@ export default class UsersScreen extends Component {
       ),
       data: [],
       totalDocs: 0,
-      offset: 0,
-      limit: 30,
-      isLoading: false
+      page: 1,
+      limit: 10,
+      hasNextPage: true,
+      isLoading: false,
     };
   }
 
   _fetchMoreData = async () => {
-    if (!this.state.isLoading && this.state.totalDocs >= this.state.data.length) {
+    if (!this.state.isLoading && this.state.hasNextPage) {
       this.state.isLoading = true;
-      const res = await userStore.getUsers(this.state.limit, this.state.offset);
-      const data = res.docs;
+      const res = await DataCall.get('users', '/', this.state.count, 20);
       this.state.isLoading = false;
       this.setState({
         dataProvider: this.state.dataProvider.cloneWithRows(
-          this.state.data.concat(data)
+          this.state.data.concat(res.docs)
         ),
-        data: this.state.data.concat(data),
-        offset: res.offset + this.state.limit,
-        totalDocs: this.state.totalDocs + res.totalDocs,
+        data: this.state.data.concat(res.docs),
+        page: res.page + 1,
+        totalDocs: res.totalDocs,
+        refreshing: false,
+        hasNextPage: res.hasNextPage
       });
     }
   }
@@ -99,7 +102,7 @@ export default class UsersScreen extends Component {
                     onRefresh={async () => {
                       this.setState({
                         data: [],
-                        offset: 0,
+                        page: 1,
                       }, this._fetchMoreData);
                     }}
                   />
@@ -113,7 +116,7 @@ export default class UsersScreen extends Component {
   }
 }
 
-if(Platform.OS === 'android'){
+if (Platform.OS === 'android') {
   UsersScreen.navigationOptions = {
     header: null,
   };
