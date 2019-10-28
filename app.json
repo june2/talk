@@ -3,7 +3,7 @@
     "name": "톡톡톡",
     "slug": "talk",
     "privacy": "public",
-    "sdkVersion": "33.0.0",
+    "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android"
@@ -23,19 +23,8 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.indeefun.talk",
-      "supportsTablet": true,
-      "publishBundlePath": "ios/---/Supporting/shell-app.bundle",
-      "publishManifestPath": "ios/---/Supporting/shell-app-manifest.json"
+      "supportsTablet": true
     },
-    "android": {
-      "package": "com.indeefun.talk",
-      "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
-      "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
-    },
-    "description": "talk talk talk",
-    "androidStatusBar": {
-      "backgroundColor": "#C2185B"
-    }
+    "description": "talk talk talk"
   }
 }

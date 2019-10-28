@@ -7,6 +7,7 @@ import Report from '../components/Report';
 import msgService from './../services/messages';
 import roomStore from './../stores/RoomStore';
 import authStore from './../stores/AuthStore';
+import Colors from './../constants/Colors'
 
 @observer
 export default class ChatScreen extends Component {
@@ -152,7 +153,7 @@ export default class ChatScreen extends Component {
                 {...props}
               >
                 <View style={{ marginRight: 10, marginBottom: 5 }}>
-                  <Icon name='md-send' />
+                  <Icon name='md-send' style={{ color: Colors.tintColor }} />
                 </View>
               </Send>}
             />

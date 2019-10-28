@@ -9,7 +9,7 @@ import userStore from '../stores/UserStore';
 
 @observer
 export default class UserItem extends Component {
-  _handleClick(user) {
+  _handleClick(user) {    
     userStore.setUser(user, false);
     this.setState({ userId: user.id });
     this.props.navigation.navigate('User');

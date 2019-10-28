@@ -17,9 +17,9 @@ class RoomService {
     }
   }
 
-  async getRooms(limit, offset) {
+  async getRooms(page, limit) {
     try {
-      return await this._api.get(`/?limit=${limit}&offset=${offset}`);
+      return await this._api.get(`/?page=${page}&limit=${limit}`);
     } catch (err) {
       throw err;
     }

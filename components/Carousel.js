@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Animated, View, StyleSheet, Image, Dimensions, ScrollView, Text } from 'react-native'
+import {
+  Button
+} from 'native-base';
 import { observer } from 'mobx-react';
 import { BlurView } from 'expo-blur';
 import authStore from '../stores/AuthStore';
@@ -90,6 +93,9 @@ export default class CarouselScreen extends Component {
             }}>
             <View style={styles.blurView}>
               <Text>사진을 보려면 자기 사진 한개이상 등록해주세요.</Text>
+              <Button style={styles.button} block onPress={(e) => this.props.navigation.navigate('MyUpdate')}>
+                <Text style={styles.buttonText}>사진 등록하기</Text>
+              </Button>
             </View>
           </BlurView>
           : null
@@ -139,6 +145,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     top: 0,
+  },
+  button: {
+    marginTop: 15,
+  },
+  buttonText: {
+    color: Colors.noticeText
   },
   blurView: {
     alignSelf: 'center',

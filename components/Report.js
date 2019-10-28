@@ -3,7 +3,7 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  Platform,
+  // Platform,
   Alert,
 } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';

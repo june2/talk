@@ -64,9 +64,9 @@ export default class UserScreen extends Component {
     // 차감
     authStore.me.point -= 50;
     this.setState({ isSent: true });
-    let room = await roomStore.createRoom(userStore.user.id, this.state.text);
+    let room = await roomStore.createRoom(userStore.user._id, this.state.text);
     await roomStore.getRooms();
-    roomStore.setValue(room.id, 0, userStore.user.name, userStore.user.id);
+    roomStore.setValue(room.id, 0, userStore.user.name, userStore.user._id);
     this._setModalVisible(false);
     this.props.navigation.navigate('Chat');
   }
@@ -84,13 +84,13 @@ export default class UserScreen extends Component {
               <Textarea rowSpan={5} placeholder="메시지를 보내세요!" style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
               <View style={{ flexDirection: 'row' }}>
                 <View style={styles.modalButton}>
-                  <Button block title="send" onPress={() => this._sendMsg()} >
-                    <Text>보내기</Text>
+                  <Button block title="cancel" onPress={() => this._setModalVisible(false)} >
+                    <Text>취소</Text>
                   </Button>
                 </View>
                 <View style={styles.modalButton}>
-                  <Button block title="cancel" onPress={() => this._setModalVisible(false)} >
-                    <Text>취소</Text>
+                  <Button block title="send" onPress={() => this._sendMsg()} >
+                    <Text>보내기</Text>
                   </Button>
                 </View>
               </View>
@@ -98,7 +98,7 @@ export default class UserScreen extends Component {
           </View>
         </Modal>
         <View style={styles.containerImgBox}>
-          <Carousel images={userStore.user.images} isMe={false} />
+          <Carousel images={userStore.user.images} isMe={false} navigation={this.props.navigation} />
         </View>
         <View style={styles.containerTitleBox}>
           <Grid>

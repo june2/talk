@@ -15,7 +15,9 @@ class RoomStore {
   @observable list = [];
   @observable isEmpty = true;
   @observable room = {};
-  @observable rooms = {};
+  @observable rooms = {
+    hasNextPage: true
+  };
   @observable messages = [];
 
   @action async createRoom(userId, lastMsg) {
@@ -27,9 +29,9 @@ class RoomStore {
     }
   }
 
-  @action async getRooms(limit = 20, page = 1) {
+  @action async getRooms(page = 1, limit = 20) {
     try {
-      this.rooms = await this._room.getRooms(limit, page);
+      this.rooms = await this._room.getRooms(page, limit);
       if (page === 1) {
         this.list = this.rooms.docs;
       } else {
@@ -100,9 +102,9 @@ class RoomStore {
   }
 
   @action handlePush(roomId, msg, newVal) {
-    let roomIndex = this._findIndex(roomId);    
+    let roomIndex = this._findIndex(roomId);
     if (roomIndex != -1) {
-      let obj = this.list[roomIndex];      
+      let obj = this.list[roomIndex];
       obj.count += 1;
       obj.lastMsg = msg;
       obj.updatedAt = new Date();

@@ -23,7 +23,7 @@ import authStore from './../stores/AuthStore';
 export default class SettingsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Profile',
+      title: '',
       navigatorStyle: {
         navBarHidden: false,
       },

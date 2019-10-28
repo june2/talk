@@ -17,8 +17,8 @@ import { dateConvert } from '../components/Util';
 import Admob from '../components/Admob';
 import Notification from '../components/Notification';
 import userStore from '../stores/UserStore';
-import roomStore from './../stores/RoomStore';
-import authStore from './../stores/AuthStore';
+import roomStore from '../stores/RoomStore';
+import authStore from '../stores/AuthStore';
 import Colors from '../constants/Colors';
 
 @observer
@@ -89,7 +89,7 @@ export default class ListScreen extends Component {
 
   _getData = async () => {
     if (this.state.hasNextPage) {
-      let res = await roomStore.getRooms(this.state.limit, this.state.page);
+      let res = await roomStore.getRooms(this.state.page, this.state.limit);
       this.setState({
         page: res.page + 1,
         totalDocs: res.totalDocs,
