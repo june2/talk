@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Platform, KeyboardAvoidingView, View, Modal, Text, Image } from 'react-native';
+import { Platform, KeyboardAvoidingView, View, Modal, Alert, } from 'react-native';
 import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat, Send } from 'react-native-gifted-chat'
 import { observer } from 'mobx-react';
+import * as ImagePicker from 'expo-image-picker';
 import Report from '../components/Report';
 import msgService from './../services/messages';
 import roomStore from './../stores/RoomStore';
@@ -76,7 +77,6 @@ export default class ChatScreen extends Component {
     this.state = {
       roomIndex: roomStore.roomIndex,
       roomId: roomStore.roomId,
-      messages: [],
       refreshing: false,
       totalDocs: 0,
       offset: 0,
@@ -100,11 +100,36 @@ export default class ChatScreen extends Component {
 
   _onSend(messages = []) {
     roomStore.createMessage(authStore.me.id, roomStore.roomUserId, messages[0].text);
-    this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }))
     roomStore.messages = GiftedChat.append(roomStore.messages, messages);
   }
+
+  _onSendImg = async (uri) => {
+    let date = new Date();
+    let newVal = [{
+      _id: date.getTime(),
+      createdAt: date,
+      image: uri,
+      user: { _id: authStore.me.id },
+    }]
+    roomStore.messages = GiftedChat.append(roomStore.messages, newVal);
+    let image = await authStore.sendImage(uri);
+    roomStore.createImage(authStore.me.id, roomStore.roomUserId, '사진...', image);
+  }
+
+  _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [3, 4],
+      });
+      if (!result.cancelled) {
+        this._onSendImg(result.uri);
+      }
+    } catch (err) {
+      Alert.alert('서버 에러입니다.');
+    }
+  };
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -149,6 +174,13 @@ export default class ChatScreen extends Component {
               textInputProps={{ autoFocus: false, placeholder: '' }}
               user={{ _id: authStore.me.id }}
               alwaysShowSend={true}
+              renderActions={(props) => <Send
+                {...props}
+              >
+                <View style={{ marginLeft: 14, marginBottom: 5 }}>
+                  <Icon name='md-images' style={{ color: Colors.tintColor }} onPress={() => this._pickImage()} />
+                </View>
+              </Send>}
               renderSend={(props) => <Send
                 {...props}
               >

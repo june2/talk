@@ -52,14 +52,14 @@ class RoomStore {
         this.messages = arr.map((chatMessage) => {
           return {
             _id: chatMessage._id,
-            text: chatMessage.text,
             createdAt: chatMessage.createdAt,
             system: chatMessage.system,
+            text: chatMessage.image ? null : chatMessage.text,
+            image: chatMessage.image ? chatMessage.image : null,
             user: {
               _id: chatMessage.user._id,
               name: chatMessage.user.name,
-              // avatar: chatMessage.user.images.length !== 0 ? chatMessage.user.images[0] : config.defaultUserImg
-              avatar: chatMessage.user.images[0]
+              avatar: chatMessage.user.images.length !== 0 ? chatMessage.user.images[0] : null
             }
           };
         });
@@ -82,6 +82,11 @@ class RoomStore {
 
   @action createMessage(from, to, msg) {
     this._msg.createMessage(this.roomId, from, to, msg);
+    this.updateValue(msg);
+  }
+
+  @action createImage(from, to, msg, image) {
+    this._msg.createMessage(this.roomId, from, to, msg, image);
     this.updateValue(msg);
   }
 

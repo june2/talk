@@ -9,6 +9,7 @@ import {
 import { observer } from 'mobx-react';
 import State from './../components/AppState';
 import authStore from './../stores/AuthStore';
+import roomStore from './../stores/RoomStore';
 
 @observer
 export default class AuthLoadingScreen extends React.Component {
@@ -26,6 +27,7 @@ export default class AuthLoadingScreen extends React.Component {
     // screen will be unmounted and thrown away.
     if (userToken && user) {
       authStore.token = userToken;
+      await roomStore.getRooms(1);
       let res = await authStore.updateLastLogin();
       this._checkLogin(res.data);
       this.props.navigation.navigate('Users');

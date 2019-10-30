@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -23,7 +23,18 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.indeefun.talk",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.indeefun.talk",
+      "versionCode": 2,
+      "permissions": [
+        "com.android.vending.BILLING"
+      ]
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#C2185B"
     },
     "description": "talk talk talk"
   }

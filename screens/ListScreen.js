@@ -118,7 +118,7 @@ export default class ListScreen extends Component {
         <Notification />
         {/* <Admob /> */}
         {(roomStore.isEmpty) ? (
-          <ListItem key={1} button={true} style={{ paddingTop: 70 }}>
+          <ListItem key={1} button={true} style={styles.empty}>
             <Body>
               <Text>진행 중인 채팅 내역이 없습니다.</Text>
               <Text>마음에 드는 사람에게 메시지를 보내보세요!</Text>
@@ -164,6 +164,9 @@ const styles = StyleSheet.create({
     // paddingBottom: 60,
     // top: 60,
     flex: 1
+  },
+  empty: {
+    // paddingTop: 70
   },
   listRight: {
     alignItems: 'flex-end'

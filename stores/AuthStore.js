@@ -105,6 +105,16 @@ class AuthStore {
     }
   }
 
+  @action async sendImage(uri) {
+    try {
+      let res = await this._user.sendImage(uri);
+      return res.image;
+    } catch (err) {
+      // Alert.alert('Error', err.message)
+      throw err;
+    }
+  }
+
 }
 
 const store = new AuthStore();

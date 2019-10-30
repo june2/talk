@@ -2296,6 +2296,10 @@ expo-image-picker@~7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-7.0.0.tgz#e4a5a52bd6f9655f75ecf3cc866aa9bb0c99e24b"
 
+expo-in-app-purchases@~7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/expo-in-app-purchases/-/expo-in-app-purchases-7.0.0.tgz#ce6e01c43aef31fa32c7555a5a518b5381cdbc73"
+
 expo-keep-awake@~7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-7.0.0.tgz#131f56bc1ed8dd66e64a159afd7eaef26939d929"
@@ -2385,11 +2389,11 @@ expo@^35.0.0:
     unimodules-task-manager-interface "~4.0.0"
     uuid-js "^0.7.5"
 
-expokit@33.0.4:
-  version "33.0.4"
-  resolved "https://registry.yarnpkg.com/expokit/-/expokit-33.0.4.tgz#0c6245dc2e27f3dfa26d02000af6512f7d6da6ee"
+expokit@35.0.3:
+  version "35.0.3"
+  resolved "https://registry.yarnpkg.com/expokit/-/expokit-35.0.3.tgz#cfb598e2d632363d8a3205d5f7acdd03eba1c9b2"
   dependencies:
-    jsc-android "^241213.2.0"
+    jsc-android "^245459.0.0"
 
 extend-shallow@^1.1.2:
   version "1.1.4"
@@ -3609,9 +3613,9 @@ jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
 
-jsc-android@^241213.2.0:
-  version "241213.2.0"
-  resolved "https://registry.yarnpkg.com/jsc-android/-/jsc-android-241213.2.0.tgz#a43b78e4dace997be533e7cb812d9714878b069f"
+jsc-android@^245459.0.0:
+  version "245459.0.0"
+  resolved "https://registry.yarnpkg.com/jsc-android/-/jsc-android-245459.0.0.tgz#e584258dd0b04c9159a27fb104cd5d491fd202c9"
 
 jsdom@^11.5.1:
   version "11.12.0"
@@ -5155,6 +5159,29 @@ react-native-tab-view@^1.2.0, react-native-tab-view@^1.4.1:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.4.1.tgz#f113cd87485808f0c991abec937f70fa380478b9"
   dependencies:
     prop-types "^15.6.1"
+
+react-native-unimodules@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-unimodules/-/react-native-unimodules-0.6.0.tgz#f62c753705f4b97ba19e2834d8ad3357e204537c"
+  dependencies:
+    "@unimodules/core" "~4.0.0"
+    "@unimodules/react-native-adapter" "~4.0.0"
+    chalk "^2.4.2"
+    expo-app-loader-provider "~7.0.0"
+    expo-asset "~7.0.0"
+    expo-constants "~7.0.0"
+    expo-file-system "~7.0.0"
+    expo-permissions "~7.0.0"
+    unimodules-barcode-scanner-interface "~4.0.0"
+    unimodules-camera-interface "~4.0.0"
+    unimodules-constants-interface "~4.0.0"
+    unimodules-face-detector-interface "~4.0.0"
+    unimodules-file-system-interface "~4.0.0"
+    unimodules-font-interface "~4.0.0"
+    unimodules-image-loader-interface "~4.0.0"
+    unimodules-permissions-interface "~4.0.0"
+    unimodules-sensors-interface "~4.0.0"
+    unimodules-task-manager-interface "~4.0.0"
 
 react-native-vector-icons@^6.6.0:
   version "6.6.0"

@@ -43,6 +43,16 @@ class UserService {
     }
   }
 
+  async sendImage(uri) {
+    try {
+      let formData = new FormData();
+      formData.append('upload', { uri: uri, name: 'img.jpg', type: 'image' });
+      return await this._api.upload('/me/upload/image', formData);
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async deleteImage(images) {
     try {
       let data = {

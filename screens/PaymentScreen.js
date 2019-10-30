@@ -18,14 +18,14 @@ import RNIap, {
   purchaseUpdatedListener,
 } from 'react-native-iap';
 import React, { Component } from 'react';
+// import * as InAppPurchases from 'expo-in-app-purchases';
 
-// import NativeButton from 'apsl-react-native-button';
 
 // App Bundle > com.dooboolab.test
 
 const itemSkus = Platform.select({
   ios: [
-    'com.indeefun.talk.p500',
+    'com.indeefun.p500',
   ],
   android: [
     // 'android.test.purchased',
@@ -113,42 +113,46 @@ export default class PaymentScreen extends Component {
   }
 
   async componentDidMount() {
-    try {
-      const result = await RNIap.initConnection();
-      await RNIap.consumeAllItemsAndroid();
-      console.log('result', result);
-    } catch (err) {
-      console.warn(err.code, err.message);
-    }
+    const products = await RNIap.getProducts(itemSkus);    
+    console.log('Products', products);
+    // try {
+    //   const result = await RNIap.initConnection();
+    //   const products = await RNIap.getProducts(itemSkus);
+    //   console.log('products', products);
+    //   // await RNIap.consumeAllItemsAndroid();
+    //   console.log('result', result);
+    // } catch (err) {
+    //   console.warn(err.code, err.message);
+    // }
 
-    purchaseUpdateSubscription = purchaseUpdatedListener(
-      async (purchase) => {
-        console.log('purchaseUpdatedListener', purchase);
-        if (
-          purchase.purchaseStateAndroid === 1 &&
-          !purchase.isAcknowledgedAndroid
-        ) {
-          try {
-            const ackResult = await acknowledgePurchaseAndroid(
-              purchase.purchaseToken,
-            );
-            console.log('ackResult', ackResult);
-          } catch (ackErr) {
-            console.warn('ackErr', ackErr);
-          }
-        }
-        this.setState({ receipt: purchase.transactionReceipt }, () =>
-          this.goNext(),
-        );
-      },
-    );
+    // purchaseUpdateSubscription = purchaseUpdatedListener(
+    //   async (purchase) => {
+    //     console.log('purchaseUpdatedListener', purchase);
+    //     if (
+    //       purchase.purchaseStateAndroid === 1 &&
+    //       !purchase.isAcknowledgedAndroid
+    //     ) {
+    //       try {
+    //         const ackResult = await acknowledgePurchaseAndroid(
+    //           purchase.purchaseToken,
+    //         );
+    //         console.log('ackResult', ackResult);
+    //       } catch (ackErr) {
+    //         console.warn('ackErr', ackErr);
+    //       }
+    //     }
+    //     this.setState({ receipt: purchase.transactionReceipt }, () =>
+    //       this.goNext(),
+    //     );
+    //   },
+    // );
 
-    purchaseErrorSubscription = purchaseErrorListener(
-      (error) => {
-        console.log('purchaseErrorListener', error);
-        Alert.alert('purchase error', JSON.stringify(error));
-      },
-    );
+    // purchaseErrorSubscription = purchaseErrorListener(
+    //   (error) => {
+    //     console.log('purchaseErrorListener', error);
+    //     Alert.alert('purchase error', JSON.stringify(error));
+    //   },
+    // );
   }
 
   componentWillUnmount() {
