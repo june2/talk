@@ -109,7 +109,7 @@ export default class UserScreen extends Component {
                   userStore.user.gender === 'M' ? 'md-female' : 'md-male'
                 } style={{
                   ...styles.containerGenderIcon,
-                  color: userStore.user.gender === 'M' ? '#FA4971' : 'red',
+                  color: userStore.user.gender === 'M' ? '#007aff' : 'red',
                 }} />&nbsp;&nbsp;&nbsp;
                 {getAge(userStore.user.birthday)}&nbsp;&nbsp;&nbsp;
                 {getLocation(userStore.user.location)}
@@ -157,17 +157,13 @@ const styles = StyleSheet.create({
   containerImgBox: {
     flex: 3,
   },
-  containerImg: {
-    flex: 1,
-    width: '100%',
-  },
   containerImgTitle: {
     color: '#fff',
     fontSize: 30,
   },
   containerTitleBox: {
     flexDirection: 'row',
-    flex: 0.5,
+    flex: 0.6,
     backgroundColor: '#fff',
   },
   containerTitleBoxName: {

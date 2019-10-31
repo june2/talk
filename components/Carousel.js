@@ -68,13 +68,16 @@ export default class CarouselScreen extends Component {
       barArray.push(thisBar)
     })
 
-    // if image empty 
+    // if image is empty 
     if (imageArray.length === 0) {
       imageArray.push(<Image
         key='0'
         source={config.defaultUserImg(authStore.me.gender)}
         style={{
-          width: deviceWidth, backgroundColor: Colors.tabIconDefault
+          width: deviceWidth,
+          height: '100%',
+          backgroundColor: Colors.tabIconDefault,
+          resizeMode: 'contain',
         }}
       />);
     }
@@ -91,12 +94,14 @@ export default class CarouselScreen extends Component {
               height: '100%',
               zIndex: (authStore.me.images.length === 0) ? 3 : -1
             }}>
-            <View style={styles.blurView}>
-              <Text>사진을 보려면 자기 사진 한개이상 등록해주세요.</Text>
-              <Button style={styles.button} block onPress={(e) => this.props.navigation.navigate('MyUpdate')}>
-                <Text style={styles.buttonText}>사진 등록하기</Text>
-              </Button>
-            </View>
+            {(authStore.me.images.length === 0) ?
+              <View style={styles.blurView}>
+                <Text>사진을 보려면 자기 사진 한개이상 등록해주세요.</Text>
+                <Button style={styles.button} block onPress={(e) => this.props.navigation.navigate('MyUpdate')}>
+                  <Text style={styles.buttonText}>사진 등록하기</Text>
+                </Button>
+              </View> : null
+            }
           </BlurView>
           : null
         }
@@ -125,6 +130,7 @@ export default class CarouselScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },

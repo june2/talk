@@ -83,6 +83,7 @@ const styles = {
     marginRight: 16,
     borderRadius: 50 / 2,
     overflow: "hidden",
+    resizeMode: 'contain',
   },
   genderIcon: {
     fontSize: 12,

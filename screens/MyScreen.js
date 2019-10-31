@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, 
+  View,
   StyleSheet,
   Dimensions,
 } from 'react-native';
@@ -11,7 +11,7 @@ import authStore from './../stores/AuthStore';
 import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 import Notification from '../components/Notification';
-import Carousel  from '../components/Carousel';
+import Carousel from '../components/Carousel';
 import color from './../constants/Colors'
 
 @observer
@@ -27,7 +27,8 @@ export default class MyScreen extends Component {
     return (
       <View style={styles.container}>
         <Notification />
-        <View style={styles.containerImgBox}>          
+        <View style={styles.topBox}></View>
+        <View style={styles.containerImgBox}>
           <Carousel images={authStore.me.images} isMe={true} />
         </View>
         <View style={styles.containerTitleBox}>
@@ -73,12 +74,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  containerImgBox: {
-    flex: 3.5,
+  topBox: {
+    backgroundColor: '#ccc',
+    height: 50
   },
-  containerImg: {
-    flex: 1,
-    width: '100%',
+  containerImgBox: {
+    flex: 3,
   },
   containerImgTitle: {
     color: '#fff',
