@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Platform, KeyboardAvoidingView, View, Modal, Alert, } from 'react-native';
 import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat, Send } from 'react-native-gifted-chat'
-import { observer } from 'mobx-react';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { observer, toJS } from 'mobx-react';
 import * as ImagePicker from 'expo-image-picker';
 import Report from '../components/Report';
 import msgService from './../services/messages';
@@ -81,6 +82,7 @@ export default class ChatScreen extends Component {
       totalDocs: 0,
       offset: 0,
       limit: 0,
+      messages: [],
       modalVisible: false,
     }
     this.setModalVisible = this.setModalVisible.bind(this);
@@ -100,7 +102,7 @@ export default class ChatScreen extends Component {
 
   _onSend(messages = []) {
     roomStore.createMessage(authStore.me.id, roomStore.roomUserId, messages[0].text);
-    roomStore.messages = GiftedChat.append(roomStore.messages, messages);
+    roomStore.messages = GiftedChat.append(roomStore.prevMessages, messages);
   }
 
   _onSendImg = async (uri) => {
@@ -111,7 +113,7 @@ export default class ChatScreen extends Component {
       image: uri,
       user: { _id: authStore.me.id },
     }]
-    roomStore.messages = GiftedChat.append(roomStore.messages, newVal);
+    roomStore.messages = GiftedChat.append(roomStore.prevMessages, newVal);
     let image = await authStore.sendImage(uri);
     roomStore.createImage(authStore.me.id, roomStore.roomUserId, '사진...', image);
   }
@@ -155,41 +157,31 @@ export default class ChatScreen extends Component {
             <Report closeModal={(visible) => this.setModalVisible(visible)} />
           </View>
         </Modal>
-        {
-          Platform.OS === 'android' ?
-            <View style={{ flex: 1 }}>
-              <GiftedChat
-                messages={roomStore.messages}
-                onSend={messages => this._onSend(messages)}
-                alwaysShowSend={true}
-                textInputProps={{ autoFocus: false, placeholder: '' }}
-                user={{ _id: authStore.me.id }}
-              />
-              <KeyboardAvoidingView />
-            </View>
-            :
-            <GiftedChat
-              messages={roomStore.messages}
-              onSend={messages => this._onSend(messages)}
-              textInputProps={{ autoFocus: false, placeholder: '' }}
-              user={{ _id: authStore.me.id }}
-              alwaysShowSend={true}
-              renderActions={(props) => <Send
-                {...props}
-              >
-                <View style={{ marginLeft: 14, marginBottom: 5 }}>
-                  <Icon name='md-images' style={{ color: Colors.tintColor }} onPress={() => this._pickImage()} />
-                </View>
-              </Send>}
-              renderSend={(props) => <Send
-                {...props}
-              >
-                <View style={{ marginRight: 10, marginBottom: 5 }}>
-                  <Icon name='md-send' style={{ color: Colors.tintColor }} />
-                </View>
-              </Send>}
-            />
-        }
+        <View style={{ flex: 1 }}>
+          <GiftedChat
+            messages={roomStore.messages}
+            onSend={messages => this._onSend(messages)}
+            textInputProps={{ autoFocus: false, placeholder: '' }}
+            user={{ _id: authStore.me.id }}
+            alwaysShowSend={true}
+            renderActions={(props) => <Send
+              {...props}
+            >
+              <View style={{ marginLeft: 14, marginBottom: 5 }}>
+                <Icon name='md-images' style={{ color: Colors.tintColor }} onPress={() => this._pickImage()} />
+              </View>
+            </Send>}
+            renderSend={(props) => <Send
+              {...props}
+            >
+              <View style={{ marginRight: 10, marginBottom: 5 }}>
+                <Icon name='md-send' style={{ color: Colors.tintColor }} />
+              </View>
+            </Send>}
+          />
+          {Platform.OS === 'android' ? <KeyboardSpacer /> : null }
+          {/* {Platform.OS === 'android' && <KeyboardAvoidingView behavior="padding" />} */}
+        </View>
       </View>
     )
   }

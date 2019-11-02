@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Root } from "native-base";
+import firebase from 'react-native-firebase';
 import AppNavigator from './navigation/AppNavigator';
 import NotificationHandler from './notification/handler'
 import NotificationRegister from './notification/register'
@@ -21,17 +22,21 @@ export default function App(props) {
       />
     );
   } else {
-    new NotificationRegister();
-    this._notificationSubscription = Notifications.addListener(({ origin, data }) => {
-      if (data.type) {
-        new NotificationHandler(data);
+    firebase.messaging().hasPermission().then(enabled => {
+      if (enabled) {
+        this.notificationListener = firebase.notifications().onNotification((notification) => {
+          console.log(notification)
+          new NotificationHandler(notification._data);
+        })
+      } else {
+        new NotificationRegister();
       }
-    });
+    })
     return (
       <Root>
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />        
+          <AppNavigator />
         </View>
       </Root>
     );
@@ -43,7 +48,7 @@ async function loadResourcesAsync() {
     Asset.loadAsync([
       require('./assets/images/m.png'),
       require('./assets/images/f.png'),
-      require('./assets/images/logo.png'),      
+      require('./assets/images/logo.png'),
     ]),
     Font.loadAsync({
       // This is the font that we are using for our tab bar

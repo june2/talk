@@ -113,17 +113,17 @@ export default class PaymentScreen extends Component {
   }
 
   async componentDidMount() {
-    const products = await RNIap.getProducts(itemSkus);    
-    console.log('Products', products);
-    // try {
-    //   const result = await RNIap.initConnection();
-    //   const products = await RNIap.getProducts(itemSkus);
-    //   console.log('products', products);
-    //   // await RNIap.consumeAllItemsAndroid();
-    //   console.log('result', result);
-    // } catch (err) {
-    //   console.warn(err.code, err.message);
-    // }
+    // const products = await RNIap.getProducts(itemSkus);    
+    // console.log('Products', products);
+    try {
+      const result = await RNIap.initConnection();
+      const products = await RNIap.getProducts(itemSkus);
+      console.log('products', products);
+      console.log('result', result);
+      // await RNIap.consumeAllItemsAndroid();
+    } catch (err) {
+      console.warn(err.code, err.message);
+    }
 
     // purchaseUpdateSubscription = purchaseUpdatedListener(
     //   async (purchase) => {

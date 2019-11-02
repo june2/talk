@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "13624959352",
+    "firebase_url": "https://talk-c33b8.firebaseio.com",
+    "project_id": "talk-c33b8",
+    "storage_bucket": "talk-c33b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13624959352:android:270345ebd13eb94f56e88d",
+        "android_client_info": {
+          "package_name": "com.indeefun.talk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13624959352-cjauni1a1v0qn4ammgk48u555tf7nhu7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZ9sStuMymKwq-nBqDP1Nz-xgMbtPSlsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13624959352-cjauni1a1v0qn4ammgk48u555tf7nhu7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "13624959352-nedv68kpmmr703vq1927i350217chj2o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.indeefun.talk",
+                "app_store_id": "1484036239"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

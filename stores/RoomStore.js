@@ -1,11 +1,11 @@
-import { observable, action, computed, configure } from 'mobx';
+import { observable, action, computed, configure, toJS } from 'mobx';
 import roomService from '../services/rooms';
 import msgService from '../services/messages';
 
 class RoomStore {
   constructor() {
     this._room = roomService;
-    this._msg = msgService;
+    this._msg = msgService;    
   }
 
   @observable roomId = null;
@@ -19,6 +19,12 @@ class RoomStore {
     hasNextPage: true
   };
   @observable messages = [];
+
+  @computed
+  get prevMessages() {
+    return toJS(this.messages)
+  }
+
 
   @action async createRoom(userId, lastMsg) {
     try {

@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Notifications } from 'expo';
-import * as Permissions from 'expo-permissions';
+import firebase from 'react-native-firebase';
 import { Platform } from 'react-native';
 import UserStore from '../stores/UserStore';
 
@@ -12,30 +11,14 @@ export default class Notification extends Component {
     this._register();
   }
 
-  async _register() {
-    const { status: existingStatus } = await Permissions.getAsync(
-      Permissions.NOTIFICATIONS
-    );
-    let finalStatus = existingStatus;
-
-    // only ask if permissions have not already been determined, because
-    // iOS won't necessarily prompt the user a second time.
-    if (existingStatus !== 'granted') {
-      // Android remote notification permissions are granted during the app
-      // install, so this will only ask on iOS
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-
-    console.log('finalStatus', finalStatus);
-    // Stop here if the user did not grant permissions
-    if (finalStatus !== 'granted') {
-      return;
-    }
-
-    // Get the token that uniquely identifies this device
-    let token = await Notifications.getExpoPushTokenAsync();
-    console.log('pushtoken', token);
-    UserStore.updatePushToken(Platform.OS, Platform.Version, token);
+  _register() {
+    firebase.messaging().requestPermission().then(() => {
+      firebase.messaging().getToken().then(token => {
+        console.log("푸쉬 토큰", token)
+        UserStore.updatePushToken(Platform.OS, Platform.Version, token);
+      })
+    }).catch(error => {
+      console.log(error)
+    })
   }
 }
