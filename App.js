@@ -28,8 +28,6 @@ export default function App(props) {
           console.log(notification)
           new NotificationHandler(notification._data);
         })
-      } else {
-        new NotificationRegister();
       }
     })
     return (

@@ -36,7 +36,18 @@ export default class SettingsScreen extends Component {
             marginHorizontal: 16,
             textAlign: 'center',
           }}
-          onPress={() => navigation.navigate('My')}
+          onPress={async () => {
+            let data = {
+              name: authStore.me.name,
+              location: authStore.me.location,
+              intro: authStore.me.intro,
+              gender: authStore.me.gender,
+              birthday: authStore.me.birthday,
+            }
+            authStore.updateMe(data);
+            // navigation.navigate('My');
+            navigation.goBack();
+          }}
         />
       ),
     }
@@ -51,7 +62,6 @@ export default class SettingsScreen extends Component {
   }
 
   _action = async (index) => {
-    // if (authStore.me.images[index] == null) this._pickImage();
     if (index >= authStore.me.images.length) this._pickImage();
     else this._openActionSheet(index);
   };
@@ -59,7 +69,7 @@ export default class SettingsScreen extends Component {
   _pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [3, 4],
       });
@@ -242,6 +252,7 @@ export default class SettingsScreen extends Component {
               <Input
                 value={authStore.me.name}
                 style={{ paddingLeft: 0 }}
+                maxLength={50}
                 onChangeText={val => { authStore.me.name = val }}
               />
             </Body>
@@ -251,7 +262,7 @@ export default class SettingsScreen extends Component {
           </Separator>
           <ListItem>
             <Body>
-              <Textarea rowSpan={4} placeholder="" onChangeText={(text) => authStore.me.intro = text} value={authStore.me.intro} />
+              <Textarea rowSpan={4} maxLength={200} placeholder="" onChangeText={(text) => authStore.me.intro = text} value={authStore.me.intro} />
             </Body>
           </ListItem>
           <Separator bordered />

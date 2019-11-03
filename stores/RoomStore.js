@@ -24,8 +24,7 @@ class RoomStore {
   get prevMessages() {
     return toJS(this.messages)
   }
-
-
+  
   @action async createRoom(userId, lastMsg) {
     try {
       this.room = await this._room.createRoom(userId, lastMsg);

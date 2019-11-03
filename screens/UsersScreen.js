@@ -5,7 +5,6 @@ import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
 import Notification from '../components/Notification';
 import UserItem from '../components/UserItem2';
-import userStore from '../stores/UserStore';
 import userService from '../services/users';
 
 let { width } = Dimensions.get("window");

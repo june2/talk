@@ -121,7 +121,7 @@ export default class ChatScreen extends Component {
   _pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [3, 4],
       });
@@ -164,6 +164,9 @@ export default class ChatScreen extends Component {
             textInputProps={{ autoFocus: false, placeholder: '' }}
             user={{ _id: authStore.me.id }}
             alwaysShowSend={true}
+            onPressAvatar={(user) => {
+              this.props.navigation.navigate('User');
+            }}
             renderActions={(props) => <Send
               {...props}
             >
@@ -179,7 +182,7 @@ export default class ChatScreen extends Component {
               </View>
             </Send>}
           />
-          {Platform.OS === 'android' ? <KeyboardSpacer /> : null }
+          {Platform.OS === 'android' ? <KeyboardSpacer /> : null}
           {/* {Platform.OS === 'android' && <KeyboardAvoidingView behavior="padding" />} */}
         </View>
       </View>

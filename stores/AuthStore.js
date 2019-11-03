@@ -16,9 +16,16 @@ class AuthStore {
     point: 0,
   };
 
-  @action async register(email, password, name, gender, birthday, location) {
+  @computed
+  get profile() {
+    return toJS(this.me)
+  }
+
+  @action async register(email, password, name, gender, birthday, location,
+    PlatformOS, PlatformVer, pushToken) {
     try {
-      this.me = await this._auth.register(email, password, name, gender, birthday, location);
+      this.me = await this._auth.register(email, password, name, gender, birthday, location,
+        PlatformOS, PlatformVer, pushToken);
       return this.me;
     } catch (err) {
       // Alert.alert('Error', err.message)
@@ -61,7 +68,9 @@ class AuthStore {
   @action async updateMe(data) {
     try {
       let res = await this._user.updateMe(data);
-      this.me = Object.assign(this.me, res.data);
+      // console.log(res.data);
+      // this.me = Object.assign(this.me, res.data);      
+      // console.log(this.me);
       return res;
     } catch (err) {
       // Alert.alert('Error', err.message)

@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { observer } from 'mobx-react';
-import firebase from 'react-native-firebase';
 import { Platform } from 'react-native';
+import firebase from 'react-native-firebase';
 import UserStore from '../stores/UserStore';
 
 @observer

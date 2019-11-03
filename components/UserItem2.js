@@ -9,7 +9,7 @@ import userStore from '../stores/UserStore';
 
 @observer
 export default class UserItem extends Component {
-  _handleClick(user) {    
+  _handleClick(user) {
     userStore.setUser(user, false);
     this.setState({ userId: user.id });
     this.props.navigation.navigate('User');
@@ -26,7 +26,7 @@ export default class UserItem extends Component {
             <View style={styles.imageBox}>
               {(this.props.user && this.props.user.images && this.props.user.images.length !== 0) ?
                 <Image style={styles.image} source={{ uri: this.props.user.images[0] }} /> :
-                <Image style={styles.image} source={config.defaultUserImg(this.props.user.gender)} />
+                <Image style={styles.defaultImage} source={config.defaultUserImg(this.props.user.gender)} />
               }
             </View>
             <View style={styles.infoBox}>
@@ -77,13 +77,21 @@ const styles = {
     alignItems: "center",
     padding: 16
   },
-  image: {
+  defaultImage: {
     height: 50,
     width: 50,
     marginRight: 16,
     borderRadius: 50 / 2,
     overflow: "hidden",
     resizeMode: 'contain',
+    backgroundColor: "#ccc"
+  },
+  image: {
+    height: 50,
+    width: 50,
+    marginRight: 16,
+    borderRadius: 50 / 2,
+    overflow: "hidden",
   },
   genderIcon: {
     fontSize: 12,

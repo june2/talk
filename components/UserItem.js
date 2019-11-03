@@ -36,7 +36,7 @@ export default class UserItem extends PureComponent {
         <Left style={styles.itemLeft}>
           {(this.props.user && this.props.user.images && this.props.user.images.length !== 0) ?
             <Thumbnail source={{ uri: this.props.user.images[0] }} /> :
-            <Thumbnail source={config.defaultUserImg(this.props.user.gender)} style={styles.defaultUserImg} />
+            <Thumbnail style={styles.image} source={config.defaultUserImg(this.props.user.gender)} style={styles.defaultUserImg} />
           }
         </Left>
         <Body style={{ height: 65 }}>
@@ -61,6 +61,9 @@ export default class UserItem extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  image: {
+    resizeMode: 'contain',
+  },
   itemLeft: {
     paddingTop: 4
   },

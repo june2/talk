@@ -1,11 +1,12 @@
-import { Notifications } from 'expo';
 import React, { Component } from 'react';
 import {
   AsyncStorage,
   StyleSheet,
   View,
   Alert,
-  Image
+  Image,
+  Modal,
+  Platform
 } from 'react-native';
 import {
   Content,
@@ -19,11 +20,10 @@ import {
 } from 'native-base';
 import { observer } from 'mobx-react';
 import RNPickerSelect from 'react-native-picker-select';
+import firebase from 'react-native-firebase';
 import { locations, gender, age, getTimestamp } from '../constants/Items';
 import authService from '../services/auth'
 import authStore from './../stores/AuthStore';
-import NotificationHandler from './../notification/handler'
-import NotificationRegister from './../notification/register'
 import Colors from './../constants/Colors'
 
 @observer
@@ -38,35 +38,31 @@ export default class RegisterScreen extends Component {
       gender: 'M',
       location: 'seoul',
       age: 1990,
+      isLoading: false
     }
-  }
-
-  _savePushToken() {
-    new NotificationRegister();
-    this._notificationSubscription = Notifications.addListener(({ origin, data }) => {
-      if (data.type) {
-        new NotificationHandler(data);
-      }
-    });
   }
 
   _signUpAsync = async () => {
     try {
+      this.setState({ isLoading: true })
+      let token = await firebase.messaging().getToken();
       if (!this.state.name) return Alert.alert('닉네임을 입력해주세요!');
       let res = await authStore.register(
         this.state.email, this.state.password,
         this.state.name, this.state.gender,
-        new Date(`${this.state.age}-01-01`), this.state.location
+        new Date(`${this.state.age}-01-01`), this.state.location,
+        Platform.OS, Platform.Version, token
       );
       if (res.id) {
-        this._savePushToken();
         res = await this._auth.login(this.state.email, this.state.password);
         await AsyncStorage.setItem('token', res.accessToken);
         await authStore.getMe();
         authStore.token = res.accessToken;
+        this.setState({ isLoading: false })
         this.props.navigation.navigate('My');
       }
     } catch (err) {
+      this.setState({ isLoading: false })
       Alert.alert('Error', err.message)
     }
   }
@@ -74,87 +70,97 @@ export default class RegisterScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Grid></Grid>
-        <View style={styles.logoBox}>
-          <Image
-            source={require('./../assets/images/logo.png')}
-            resizeMode='contain'
-            style={styles.logoBoxImg}
-          />
-        </View>
-        <View style={styles.middleBox}>
-          <Content contentContainerStyle={styles.content} >
-            <Form style={styles.formBox}>
-              <Item inlineLabel style={styles.formBoxItem}>
-                <Label style={styles.label}>성별</Label>
-                <Grid>
-                  <RNPickerSelect
-                    placeholder={{}}
-                    items={gender}
-                    onValueChange={val => {
-                      this.setState({ gender: val })
-                    }}
-                    InputAccessoryView={() => null}
-                    style={pickerSelectStyles}
-                    value={this.state.gender}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.isLoading}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+
+          </View>
+        </Modal>
+        <View style={styles.container}>
+          <Grid></Grid>
+          <View style={styles.logoBox}>
+            <Image
+              source={require('./../assets/images/logo.png')}
+              resizeMode='contain'
+              style={styles.logoBoxImg}
+            />
+          </View>
+          <View style={styles.middleBox}>
+            <Content contentContainerStyle={styles.content} >
+              <Form style={styles.formBox}>
+                <Item inlineLabel style={styles.formBoxItem}>
+                  <Label style={styles.label}>성별</Label>
+                  <Grid>
+                    <RNPickerSelect
+                      placeholder={{}}
+                      items={gender}
+                      onValueChange={val => {
+                        this.setState({ gender: val })
+                      }}
+                      InputAccessoryView={() => null}
+                      style={pickerSelectStyles}
+                      value={this.state.gender}
+                    />
+                  </Grid>
+                </Item>
+                <Item inlineLabel style={styles.formBoxItem}>
+                  <Label style={styles.label}>나이</Label>
+                  <Grid>
+                    <RNPickerSelect
+                      placeholder={{}}
+                      items={age}
+                      onValueChange={val => {
+                        this.setState({ age: val })
+                      }}
+                      InputAccessoryView={() => null}
+                      style={pickerSelectStyles}
+                      value={this.state.age}
+                    />
+                  </Grid>
+                </Item>
+                <Item inlineLabel style={styles.formBoxItem}>
+                  <Label style={styles.label}>지역</Label>
+                  <Grid>
+                    <RNPickerSelect
+                      placeholder={{}}
+                      items={locations}
+                      onValueChange={val => {
+                        this.setState({ location: val })
+                      }}
+                      InputAccessoryView={() => null}
+                      style={pickerSelectStyles}
+                      value={this.state.location}
+                    />
+                  </Grid>
+                </Item>
+                <Item inlineLabel style={styles.formBoxItem}>
+                  <Label style={styles.label}>닉네임</Label>
+                  <Input
+                    style={styles.label}
+                    onChangeText={(text) => this.setState({ name: text })}
+                    value={this.state.name}
                   />
-                </Grid>
-              </Item>
-              <Item inlineLabel style={styles.formBoxItem}>
-                <Label style={styles.label}>나이</Label>
-                <Grid>
-                  <RNPickerSelect
-                    placeholder={{}}
-                    items={age}
-                    onValueChange={val => {
-                      this.setState({ age: val })
-                    }}
-                    InputAccessoryView={() => null}
-                    style={pickerSelectStyles}
-                    value={this.state.age}
-                  />
-                </Grid>
-              </Item>
-              <Item inlineLabel style={styles.formBoxItem}>
-                <Label style={styles.label}>지역</Label>
-                <Grid>
-                  <RNPickerSelect
-                    placeholder={{}}
-                    items={locations}
-                    onValueChange={val => {
-                      this.setState({ location: val })
-                    }}
-                    InputAccessoryView={() => null}
-                    style={pickerSelectStyles}
-                    value={this.state.location}
-                  />
-                </Grid>
-              </Item>
-              <Item inlineLabel style={styles.formBoxItem}>
-                <Label style={styles.label}>닉네임</Label>
-                <Input
-                  style={styles.label}
-                  onChangeText={(text) => this.setState({ name: text })}
-                  value={this.state.name}
-                />
-              </Item>
-              <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
-                <Text>시작하기</Text>
-              </Button>
-            </Form>
-          </Content>
-        </View>
-        <View style={styles.bottomBox}>
-          <Content contentContainerStyle={styles.content} scrollEnabled={false}>
-            {/* <Text style={styles.bottomBoxText}>
+                </Item>
+                <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
+                  <Text>시작하기</Text>
+                </Button>
+              </Form>
+            </Content>
+          </View>
+          <View style={styles.bottomBox}>
+            <Content contentContainerStyle={styles.content} scrollEnabled={false}>
+              {/* <Text style={styles.bottomBoxText}>
               이미 계정이 있으신가요?&nbsp;&nbsp;&nbsp;
             <Text onPress={() => this.props.navigation.navigate('SignIn')} style={styles.bottomBoxTextLink}>
                 로그인
             </Text>
             </Text> */}
-          </Content>
-        </View>
-      </View >
+            </Content>
+          </View>
+        </View >
+      </View>
     );
   }
 }

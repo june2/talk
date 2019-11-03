@@ -45,8 +45,11 @@ export default class ListScreen extends Component {
     }, this._getData);
   }
 
-  _handleClick(id, index, name, userId, count) {
+  _handleClick(id, index, count, user) {
+    let name = (user) ? user.name : '';
+    let userId = (user) ? user._id : '';
     roomStore.setValue(id, index, name, userId, count);
+    userStore.setUser(user, true);
     authStore.me.tabBadgeCount -= count;
     this.props.navigation.navigate('Chat');
   }
@@ -70,7 +73,7 @@ export default class ListScreen extends Component {
           </TouchableOpacity>
         </Left>
         <Body>
-          <TouchableOpacity key={item.id} onPress={() => this._handleClick(item._id, i, (item.user) ? item.user.name : '', (item.user) ? item.user._id : '', item.count)}>
+          <TouchableOpacity key={item.id} onPress={() => this._handleClick(item._id, i, item.count, item.user)}>
             <Text>{(item.user && item.user.name) ? item.user.name : ''}</Text>
             <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} style={{ height: 34 }} note>{item.lastMsg}</Text>
           </TouchableOpacity>
