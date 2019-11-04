@@ -8,7 +8,6 @@ import { Root } from "native-base";
 import firebase from 'react-native-firebase';
 import AppNavigator from './navigation/AppNavigator';
 import NotificationHandler from './notification/handler'
-import NotificationRegister from './notification/register'
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -25,7 +24,6 @@ export default function App(props) {
     firebase.messaging().hasPermission().then(enabled => {
       if (enabled) {
         this.notificationListener = firebase.notifications().onNotification((notification) => {
-          console.log(notification)
           new NotificationHandler(notification._data);
         })
       }
@@ -59,7 +57,7 @@ async function loadResourcesAsync() {
   ]);
 }
 
-function handleLoadingError(error: Error) {
+function handleLoadingError(error) {
   // In this case, you might want to report the error to your error reporting
   // service, for example Sentry
   console.warn(error);

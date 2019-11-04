@@ -13,8 +13,7 @@ export default class Notification extends Component {
 
   _register() {
     firebase.messaging().requestPermission().then(() => {
-      firebase.messaging().getToken().then(token => {
-        console.log("푸쉬 토큰", token)
+      firebase.messaging().getToken().then(token => {        
         UserStore.updatePushToken(Platform.OS, Platform.Version, token);
       })
     }).catch(error => {

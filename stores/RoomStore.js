@@ -5,7 +5,7 @@ import msgService from '../services/messages';
 class RoomStore {
   constructor() {
     this._room = roomService;
-    this._msg = msgService;    
+    this._msg = msgService;
   }
 
   @observable roomId = null;
@@ -24,7 +24,7 @@ class RoomStore {
   get prevMessages() {
     return toJS(this.messages)
   }
-  
+
   @action async createRoom(userId, lastMsg) {
     try {
       this.room = await this._room.createRoom(userId, lastMsg);
@@ -115,10 +115,10 @@ class RoomStore {
     let roomIndex = this._findIndex(roomId);
     if (roomIndex != -1) {
       let obj = this.list[roomIndex];
-      obj.count += 1;
+      if (this.roomId !== roomId) obj.count += 1;
       obj.lastMsg = msg;
       obj.updatedAt = new Date();
-      this.list.splice(this.roomIndex, 1);
+      this.list.splice(roomIndex, 1);
       this.list = [obj, ...this.list];
     } else {
       let obj = newVal;
@@ -127,7 +127,7 @@ class RoomStore {
   }
 
   @action handlePushMsg(newVal) {
-    this.messages = [newVal].concat(this.messages);
+    this.messages = [newVal].concat(toJS(this.messages));
   }
 
   _findIndex(id) {

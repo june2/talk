@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export const dateConvert = (date) => {
   let diff = moment().diff(moment(date), 'minutes');
-  if (diff < 1) return 'now';
+  if (diff < 1) return '지금';
   else return diff + ' 분전';
 }
 

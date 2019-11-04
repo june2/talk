@@ -143,6 +143,10 @@ export default class ChatScreen extends Component {
     this.props.navigation.setParams({ openModal: this.setModalVisible });
   }
 
+  componentWillUnmount() {
+    roomStore.roomId = null;
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>

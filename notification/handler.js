@@ -27,9 +27,14 @@ export default class Handler extends Component {
         roomStore.handlePushMsg(msgObj);
         break;
       case 'room':
-        authStore.tabBadgeCount += 1;
         break;
     }
+
+    // check badge
+    if (roomStore.roomId !== data.roomId) {
+      authStore.me.tabBadgeCount += 1;
+    }
+
     // alert   
     let roomObj = {
       _id: data.roomId,

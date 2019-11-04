@@ -161,7 +161,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   defaultUserImg: {
-    backgroundColor: Colors.tabIconDefault
+    backgroundColor: Colors.tabIconDefault,
+    resizeMode: 'contain',
   },
   list: {
     // paddingBottom: 60,

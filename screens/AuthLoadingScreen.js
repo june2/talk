@@ -22,7 +22,7 @@ export default class AuthLoadingScreen extends React.Component {
   _bootstrapAsync = async () => {
     const userToken = await AsyncStorage.getItem('token');
     const user = await authStore.getMe();
-    console.log(userToken);
+    console.log(userToken);    
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     if (userToken && user) {
@@ -37,7 +37,7 @@ export default class AuthLoadingScreen extends React.Component {
     }
   };
 
-  _checkLogin(data) {    
+  _checkLogin(data) {
     if (data.reward) this._showAlert();
     authStore.updatePoint(data.point);
   }

@@ -44,8 +44,7 @@ export default class SettingsScreen extends Component {
               gender: authStore.me.gender,
               birthday: authStore.me.birthday,
             }
-            authStore.updateMe(data);
-            // navigation.navigate('My');
+            authStore.updateMe(data);            
             navigation.goBack();
           }}
         />
