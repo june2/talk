@@ -3,7 +3,9 @@ import moment from 'moment';
 export const dateConvert = (date) => {
   let diff = moment().diff(moment(date), 'minutes');
   if (diff < 1) return '지금';
-  else return diff + ' 분전';
+  else if (diff > 0 && diff < 60) return diff + ' 분전';
+  else if (diff > 59 && diff < 1440) return Math.floor(diff / 60) + ' 시간전';
+  else return Math.floor(diff / 1440) + ' 일전';
 }
 
 // Get ages array

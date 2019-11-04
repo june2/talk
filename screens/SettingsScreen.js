@@ -14,17 +14,6 @@ import Admob from '../components/Admob';
 import Notification from '../components/Notification';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
-// import * as InAppPurchases from 'expo-in-app-purchases';
-import * as RNIap from 'react-native-iap';
-
-const itemSkus = Platform.select({
-  ios: [
-    'com.indeefun.talk.p500'
-  ],
-  android: [
-    'com.indeefun.talk'
-  ]
-});
 
 @observer
 export default class SettingsScreen extends Component {
@@ -63,11 +52,6 @@ export default class SettingsScreen extends Component {
     this.props.navigation.navigate('Register');
   }
 
-  async componentDidMount() {
-    const products = await RNIap.getProducts(itemSkus);
-    console.log(products);
-  }
-
   render() {
     return (
       <Container style={styles.container}>
@@ -89,7 +73,10 @@ export default class SettingsScreen extends Component {
           </Separator>
           <ListItem icon >
             <Body>
-              <Text>보유 포인트 : {authStore.me.point}</Text>
+              <Text>
+                보유 포인트 : {authStore.me.point} 
+                {/* <Icon name="md-heart" /> */}
+              </Text>
             </Body>
           </ListItem>
           <ListItem icon last onPress={() => this.props.navigation.navigate('Payment')}>
@@ -99,7 +86,7 @@ export default class SettingsScreen extends Component {
             <Right>
               <Icon name="arrow-forward" />
             </Right>
-          </ListItem>          
+          </ListItem>
           {/* push */}
           <Separator bordered>
             <Text>Push</Text>

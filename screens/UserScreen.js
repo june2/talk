@@ -16,6 +16,7 @@ import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 import Carousel from '../components/Carousel';
 import Colors from './../constants/Colors'
+import { red } from 'ansi-colors';
 
 @observer
 export default class UserScreen extends Component {
@@ -81,7 +82,7 @@ export default class UserScreen extends Component {
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContainerTransparentStyle}>
-              <Textarea rowSpan={5} placeholder="메시지를 보내세요!" style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
+              <Textarea autoFocus rowSpan={5} placeholder="메시지를 보내세요!" maxLength={200} style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
               <View style={{ flexDirection: 'row' }}>
                 <View style={styles.modalButton}>
                   <Button block title="cancel" onPress={() => this._setModalVisible(false)} >
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // justifyContent: 'center',
     paddingTop: Math.round(Dimensions.get('window').height) * 0.2,
-    backgroundColor: '#ecf0f1',
+    // backgroundColor: '#ecf0f1',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainerTransparentStyle: {
@@ -233,6 +234,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalText: {
+    // borderWidth: 1,
+    // borderColor: 'red',    
     top: 10,
     padding: 10,
     width: '100%'

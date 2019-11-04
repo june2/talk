@@ -168,6 +168,7 @@ export default class ChatScreen extends Component {
             textInputProps={{ autoFocus: false, placeholder: '' }}
             user={{ _id: authStore.me.id }}
             alwaysShowSend={true}
+            maxInputLength={200}
             onPressAvatar={(user) => {
               this.props.navigation.navigate('User');
             }}

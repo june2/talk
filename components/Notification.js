@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { observer } from 'mobx-react';
 import notificationStore from '../stores/NotificationStore';
+import Colors from '../constants/Colors';
 
 @observer
 export default class Notification extends PureComponent {
@@ -14,14 +15,6 @@ export default class Notification extends PureComponent {
     this.state = {
       opacity: new Animated.Value(0),
     };    
-  }
-
-  onLoad = () => {
-    Animated.timing(this.state.opacity, {
-      toValue: 1,
-      duration: 3000,
-      useNativeDriver: true,
-    }).start();
   }
 
   render() {
@@ -54,7 +47,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   boxText: {
-    backgroundColor: '#007aff',
+    backgroundColor: Colors.tintColor,
     color: '#fff',
     padding: 5,
     fontSize: 15,
