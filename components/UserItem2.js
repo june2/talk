@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, Image, TouchableHighlight } from "react-native";
+import { Platform, Text, View, Image, TouchableHighlight } from "react-native";
 import { Icon } from 'native-base';
 import { observer } from 'mobx-react';
 import { getLocation } from '../constants/Items';
@@ -83,7 +83,10 @@ const styles = {
     marginRight: 16,
     borderRadius: 50 / 2,
     overflow: "hidden",
-    resizeMode: 'contain',
+    resizeMode: Platform.select({
+      ios: 'contain',
+      android: 'cover',
+    }),
     backgroundColor: "#ccc"
   },
   image: {

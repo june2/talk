@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, KeyboardAvoidingView, View, Modal, Alert, } from 'react-native';
+import { Platform, View, Modal, Alert, } from 'react-native';
 import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat, Send } from 'react-native-gifted-chat'
 import KeyboardSpacer from 'react-native-keyboard-spacer';

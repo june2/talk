@@ -16,7 +16,6 @@ import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 import Carousel from '../components/Carousel';
 import Colors from './../constants/Colors'
-import { red } from 'ansi-colors';
 
 @observer
 export default class UserScreen extends Component {
@@ -82,7 +81,7 @@ export default class UserScreen extends Component {
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContainerTransparentStyle}>
-              <Textarea autoFocus rowSpan={5} placeholder="메시지를 보내세요!" maxLength={200} style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
+              <Textarea autoFocus rowSpan={5} placeholder="인상 깊은 첫인삿말을 보내보세요! &#13;&#10;* 50포인트가 차감됩니다. &#13;&#10;* 5자 이상 작성해주세요. " maxLength={200} style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
               <View style={{ flexDirection: 'row' }}>
                 <View style={styles.modalButton}>
                   <Button block title="cancel" onPress={() => this._setModalVisible(false)} >

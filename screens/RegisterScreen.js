@@ -46,7 +46,10 @@ export default class RegisterScreen extends Component {
     try {
       this.setState({ isLoading: true })
       let token = await firebase.messaging().getToken();
-      if (!this.state.name) return Alert.alert('닉네임을 입력해주세요!');
+      if (!this.state.name) {
+        this.setState({ isLoading: false })
+        return Alert.alert('닉네임을 입력해주세요!');
+      }
       let res = await authStore.register(
         this.state.email, this.state.password,
         this.state.name, this.state.gender,
@@ -58,9 +61,9 @@ export default class RegisterScreen extends Component {
         await AsyncStorage.setItem('token', res.accessToken);
         await authStore.getMe();
         authStore.token = res.accessToken;
-        this.setState({ isLoading: false })
         this.props.navigation.navigate('My');
       }
+      this.setState({ isLoading: false })
     } catch (err) {
       this.setState({ isLoading: false })
       Alert.alert('Error', err.message)
@@ -140,6 +143,7 @@ export default class RegisterScreen extends Component {
                   <Input
                     style={styles.label}
                     onChangeText={(text) => this.setState({ name: text })}
+                    maxLength={26}
                     value={this.state.name}
                   />
                 </Item>

@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   containerTitleBoxButton: {
     marginTop: 10,
     marginRight: 10,
+    flex: 0.2,
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },

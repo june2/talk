@@ -9,6 +9,9 @@ import {
   Alert, TouchableHighlight,
   Modal,
   View,
+  Platform,
+  KeyboardAvoidingView,
+  TextInput,
 } from 'react-native';
 import { observer } from 'mobx-react';
 import * as ImagePicker from 'expo-image-picker';
@@ -44,7 +47,7 @@ export default class SettingsScreen extends Component {
               gender: authStore.me.gender,
               birthday: authStore.me.birthday,
             }
-            authStore.updateMe(data);            
+            authStore.updateMe(data);
             navigation.goBack();
           }}
         />
@@ -122,154 +125,160 @@ export default class SettingsScreen extends Component {
   }
 
   componentDidMount() {
-    this.getPermissionAsync();
+    // this.getPermissionAsync();
   }
 
   getPermissionAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status !== 'granted') {
-      Alert.alert('사진 사용을 허용해주세요!');
+      // Alert.alert('사진 사용을 허용해주세요!');
     }
   }
 
   render() {
     return (
-      <Container>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={this.state.isLoading}
-          onRequestClose={() => {
-            // Alert.alert('Modal has been closed.');
-          }}>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+      <KeyboardAvoidingView
+        behavior={Platform.select({ android: 'padding', ios: null })}
+        keyboardVerticalOffset={Platform.select({ ios: 0, android: 85 })}
+        style={{ flex: 1 }}
+      >
+        <Container>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={this.state.isLoading}
+            onRequestClose={() => {
+              // Alert.alert('Modal has been closed.');
+            }}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
 
-          </View>
-        </Modal>
-        <Content>
-          <ListItem>
-            <Body>
-              <Grid>
-                <Col style={{ alignSelf: 'center' }}>
-                  <TouchableHighlight onPress={() => this._action(0)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: (authStore.me.images.length > 0) ? authStore.me.images[0] : null }} style={styles.ImageBox} />
-                  </TouchableHighlight>
-                </Col>
-                <Col style={{ alignSelf: 'center' }}>
-                  <TouchableHighlight onPress={() => this._action(1)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: (authStore.me.images.length > 1) ? authStore.me.images[1] : null }} style={styles.ImageBox} />
-                  </TouchableHighlight>
-                </Col>
-                <Col style={{ alignSelf: 'center' }}>
-                  <TouchableHighlight onPress={() => this._action(2)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: (authStore.me.images.length > 2) ? authStore.me.images[2] : null }} style={styles.ImageBox} />
-                  </TouchableHighlight>
-                </Col>
-              </Grid>
-              <Grid style={{ marginTop: 10 }}>
-                <Col>
-                  <TouchableHighlight onPress={() => this._action(3)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: (authStore.me.images.length > 3) ? authStore.me.images[3] : null }} style={styles.ImageBox} />
-                  </TouchableHighlight>
-                </Col>
-                <Col>
-                  <TouchableHighlight onPress={() => this._action(4)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: (authStore.me.images.length > 4) ? authStore.me.images[4] : null }} style={styles.ImageBox} />
-                  </TouchableHighlight>
-                </Col>
-                <Col>
-                  <TouchableHighlight onPress={() => this._action(5)} underlayColor="#ffffff00">
-                    <Thumbnail large source={{ uri: (authStore.me.images.length > 5) ? authStore.me.images[5] : null }} style={styles.ImageBox} />
-                  </TouchableHighlight>
-                </Col>
-              </Grid>
-            </Body>
-          </ListItem>
-          <Separator bordered>
-            <Text>Information</Text>
-          </Separator>
-          {/* gender */}
-          <ListItem icon >
-            <Left>
-              <Label style={styles.label}>성별</Label>
-            </Left>
-            <Body>
-              <RNPickerSelect
-                placeholder={{}}
-                items={gender}
-                onValueChange={val => {
-                  authStore.me.gender = val
-                }}
-                InputAccessoryView={() => null}
-                style={pickerSelectStyles}
-                value={authStore.me.gender}
-              />
-            </Body>
-          </ListItem>
-          {/* age */}
-          <ListItem icon >
-            <Left>
-              <Label style={styles.label}>나이</Label>
-            </Left>
-            <Body>
-              <RNPickerSelect
-                placeholder={{}}
-                items={age}
-                onValueChange={val => {
-                  authStore.me.birthday = new Date(`${val}-01-01`);
-                }}
-                InputAccessoryView={() => null}
-                style={pickerSelectStyles}
-                value={getYear(authStore.me.birthday)}
-              />
-            </Body>
-          </ListItem>
-          {/* location */}
-          <ListItem icon >
-            <Left>
-              <Label style={styles.label}>지역</Label>
-            </Left>
-            <Body>
-              <RNPickerSelect
-                placeholder={{}}
-                items={locations}
-                onValueChange={val => {
-                  authStore.me.location = val
-                }}
-                InputAccessoryView={() => null}
-                style={pickerSelectStyles}
-                value={authStore.me.location}
-              />
-            </Body>
-          </ListItem>
-          {/* 닉네임 */}
-          <ListItem icon last>
-            <Left>
-              <Label style={styles.label}>닉네임</Label>
-            </Left>
-            <Body>
-              <Input
-                value={authStore.me.name}
-                style={{ paddingLeft: 0 }}
-                maxLength={50}
-                onChangeText={val => { authStore.me.name = val }}
-              />
-            </Body>
-          </ListItem>
-          <Separator bordered>
-            <Text>About me</Text>
-          </Separator>
-          <ListItem>
-            <Body>
-              <Textarea rowSpan={4} maxLength={200} placeholder="" onChangeText={(text) => authStore.me.intro = text} value={authStore.me.intro} />
-            </Body>
-          </ListItem>
-          <Separator bordered />
-          <Button block title="update" onPress={() => this._save()} style={styles.formBoxButton}>
-            <Text>저장</Text>
-          </Button>
-        </Content>
-      </Container>
+            </View>
+          </Modal>
+          <Content>
+            <ListItem>
+              <Body>
+                <Grid>
+                  <Col style={{ alignSelf: 'center' }}>
+                    <TouchableHighlight onPress={() => this._action(0)} underlayColor="#ffffff00">
+                      <Thumbnail large source={{ uri: (authStore.me.images.length > 0) ? authStore.me.images[0] : null }} style={styles.ImageBox} />
+                    </TouchableHighlight>
+                  </Col>
+                  <Col style={{ alignSelf: 'center' }}>
+                    <TouchableHighlight onPress={() => this._action(1)} underlayColor="#ffffff00">
+                      <Thumbnail large source={{ uri: (authStore.me.images.length > 1) ? authStore.me.images[1] : null }} style={styles.ImageBox} />
+                    </TouchableHighlight>
+                  </Col>
+                  <Col style={{ alignSelf: 'center' }}>
+                    <TouchableHighlight onPress={() => this._action(2)} underlayColor="#ffffff00">
+                      <Thumbnail large source={{ uri: (authStore.me.images.length > 2) ? authStore.me.images[2] : null }} style={styles.ImageBox} />
+                    </TouchableHighlight>
+                  </Col>
+                </Grid>
+                <Grid style={{ marginTop: 10 }}>
+                  <Col>
+                    <TouchableHighlight onPress={() => this._action(3)} underlayColor="#ffffff00">
+                      <Thumbnail large source={{ uri: (authStore.me.images.length > 3) ? authStore.me.images[3] : null }} style={styles.ImageBox} />
+                    </TouchableHighlight>
+                  </Col>
+                  <Col>
+                    <TouchableHighlight onPress={() => this._action(4)} underlayColor="#ffffff00">
+                      <Thumbnail large source={{ uri: (authStore.me.images.length > 4) ? authStore.me.images[4] : null }} style={styles.ImageBox} />
+                    </TouchableHighlight>
+                  </Col>
+                  <Col>
+                    <TouchableHighlight onPress={() => this._action(5)} underlayColor="#ffffff00">
+                      <Thumbnail large source={{ uri: (authStore.me.images.length > 5) ? authStore.me.images[5] : null }} style={styles.ImageBox} />
+                    </TouchableHighlight>
+                  </Col>
+                </Grid>
+              </Body>
+            </ListItem>
+            <Separator bordered>
+              <Text>Information</Text>
+            </Separator>
+            {/* gender */}
+            <ListItem icon >
+              <Left>
+                <Label style={styles.label}>성별</Label>
+              </Left>
+              <Body>
+                <RNPickerSelect
+                  placeholder={{}}
+                  items={gender}
+                  onValueChange={val => {
+                    authStore.me.gender = val
+                  }}
+                  InputAccessoryView={() => null}
+                  style={pickerSelectStyles}
+                  value={authStore.me.gender}
+                />
+              </Body>
+            </ListItem>
+            {/* age */}
+            <ListItem icon >
+              <Left>
+                <Label style={styles.label}>나이</Label>
+              </Left>
+              <Body>
+                <RNPickerSelect
+                  placeholder={{}}
+                  items={age}
+                  onValueChange={val => {
+                    authStore.me.birthday = new Date(`${val}-01-01`);
+                  }}
+                  InputAccessoryView={() => null}
+                  style={pickerSelectStyles}
+                  value={getYear(authStore.me.birthday)}
+                />
+              </Body>
+            </ListItem>
+            {/* location */}
+            <ListItem icon >
+              <Left>
+                <Label style={styles.label}>지역</Label>
+              </Left>
+              <Body>
+                <RNPickerSelect
+                  placeholder={{}}
+                  items={locations}
+                  onValueChange={val => {
+                    authStore.me.location = val
+                  }}
+                  InputAccessoryView={() => null}
+                  style={pickerSelectStyles}
+                  value={authStore.me.location}
+                />
+              </Body>
+            </ListItem>
+            {/* 닉네임 */}
+            <ListItem icon last>
+              <Left>
+                <Label style={styles.label}>닉네임</Label>
+              </Left>
+              <Body>
+                <Input
+                  value={authStore.me.name}
+                  style={{ paddingLeft: 0 }}
+                  maxLength={26}
+                  onChangeText={val => { authStore.me.name = val }}
+                />
+              </Body>
+            </ListItem>
+            <Separator bordered>
+              <Text>About me</Text>
+            </Separator>
+            <ListItem>
+              <Body>
+                <Textarea rowSpan={4} maxLength={200} placeholder="" onChangeText={(text) => authStore.me.intro = text} value={authStore.me.intro} />
+              </Body>
+            </ListItem>
+            <Separator bordered />
+            <Button block title="update" onPress={() => this._save()} style={styles.formBoxButton}>
+              <Text>저장</Text>
+            </Button>
+          </Content>
+        </Container>
+      </KeyboardAvoidingView>
     );
   }
 }

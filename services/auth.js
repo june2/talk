@@ -16,7 +16,7 @@ class AuthService {
         birthday: birthday,
         location: location,
         PlatformOS: PlatformOS,
-        PlatformVer: PlatformVer,
+        PlatformVer: PlatformVer + '',
         pushToken: pushToken
       }
       return await this._api.post('/register', data);

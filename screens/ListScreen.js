@@ -162,7 +162,10 @@ const styles = StyleSheet.create({
   },
   defaultUserImg: {
     backgroundColor: Colors.tabIconDefault,
-    resizeMode: 'contain',
+    resizeMode: Platform.select({
+      ios: 'contain',
+      android: 'cover',
+    }),
   },
   list: {
     // paddingBottom: 60,
