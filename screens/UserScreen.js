@@ -136,7 +136,7 @@ export default class UserScreen extends Component {
 
 if (Platform.OS === 'android') {
   UserScreen.navigationOptions = {
-    // title: 'Chat',
+    title: 'Chat',
     header: null,
   };
 }
@@ -162,8 +162,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   containerTitleBox: {
-    flexDirection: 'row',
-    flex: 0.6,
+    flexDirection: 'row',    
+    flex: 0.5,
     backgroundColor: '#fff',
   },
   containerTitleBoxName: {
@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
   containerTitleBoxButton: {
     marginTop: 10,
     marginRight: 10,
+    flex: 0.2,
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
@@ -202,7 +203,8 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   containerTextBox: {
-    flex: 1,
+    marginTop: -10,
+    flex: 1.4,
     backgroundColor: '#fff',
     height: '100%'
   },

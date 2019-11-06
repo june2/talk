@@ -259,7 +259,7 @@ export default class SettingsScreen extends Component {
                 <Input
                   value={authStore.me.name}
                   style={{ paddingLeft: 0 }}
-                  maxLength={26}
+                  maxLength={24}
                   onChangeText={val => { authStore.me.name = val }}
                 />
               </Body>
@@ -269,7 +269,7 @@ export default class SettingsScreen extends Component {
             </Separator>
             <ListItem>
               <Body>
-                <Textarea rowSpan={4} maxLength={200} placeholder="" onChangeText={(text) => authStore.me.intro = text} value={authStore.me.intro} />
+                <Textarea rowSpan={4} maxLength={220} placeholder="" onChangeText={(text) => authStore.me.intro = text} value={authStore.me.intro} />
               </Body>
             </ListItem>
             <Separator bordered />

@@ -13,6 +13,7 @@ import { getAge } from './../components/Util';
 import Notification from '../components/Notification';
 import Carousel from '../components/Carousel';
 import color from './../constants/Colors'
+import Colors from './../constants/Colors';
 
 @observer
 export default class MyScreen extends Component {
@@ -27,7 +28,7 @@ export default class MyScreen extends Component {
     return (
       <View style={styles.container}>
         <Notification />
-        <View style={styles.topBox}></View>
+        {/* <View style={styles.topBox}></View> */}
         <View style={styles.containerImgBox}>
           <Carousel images={authStore.me.images} isMe={true} />
         </View>
@@ -66,8 +67,12 @@ export default class MyScreen extends Component {
 }
 
 MyScreen.navigationOptions = {
-  title: 'My page',
-  header: null,
+  title: '',
+  // // headerTintColor: Colors.tabIconDefault,
+  // headerStyle: {
+  //   backgroundColor: Colors.tabIconDefault,
+  // },
+  // header: null,
 };
 
 const styles = StyleSheet.create({
@@ -127,6 +132,7 @@ const styles = StyleSheet.create({
   },
   containerTextBox: {
     flex: 1,
+    marginTop: -20,
     marginLeft: 15,
     marginRight: 15,
   },

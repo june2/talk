@@ -106,6 +106,7 @@ export default class CarouselScreen extends Component {
           : null
         }
         <ScrollView
+          scrollEnabled={imageArray.length > 1 ? true : false}
           horizontal
           showsHorizontalScrollIndicator={false}
           scrollEventThrottle={10}
