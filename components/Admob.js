@@ -15,7 +15,7 @@ export default function Admob() {
         bannerSize="fullBanner"
         adUnitID={config.adUnitID}
         // Test ID, Replace with your-admob-unit-id
-        testDeviceID={config.deviceID}
+        // testDeviceID={config.deviceID}
         onDidFailToReceiveAdWithError={(err) => console.log(err)}
         onAdMobDispatchAppEvent={(evt) => console.log(evt)}
       />

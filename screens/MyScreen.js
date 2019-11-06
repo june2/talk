@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Platform,
   View,
   StyleSheet,
   Dimensions,
@@ -66,14 +67,16 @@ export default class MyScreen extends Component {
   }
 }
 
-MyScreen.navigationOptions = {
-  title: '',
-  // // headerTintColor: Colors.tabIconDefault,
-  // headerStyle: {
-  //   backgroundColor: Colors.tabIconDefault,
-  // },
-  // header: null,
-};
+if (Platform.OS === 'android') {
+  MyScreen.navigationOptions = {
+    title: '',
+    // // headerTintColor: Colors.tabIconDefault,
+    // headerStyle: {
+    //   backgroundColor: Colors.tabIconDefault,
+    // },
+    // header: null,
+  };
+}
 
 const styles = StyleSheet.create({
   container: {

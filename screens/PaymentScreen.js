@@ -63,6 +63,11 @@ export default class PaymentScreen extends Component {
   async componentDidMount() {
     try {
       const products = await RNIap.getProducts(itemSkus);
+      if (products.length === 0) {
+        Alert.alert("상품 준비 중", "죄송합니다. 지금 이용가능한 상품이 없습니다.!", [
+          { text: 'OK', onPress: () => this.props.navigation.goBack() },
+        ]);
+      }
       if (products) {
         this.setState({ products });
       }
