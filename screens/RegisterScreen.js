@@ -17,6 +17,7 @@ import {
   Button,
   Text,
   Grid,
+  Spinner,
 } from 'native-base';
 import { observer } from 'mobx-react';
 import RNPickerSelect from 'react-native-picker-select';
@@ -78,7 +79,7 @@ export default class RegisterScreen extends Component {
           transparent={true}
           visible={this.state.isLoading}>
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-
+            <Spinner color={Colors.spinner} />
           </View>
         </Modal>
         <View style={styles.container}>

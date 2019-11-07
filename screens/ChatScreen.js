@@ -5,6 +5,7 @@ import { GiftedChat, Send } from 'react-native-gifted-chat'
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { observer, toJS } from 'mobx-react';
 import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions'
 import Report from '../components/Report';
 import msgService from './../services/messages';
 import roomStore from './../stores/RoomStore';
@@ -132,12 +133,20 @@ export default class ChatScreen extends Component {
       Alert.alert('서버 에러입니다.');
     }
   };
+  
+  _getPermissionAsync = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status !== 'granted') {
+      // Alert.alert('사진 사용을 허용해주세요!');
+    }
+  }
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
 
   componentDidMount() {
+    this._getPermissionAsync();
     this._getData();
     roomStore.messages = [];
     this.props.navigation.setParams({ openModal: this.setModalVisible });

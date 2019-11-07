@@ -62,7 +62,7 @@ export default class SettingsScreen extends Component {
           <Separator bordered>
             <Text>ID</Text>
           </Separator>
-          <ListItem icon last>
+          <ListItem last>
             <Body>
               <Text>{authStore.me.id}</Text>
             </Body>
@@ -71,15 +71,12 @@ export default class SettingsScreen extends Component {
           <Separator bordered>
             <Text>Point</Text>
           </Separator>
-          <ListItem icon >
+          <ListItem >
             <Body>
-              <Text>
-                보유 포인트 : {authStore.me.point} 
-                {/* <Icon name="md-heart" /> */}
-              </Text>
+              <Text>보유 포인트 : {authStore.me.point}</Text>
             </Body>
           </ListItem>
-          <ListItem icon last onPress={() => this.props.navigation.navigate('Payment')}>
+          <ListItem last onPress={() => this.props.navigation.navigate('Payment')}>
             <Body>
               <Text>포인트 구매하기</Text>
             </Body>
@@ -91,7 +88,7 @@ export default class SettingsScreen extends Component {
           <Separator bordered>
             <Text>Push</Text>
           </Separator>
-          <ListItem icon last>
+          <ListItem last>
             <Body>
               <Switch value={authStore.me.isActivePush} onValueChange={(evt) => this._change(evt)} />
             </Body>
@@ -99,7 +96,7 @@ export default class SettingsScreen extends Component {
           <Separator bordered>
             <Text>Terms</Text>
           </Separator>
-          <ListItem icon onPress={() => this.props.navigation.navigate('Term')}>
+          <ListItem last onPress={() => this.props.navigation.navigate('Term')}>
             <Body>
               <Text>약관 및 개인정보처리방침</Text>
             </Body>

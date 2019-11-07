@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Container, Content, ListItem, Separator, Thumbnail, Grid, Col,
   Button, Text, Icon, Left, Body, Textarea, Input, ActionSheet,
-  Label
+  Label, Spinner
 } from 'native-base';
 import {
   StyleSheet, Dimensions,
@@ -11,7 +11,6 @@ import {
   View,
   Platform,
   KeyboardAvoidingView,
-  TextInput,
 } from 'react-native';
 import { observer } from 'mobx-react';
 import * as ImagePicker from 'expo-image-picker';
@@ -79,6 +78,8 @@ export default class SettingsScreen extends Component {
         this.setState({ isLoading: true });
         await authStore.uploadImage(result.uri);
         this.setState({ isLoading: false });
+      } else {
+        this.setState({ isLoading: false });
       }
     } catch (err) {
       this.setState({ isLoading: false });
@@ -124,16 +125,17 @@ export default class SettingsScreen extends Component {
     else Alert.alert('Server error');
   }
 
-  componentDidMount() {
-    // this.getPermissionAsync();
-  }
-
-  getPermissionAsync = async () => {
+  _getPermissionAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status !== 'granted') {
       // Alert.alert('사진 사용을 허용해주세요!');
     }
   }
+
+  componentDidMount() {
+    this._getPermissionAsync();
+  }
+
 
   render() {
     return (
@@ -142,20 +144,17 @@ export default class SettingsScreen extends Component {
         keyboardVerticalOffset={Platform.select({ ios: 0, android: 85 })}
         style={{ flex: 1 }}
       >
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.isLoading}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <Spinner color={Colors.spinner} />
+          </View>
+        </Modal>
         <Container>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={this.state.isLoading}
-            onRequestClose={() => {
-              // Alert.alert('Modal has been closed.');
-            }}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-
-            </View>
-          </Modal>
           <Content>
-            <ListItem>
+            <ListItem last>
               <Body>
                 <Grid>
                   <Col style={{ alignSelf: 'center' }}>
@@ -267,7 +266,7 @@ export default class SettingsScreen extends Component {
             <Separator bordered>
               <Text>About me</Text>
             </Separator>
-            <ListItem>
+            <ListItem last>
               <Body>
                 <Textarea rowSpan={4} maxLength={220} placeholder="" onChangeText={(text) => authStore.me.intro = text} value={authStore.me.intro} />
               </Body>

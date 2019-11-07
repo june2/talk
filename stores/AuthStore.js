@@ -1,12 +1,13 @@
 import { observable, action, computed, configure } from 'mobx';
 import authService from '../services/auth'
 import userService from '../services/users'
-import config from '../constants/Config';
+import purchaseService from '../services/purchases'
 
 class AuthStore {
   constructor() {
     this._auth = authService;
     this._user = userService;
+    this._purchase = purchaseService;
   }
 
   @observable token = null;
@@ -118,6 +119,16 @@ class AuthStore {
     try {
       let res = await this._user.sendImage(uri);
       return res.image;
+    } catch (err) {
+      // Alert.alert('Error', err.message)
+      throw err;
+    }
+  }
+
+  @action async purchaseItem(receipt, purchase) {
+    try {
+      let res = await this._purchase.createPurchase(receipt, purchase);
+      return res;
     } catch (err) {
       // Alert.alert('Error', err.message)
       throw err;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AdMobBanner } from 'expo-ads-admob'
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import config from '../constants/Config'
 
 export default function Admob() {
@@ -12,11 +12,14 @@ export default function Admob() {
           top: 0,
           zIndex: 2,
         }}
-        bannerSize="fullBanner"
-        adUnitID={config.adUnitID}
-        // Test ID, Replace with your-admob-unit-id
-        // testDeviceID={config.deviceID}
-        onDidFailToReceiveAdWithError={(err) => console.log(err)}
+        bannerSize="banner"
+        adUnitID={
+          Platform.OS === 'ios'
+            ? config.IOSAdUnitID
+            : config.AndroidAdUnitID
+        }
+        testDeviceID={config.deviceID}
+        onDidFailToReceiveAdWithError={(err) => console.log(`fail ${err}`)}
         onAdMobDispatchAppEvent={(evt) => console.log(evt)}
       />
     </View>
