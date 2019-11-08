@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, Text, View, Image, TouchableHighlight } from "react-native";
+import { Platform, Text, View, Image, TouchableHighlight, Dimensions } from "react-native";
 import { Icon } from 'native-base';
 import { observer } from 'mobx-react';
 import { getLocation } from '../constants/Items';
@@ -112,7 +112,9 @@ const styles = {
   introBox: {
     paddingTop: 4,
   },
-  lightText: {
+  lightText: {    
+    width:  Dimensions.get('window').width - 140,
+    // alignSelf: 'stretch',
     fontSize: 12,
     color: '#878787'
   },

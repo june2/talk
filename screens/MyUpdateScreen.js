@@ -22,7 +22,7 @@ import { getYear } from '../components/Util';
 import authStore from './../stores/AuthStore';
 
 @observer
-export default class SettingsScreen extends Component {
+export default class MyUpdateScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: '',
@@ -280,6 +280,12 @@ export default class SettingsScreen extends Component {
       </KeyboardAvoidingView>
     );
   }
+}
+
+if (Platform.OS === 'android') {
+  MyUpdateScreen.navigationOptions = {
+    header: null,
+  };
 }
 
 const styles = StyleSheet.create({

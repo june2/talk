@@ -70,11 +70,7 @@ export default class MyScreen extends Component {
 if (Platform.OS === 'android') {
   MyScreen.navigationOptions = {
     title: '',
-    // // headerTintColor: Colors.tabIconDefault,
-    // headerStyle: {
-    //   backgroundColor: Colors.tabIconDefault,
-    // },
-    // header: null,
+    header: null,
   };
 }
 
