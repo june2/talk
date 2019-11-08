@@ -1,15 +1,18 @@
 import React from 'react';
 import {
-  ActivityIndicator,
   AsyncStorage,
   StatusBar,
   View,
   Alert,
 } from 'react-native';
+import {
+  Spinner,
+} from 'native-base';
 import { observer } from 'mobx-react';
 import State from './../components/AppState';
 import authStore from './../stores/AuthStore';
 import roomStore from './../stores/RoomStore';
+import Colors from './../constants/Colors'
 
 @observer
 export default class AuthLoadingScreen extends React.Component {
@@ -22,7 +25,7 @@ export default class AuthLoadingScreen extends React.Component {
   _bootstrapAsync = async () => {
     const userToken = await AsyncStorage.getItem('token');
     const user = await authStore.getMe();
-    console.log(userToken);    
+    // console.log(userToken);
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     if (userToken && user) {
@@ -59,8 +62,8 @@ export default class AuthLoadingScreen extends React.Component {
   // Render any loading content that you like here
   render() {
     return (
-      <View>
-        <ActivityIndicator />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <Spinner color={Colors.spinner} />
         <StatusBar barStyle="default" />
         <State />
       </View>

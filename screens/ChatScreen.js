@@ -133,7 +133,7 @@ export default class ChatScreen extends Component {
       Alert.alert('서버 에러입니다.');
     }
   };
-  
+
   _getPermissionAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status !== 'granted') {
@@ -162,10 +162,7 @@ export default class ChatScreen extends Component {
         <Modal
           animationType='fade'
           transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            // Alert.alert('Modal has been closed.');
-          }}>
+          visible={this.state.modalVisible}>
           <View style={{ flex: 1 }}>
             <Report closeModal={(visible) => this.setModalVisible(visible)} />
           </View>
@@ -178,23 +175,19 @@ export default class ChatScreen extends Component {
             user={{ _id: authStore.me.id }}
             alwaysShowSend={true}
             maxInputLength={200}
-            onPressAvatar={(user) => {
-              this.props.navigation.navigate('User');
-            }}
-            renderActions={(props) => <Send
-              {...props}
-            >
-              <View style={{ marginLeft: 14, marginBottom: 5 }}>
-                <Icon name='md-images' style={{ color: Colors.tintColor }} onPress={() => this._pickImage()} />
-              </View>
-            </Send>}
-            renderSend={(props) => <Send
-              {...props}
-            >
-              <View style={{ marginRight: 10, marginBottom: 5 }}>
-                <Icon name='md-send' style={{ color: Colors.tintColor }} />
-              </View>
-            </Send>}
+            onPressAvatar={(user) => { this.props.navigation.navigate('User'); }}
+            renderActions={(props) =>
+              <Send {...props}>
+                <View style={{ marginLeft: 14, marginBottom: 5 }}>
+                  <Icon name='md-images' style={{ color: Colors.tintColor }} onPress={() => this._pickImage()} />
+                </View>
+              </Send>}
+            renderSend={(props) =>
+              <Send {...props}>
+                <View style={{ marginRight: 10, marginBottom: 5 }}>
+                  <Icon name='md-send' style={{ color: Colors.tintColor }} />
+                </View>
+              </Send>}
           />
           {Platform.OS === 'android' ? <KeyboardSpacer /> : null}
           {/* {Platform.OS === 'android' && <KeyboardAvoidingView behavior="padding" />} */}

@@ -23,6 +23,7 @@ import RNIap, {
   purchaseUpdatedListener,
 } from 'react-native-iap';
 import React, { Component } from 'react';
+import { getProductTitle } from './../constants/Items';
 import Colors from './../constants/Colors';
 import authStore from './../stores/AuthStore';
 
@@ -190,6 +191,15 @@ export default class PaymentScreen extends Component {
           </View>
         </Modal>
         <Content style={styles.content}>
+          <Card >
+            <CardItem >
+              <View>
+                <Text style={styles.notice}>* 매일 출석 보상금 50포인트가 충전됩니다.</Text>
+                <Text style={styles.notice}>* 회원 탈퇴/앱 삭제 시, 포인트가 복구되지 않습니다.</Text>
+                <Text style={styles.notice}>* 기타 문의 사항은 'indeefun.help@gmail.com'로 연락부탁드립니다.</Text>
+              </View>
+            </CardItem>
+          </Card>
           {this.state.products.map((item, i) => {
             return (
               <TouchableOpacity key={i} onPress={() => this._purchase(item.productId)}>
@@ -197,7 +207,7 @@ export default class PaymentScreen extends Component {
                   <CardItem style={styles.cardItem}>
                     <Left>
                       <Body>
-                        <Text style={styles.text}>{item.title}</Text>
+                        <Text style={styles.text}>{getProductTitle(item.productId)}</Text>
                         {/* <Text note>{item.description}</Text> */}
                       </Body>
                     </Left>
@@ -233,4 +243,8 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.noticeText
   },
+  notice: {
+    color: Colors.tabIconDefault,
+    fontSize: 12
+  }
 });

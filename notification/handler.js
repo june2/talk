@@ -16,7 +16,8 @@ export default class Handler extends Component {
       case 'msg':
         let msgObj = {
           _id: new Date().toISOString(),
-          text: data.msg,
+          text: data.image ? null : data.msg,
+          image: data.image ? data.image : null,
           createdAt: new Date(),
           user: {
             _id: data.userId,

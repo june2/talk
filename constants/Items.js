@@ -1,5 +1,34 @@
 import { getAges, timestamp } from './../components/Util'
 
+const products = [
+  {
+    id: 'p700',
+    title: '포인트 700',
+  },
+  {
+    id: 'p4000',
+    title: '포인트 4000',
+  },
+  {
+    id: 'p16000',
+    title: '포인트 16000',
+  },
+  {
+    id: 'p40000',
+    title: '포인트 40000',
+  },
+  {
+    id: 'p80000',
+    title: '포인트 80000',
+  },
+]
+
+export const getProductTitle = (id) => {
+  let product = products.find(item => item.id === id);
+  if (product) return product.title;
+  else '';
+}
+
 export const gender = [
   {
     label: '남자',

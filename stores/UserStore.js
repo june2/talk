@@ -65,7 +65,7 @@ class UserStore {
     try {
       return this.users = await this._user.updatePushToken(os, version, pushToken);
     } catch (err) {
-      console.log(err)
+      // console.log(err)
       // Alert.alert('Error', err.message)
     }
   }
