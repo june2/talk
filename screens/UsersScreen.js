@@ -4,7 +4,7 @@ import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
 import Notification from '../components/Notification';
-import UserItem from '../components/UserItem2';
+import UserItem from '../components/UserItem';
 import userService from '../services/users';
 
 let { width } = Dimensions.get("window");

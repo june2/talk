@@ -83,7 +83,7 @@ export default class MyUpdateScreen extends Component {
       }
     } catch (err) {
       this.setState({ isLoading: false });
-      Alert.alert('서버 에러입니다.');
+      Alert.alert('카메라 사용을 허용해주세요!');
     }
   };
 
@@ -296,7 +296,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   formBoxButton: {
-    margin: 30
+    margin: 30,
+    backgroundColor: Colors.tintColor
   },
   label: {
     color: Colors.textColor

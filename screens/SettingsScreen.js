@@ -14,6 +14,7 @@ import Admob from '../components/Admob';
 import Notification from '../components/Notification';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
+import Colors from '../constants/Colors';
 
 @observer
 export default class SettingsScreen extends Component {
@@ -128,7 +129,8 @@ const styles = StyleSheet.create({
     // top: 60
   },
   formBoxButton: {
-    margin: 30
+    margin: 30,
+    backgroundColor : Colors.tintColor
   },
   bottomBanner: {
     position: "absolute",

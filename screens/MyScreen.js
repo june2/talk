@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Platform,
   View,
+  ScrollView,
   StyleSheet,
   Dimensions,
 } from 'react-native';
@@ -20,70 +21,74 @@ import Colors from './../constants/Colors';
 export default class MyScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      screenHeight: Math.round(Dimensions.get('window').height)
-    }
+    this.state = {}
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Notification />
-        {/* <View style={styles.topBox}></View> */}
-        <View style={styles.containerImgBox}>
-          <Carousel images={authStore.me.images} isMe={true} />
-        </View>
-        <View style={styles.containerTitleBox}>
-          <Grid>
-            <Col>
-              <Text style={styles.containerTitleBoxName}>
-                {authStore.me.name}
-              </Text>
-              <Text style={styles.containerTitleBoxLocation}>
-                <Icon active name={
-                  authStore.me.gender === 'M' ? 'md-female' : 'md-male'
-                } style={{
-                  ...styles.containerGenderIcon,
-                  color: authStore.me.gender === 'M' ? '#007aff' : 'red',
-                }} />&nbsp;&nbsp;&nbsp;
+      <ScrollView style={styles.container}>
+        <View style={styles.container}>
+          <Notification />
+          <View style={styles.containerImgBox}>
+            <Carousel images={authStore.me.images} isMe={true} />
+          </View>
+          <View style={styles.containerTitleBox}>
+            <Grid>
+              <Col style={styles.containerTitle}>
+                <Text style={styles.containerTitleBoxName} numberOfLines={1} ellipsizeMode='tail'>
+                  {authStore.me.name}
+                </Text>
+                <Text style={styles.containerTitleBoxLocation}>
+                  <Icon active name={
+                    authStore.me.gender === 'M' ? 'md-female' : 'md-male'
+                  } style={{
+                    ...styles.containerGenderIcon,
+                    color: authStore.me.gender === 'M' ? '#007aff' : 'red',
+                  }} />&nbsp;&nbsp;&nbsp;
                 {getAge(authStore.me.birthday)}&nbsp;&nbsp;&nbsp;
                 {getLocation(authStore.me.location)}
-              </Text>
-            </Col>
-            <Col style={styles.containerTitleBoxButton}>
-              <Button block transparent style={{ height: 55 }} onPress={() => this.props.navigation.navigate('MyUpdate')}>
-                <Icon active name='md-create' style={styles.containerTitleBoxButtonIcon} />
-              </Button>
-            </Col>
-          </Grid>
+                </Text>
+              </Col>
+              <Col style={styles.containerTitleBoxButton}>
+                <Button rounded style={styles.containerButton} onPress={() => this.props.navigation.navigate('MyUpdate')}>
+                  <Icon active name='md-create' style={styles.containerTitleBoxButtonIcon} />
+                </Button>
+              </Col>
+            </Grid>
+          </View>
+          <View style={styles.containerTextBox}>
+            <Text style={styles.containerText}>
+              {authStore.me.intro}
+            </Text>
+          </View>
         </View>
-        <View style={styles.containerTextBox}>
-          <Text style={styles.containerText}>
-            {authStore.me.intro}
-          </Text>
-        </View>
-      </View >
+      </ScrollView >
     );
   }
 }
 
-if (Platform.OS === 'android') {
-  MyScreen.navigationOptions = {
-    title: '',
-    header: null,
-  };
-}
+// if (Platform.OS === 'android') {
+MyScreen.navigationOptions = {
+  title: '',
+  header: null,
+};
+// }
+
+const height = Math.round(Dimensions.get('window').height);
+const width = Math.round(Dimensions.get('window').width);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: height + 50
   },
   topBox: {
     backgroundColor: '#ccc',
     height: 50
   },
   containerImgBox: {
-    flex: 3,
+    // flex: 2,
+    height: height * 0.7
   },
   containerImgTitle: {
     color: '#fff',
@@ -91,9 +96,13 @@ const styles = StyleSheet.create({
   },
   containerTitleBox: {
     flexDirection: 'row',
-    flex: 0.5,
+    height: 70
+  },
+  containerTitle: {
+    paddingTop: 3
   },
   containerTitleBoxName: {
+    width: width - 90,
     marginTop: 15,
     marginLeft: 15,
     fontWeight: 'bold',
@@ -104,9 +113,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     color: 'rgb(178, 181, 182)'
-  },
+  },  
   containerTitleBoxButton: {
-    marginTop: 10,
+    marginTop: 3,
     marginRight: 10,
     flex: 0.2,
     flexDirection: 'row',
@@ -117,21 +126,19 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   containerTitleBoxButtonIcon: {
-    fontSize: 40,
+    fontSize: 35,
     color: color.tintColor,
   },
   containerButton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  containerIcon: {
-    fontSize: 40,
-    color: 'red',
+    height: 65,
+    backgroundColor: '#FFFFFF',
+    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    shadowOpacity: 0.6,
+    elevation: 6,
+    shadowRadius: 15,
+    shadowOffset: { width: 1, height: 13 },
   },
   containerTextBox: {
-    flex: 1,
-    marginTop: -20,
     marginLeft: 15,
     marginRight: 15,
   },

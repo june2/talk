@@ -155,6 +155,12 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 15,
+    backgroundColor: Colors.tintColor,
+    // shadowColor: 'rgba(0, 0, 0, 0.2)',
+    // shadowOpacity: 0.6,
+    // elevation: 6,
+    // shadowRadius: 15,
+    // shadowOffset: { width: 1, height: 13 },
   },
   buttonText: {
     color: Colors.noticeText

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {
   Modal,
-  View, Alert,
+  View,
+  ScrollView,
+  Alert,
   StyleSheet,
   Dimensions,
   Platform,
@@ -73,62 +75,66 @@ export default class UserScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={this.state.modalVisible}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContainerTransparentStyle}>
-              <Textarea autoFocus rowSpan={5} placeholder="인상 깊은 첫인삿말을 보내보세요! &#13;&#10;* 50포인트가 차감됩니다. &#13;&#10;* 5자 이상 작성해주세요. " maxLength={200} style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
-              <View style={{ flexDirection: 'row' }}>
-                <View style={styles.modalButton}>
-                  <Button block title="cancel" onPress={() => this._setModalVisible(false)} >
-                    <Text>취소</Text>
-                  </Button>
-                </View>
-                <View style={styles.modalButton}>
-                  <Button block title="send" onPress={() => this._sendMsg()} >
-                    <Text>보내기</Text>
-                  </Button>
+      <ScrollView style={styles.container}>
+        <View style={styles.container}>
+          <Modal
+            animationType='fade'
+            transparent={true}
+            visible={this.state.modalVisible}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContainerTransparentStyle}>
+                <Textarea autoFocus rowSpan={5} placeholder="인상 깊은 첫인삿말을 보내보세요! &#13;&#10;* 50포인트가 차감됩니다. &#13;&#10;* 5자 이상 작성해주세요. " maxLength={200} style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={styles.modalButtonBox}>
+                    <Button style={styles.modalButton} block title="cancel" onPress={() => this._setModalVisible(false)} >
+                      <Text>취소</Text>
+                    </Button>
+                  </View>
+                  <View style={styles.modalButtonBox}>
+                    <Button style={styles.modalButton} block title="send" onPress={() => this._sendMsg()} >
+                      <Text>보내기</Text>
+                    </Button>
+                  </View>
                 </View>
               </View>
             </View>
+          </Modal>
+          <View style={styles.containerImgBox}>
+            <Carousel images={userStore.user.images} isMe={false} navigation={this.props.navigation} />
           </View>
-        </Modal>
-        <View style={styles.containerImgBox}>
-          <Carousel images={userStore.user.images} isMe={false} navigation={this.props.navigation} />
-        </View>
-        <View style={styles.containerTitleBox}>
-          <Grid>
-            <Col>
-              <Text style={styles.containerTitleBoxName}>{userStore.user.name}</Text>
-              <Text style={styles.containerTitleBoxLocation}>
-                <Icon active name={
-                  userStore.user.gender === 'M' ? 'md-female' : 'md-male'
-                } style={{
-                  ...styles.containerGenderIcon,
-                  color: userStore.user.gender === 'M' ? '#007aff' : 'red',
-                }} />&nbsp;&nbsp;&nbsp;
+          <View style={styles.containerTitleBox}>
+            <Grid>
+              <Col style={styles.containerTitle}>
+                <Text style={styles.containerTitleBoxName} numberOfLines={1} ellipsizeMode='tail'>
+                  {userStore.user.name}
+                </Text>
+                <Text style={styles.containerTitleBoxLocation}>
+                  <Icon active name={
+                    userStore.user.gender === 'M' ? 'md-female' : 'md-male'
+                  } style={{
+                    ...styles.containerGenderIcon,
+                    color: userStore.user.gender === 'M' ? '#007aff' : 'red',
+                  }} />&nbsp;&nbsp;&nbsp;
                 {getAge(userStore.user.birthday)}&nbsp;&nbsp;&nbsp;
                 {getLocation(userStore.user.location)}
-              </Text>
-            </Col>
-            {(!userStore.isChat) ?
-              <Col style={styles.containerTitleBoxButton}>
-                <Button block transparent style={{ height: 55 }} onPress={() => this._setModalVisible(true)}>
-                  <Icon active name='ios-chatbubbles' style={styles.containerTitleBoxButtonIcon} />
-                </Button>
-              </Col> : null}
-          </Grid>
-        </View>
-        <View style={styles.containerTextBox}>
-          <Text style={styles.containerText}>
-            {userStore.user.intro}
-          </Text>
-        </View>
-      </View >
+                </Text>
+              </Col>
+              {(!userStore.isChat) ?
+                <Col style={styles.containerTitleBoxButton}>
+                  <Button rounded style={styles.containerButton} onPress={() => this._setModalVisible(true)}>
+                    <Icon active name='ios-chatbubbles' style={styles.containerTitleBoxButtonIcon} />
+                  </Button>
+                </Col> : null}
+            </Grid>
+          </View>
+          <View style={styles.containerTextBox}>
+            <Text style={styles.containerText}>
+              {userStore.user.intro}
+            </Text>
+          </View>
+        </View >
+      </ScrollView>
     );
   }
 }
@@ -141,9 +147,13 @@ if (Platform.OS === 'android') {
   };
 }
 
+const height = Math.round(Dimensions.get('window').height);
+const width = Math.round(Dimensions.get('window').width);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: height + 50
   },
   containerCloseBox: {
     right: 30,
@@ -155,18 +165,22 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   containerImgBox: {
-    flex: 3,
+    // flex: 2,
+    height: height * 0.7
   },
   containerImgTitle: {
     color: '#fff',
     fontSize: 30,
   },
   containerTitleBox: {
-    flexDirection: 'row',    
-    flex: 0.5,
-    backgroundColor: '#fff',
+    flexDirection: 'row',
+    height: 70,
+  },
+  containerTitle: {
+    paddingTop: 3
   },
   containerTitleBoxName: {
+    width: width - 90,
     marginTop: 15,
     marginLeft: 15,
     fontWeight: 'bold',
@@ -179,7 +193,7 @@ const styles = StyleSheet.create({
     color: 'rgb(178, 181, 182)'
   },
   containerTitleBoxButton: {
-    marginTop: 10,
+    marginTop: 3,
     marginRight: 10,
     flex: 0.2,
     flexDirection: 'row',
@@ -190,28 +204,28 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   containerTitleBoxButtonIcon: {
-    fontSize: 40,
+    fontSize: 35,
     color: Colors.tintColor,
   },
   containerButton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    height: 65,
+    backgroundColor: '#FFFFFF',
+    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    shadowOpacity: 0.6,
+    elevation: 6,
+    shadowRadius: 15,
+    shadowOffset: { width: 1, height: 13 },
   },
   containerIcon: {
     fontSize: 40,
     color: 'red',
   },
   containerTextBox: {
-    marginTop: -10,
-    flex: 1.4,
-    backgroundColor: '#fff',
-    height: '100%'
-  },
-  containerText: {
-    height: '100%',
     marginLeft: 15,
     marginRight: 15,
+  },
+  containerText: {
+    paddingTop: 10,
     fontStyle: 'normal',
     fontWeight: 'normal',
     color: 'rgb(178, 181, 182)',
@@ -219,9 +233,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     alignItems: 'center',
-    // justifyContent: 'center',
-    paddingTop: Math.round(Dimensions.get('window').height) * 0.2,
-    // backgroundColor: '#ecf0f1',
+    paddingTop: height * 0.2,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainerTransparentStyle: {
@@ -241,8 +253,11 @@ const styles = StyleSheet.create({
     padding: 10,
     width: '100%'
   },
-  modalButton: {
+  modalButtonBox: {
     padding: 10,
-    width: '50%'
+    width: '50%',
+  },
+  modalButton: {
+    backgroundColor: Colors.tintColor
   }
 });

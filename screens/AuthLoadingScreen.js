@@ -9,6 +9,8 @@ import {
   Spinner,
 } from 'native-base';
 import { observer } from 'mobx-react';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 import State from './../components/AppState';
 import authStore from './../stores/AuthStore';
 import roomStore from './../stores/RoomStore';
@@ -32,6 +34,7 @@ export default class AuthLoadingScreen extends React.Component {
       authStore.token = userToken;
       await roomStore.getRooms(1);
       let res = await authStore.updateLastLogin();
+      this._checkNotificatios();
       this._checkLogin(res.data);
       this.props.navigation.navigate('Users');
     } else {
@@ -57,6 +60,17 @@ export default class AuthLoadingScreen extends React.Component {
       ],
       { cancelable: false },
     );
+  }
+
+  _checkNotificatios = async () => {
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = existingStatus;
+    if (finalStatus !== 'granted') {
+      // Android remote notification permissions are granted during the app
+      // install, so this will only ask on iOS
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
   }
 
   // Render any loading content that you like here

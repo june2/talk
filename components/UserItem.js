@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
 import {
+  Platform,
   StyleSheet,
   Text,
+  Dimensions
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,
   Thumbnail,
-  Icon
+  Icon,
+  View
 } from 'native-base';
 import config from '../constants/Config';
 import { getLocation } from '../constants/Items';
@@ -16,6 +19,7 @@ import userStore from '../stores/UserStore';
 import Colors from '../constants/Colors';
 
 let id = 0;
+const listHeight = 65;
 
 @observer
 export default class UserItem extends PureComponent {
@@ -32,19 +36,19 @@ export default class UserItem extends PureComponent {
 
   render() {
     return (
-      <ListItem style={{ height: 65 }} avatar key={this._id} button={true} onPress={() => this._handleClick(this.props.user)} >
+      <ListItem style={{ height: listHeight }} avatar key={this._id} button={true} onPress={() => this._handleClick(this.props.user)} >
         <Left style={styles.itemLeft}>
           {(this.props.user && this.props.user.images && this.props.user.images.length !== 0) ?
-            <Thumbnail source={{ uri: this.props.user.images[0] }} /> :
-            <Thumbnail style={styles.image} source={config.defaultUserImg(this.props.user.gender)} style={styles.defaultUserImg} />
+            <Thumbnail style={styles.image} source={{ uri: this.props.user.images[0] }} /> :
+            <Thumbnail style={styles.defaultImage} source={config.defaultUserImg(this.props.user.gender)} />
           }
         </Left>
-        <Body style={{ height: 65 }}>
-          <Text>{this.props.user.name}</Text>
+        <Body style={{ height: listHeight, paddingTop: 15 }}>
+          <Text numberOfLines={1} ellipsizeMode='tail'>{this.props.user.name}</Text>
           <Text numberOfLines={1} ellipsizeMode='tail' style={styles.introBox} note>{this.props.user.intro}{"\n"}</Text>
         </Body>
         <Right style={styles.itemRight}>
-          <Text note>
+          {/* <Text note>
             <Icon active name={
               this.props.user.gender === 'M' ? 'md-female' : 'md-male'
             } style={{
@@ -53,7 +57,19 @@ export default class UserItem extends PureComponent {
             }} />&nbsp;&nbsp;&nbsp;
             {getAge(this.props.user.birthday)}
           </Text>
-          <Text style={styles.introBox}>{getLocation(this.props.user.location)}</Text>
+          <Text style={styles.introBox}>{getLocation(this.props.user.location)}</Text> */}
+          <View>
+            <Text>
+              <Icon active name={
+                this.props.user.gender === 'M' ? 'md-female' : 'md-male'
+              } style={{
+                ...styles.genderIcon,
+                color: this.props.user.gender === 'M' ? '#007aff' : 'red',
+              }} />
+            </Text>
+            <Text style={styles.lightText}>{getAge(this.props.user.birthday)}</Text>
+            <Text style={styles.lightText}>{getLocation(this.props.user.location)}</Text>
+          </View>
         </Right>
       </ListItem>
     );
@@ -62,16 +78,21 @@ export default class UserItem extends PureComponent {
 
 const styles = StyleSheet.create({
   image: {
-    resizeMode: 'contain',
+    overflow: "hidden",
+  },
+  defaultImage: {
+    overflow: "hidden",
+    resizeMode: Platform.select({
+      ios: 'contain',
+      android: 'cover',
+    }),
+    backgroundColor: "#ccc"
   },
   itemLeft: {
     paddingTop: 4
   },
   itemRight: {
-    // paddingBottom: 0
-  },
-  defaultUserImg: {
-    backgroundColor: Colors.tabIconDefault
+    // paddingTop: 15
   },
   introBox: {
     height: 34,
@@ -82,5 +103,16 @@ const styles = StyleSheet.create({
   },
   containerGenderIcon: {
     fontSize: 12,
+  },
+  genderIcon: {
+    textAlign: 'right',
+    fontSize: 12,
+  },
+  lightText: {
+    // width:  Dimensions.get('window').width - 140,
+    // alignSelf: 'stretch',    
+    textAlign: 'right',
+    fontSize: 12,
+    color: '#878787'
   },
 });
