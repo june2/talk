@@ -16,6 +16,10 @@ class FilterStore {
     if (this.gender !== 'ALL') Object.assign(q, { gender: this.gender });
     return JSON.stringify(q);
   }
+
+  @action async setMsgBox(boolean) {
+    this.isVisible = boolean;
+  }
 }
 
 const store = new FilterStore();

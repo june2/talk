@@ -13,6 +13,7 @@ class UserStore {
   @observable users = {};
   @observable token = null;
   @observable isChat = false;
+  @observable isMsgVisible = false;
 
   _updateSlider(images, name) {
     this.slider = [];
@@ -23,6 +24,10 @@ class UserStore {
         // caption: 'Caption 3',
       })
     });
+  }
+
+  @action async setMsgBox(boolean) {
+    this.isMsgVisible = boolean;
   }
 
   @action async setUser(user, isChat = false) {
@@ -37,7 +42,7 @@ class UserStore {
 
   @action async getUsers(limit = 20, page = 1) {
     try {
-      this.users = await this._user.getUsers(limit, page);                  
+      this.users = await this._user.getUsers(limit, page);
       if (page === 1) {
         this.list = this.users.docs;
       } else {

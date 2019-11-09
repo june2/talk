@@ -71,6 +71,10 @@ export default class RegisterScreen extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   render() {
     return (
       <View style={styles.container}>

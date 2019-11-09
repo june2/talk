@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import {
-  Modal,
+import {  
   View,
-  ScrollView,
-  Alert,
+  ScrollView,  
   StyleSheet,
   Dimensions,
   Platform,
@@ -12,11 +10,10 @@ import { Col, Grid } from 'react-native-easy-grid';
 import { Textarea, Text, Button, Icon, } from 'native-base';
 import { observer } from 'mobx-react';
 import userStore from './../stores/UserStore';
-import authStore from '../stores/AuthStore';
-import roomStore from '../stores/RoomStore';
 import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 import Carousel from '../components/Carousel';
+import MessageBox from '../components/MessageBox';
 import Colors from './../constants/Colors'
 
 @observer
@@ -45,61 +42,17 @@ export default class UserScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
       text: '',
       isSent: false,
       screenHeight: Math.round(Dimensions.get('window').height)
     }
   }
 
-  _setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
-  _sendMsg = async () => {
-    if (!authStore.me.point || authStore.me.point < 50) {
-      return Alert.alert('포인트가 부족합니다.');
-    }
-    if (this.state.text.length < 5) {
-      return Alert.alert('5자 이상으로 작성해주세요!');
-    }
-    // 차감
-    authStore.me.point -= 50;
-    this.setState({ isSent: true });
-    let room = await roomStore.createRoom(userStore.user._id, this.state.text);
-    await roomStore.getRooms();
-    roomStore.setValue(room.id, 0, userStore.user.name, userStore.user._id);
-    this._setModalVisible(false);
-    this.props.navigation.navigate('Chat');
-  }
-
   render() {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.container}>
-          <Modal
-            animationType='fade'
-            transparent={true}
-            visible={this.state.modalVisible}
-          >
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContainerTransparentStyle}>
-                <Textarea autoFocus rowSpan={5} placeholder="인상 깊은 첫인삿말을 보내보세요! &#13;&#10;* 50포인트가 차감됩니다. &#13;&#10;* 5자 이상 작성해주세요. " maxLength={200} style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
-                <View style={{ flexDirection: 'row' }}>
-                  <View style={styles.modalButtonBox}>
-                    <Button style={styles.modalButton} block title="cancel" onPress={() => this._setModalVisible(false)} >
-                      <Text>취소</Text>
-                    </Button>
-                  </View>
-                  <View style={styles.modalButtonBox}>
-                    <Button style={styles.modalButton} block title="send" onPress={() => this._sendMsg()} >
-                      <Text>보내기</Text>
-                    </Button>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </Modal>
+          <MessageBox navigation={this.props.navigation} />        
           <View style={styles.containerImgBox}>
             <Carousel images={userStore.user.images} isMe={false} navigation={this.props.navigation} />
           </View>
@@ -122,7 +75,7 @@ export default class UserScreen extends Component {
               </Col>
               {(!userStore.isChat) ?
                 <Col style={styles.containerTitleBoxButton}>
-                  <Button rounded style={styles.containerButton} onPress={() => this._setModalVisible(true)}>
+                  <Button rounded style={styles.containerButton} onPress={() => userStore.setMsgBox(true)}>
                     <Icon active name='ios-chatbubbles' style={styles.containerTitleBoxButtonIcon} />
                   </Button>
                 </Col> : null}
@@ -210,7 +163,7 @@ const styles = StyleSheet.create({
     // color: Colors.tintColor,
   },
   containerButton: {
-    justifyContent: 'center',    
+    justifyContent: 'center',
     width: 55,
     height: 55,
     backgroundColor: Colors.tintColor,

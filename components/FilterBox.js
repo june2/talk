@@ -27,7 +27,7 @@ export default class Notification extends PureComponent {
   }
 
   _ok = () => {
-    filterStore.isVisible = false;
+    filterStore.setMsgBox(false);    
     filterStore.gender = this.state.gender;
     this.props.setFilter();
   }
@@ -48,7 +48,7 @@ export default class Notification extends PureComponent {
         <TouchableOpacity
           style={styles.container}
           activeOpacity={1}
-          onPressOut={() => filterStore.isVisible = false}
+          onPressOut={() => filterStore.setMsgBox(false)}
         >
           <View style={styles.container}>
             <View style={styles.content}>
@@ -96,11 +96,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)'
   },
-  content: {    
+  content: {
     flexDirection: 'column',
     justifyContent: 'center',
     width: '80%',
-    height: 200    
+    height: 200
   },
   card: {
     flex: 0,

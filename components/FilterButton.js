@@ -17,7 +17,7 @@ export default class Notification extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <Button rounded style={styles.button} onPress={() => filterStore.isVisible = true}>
+        <Button rounded style={styles.button} onPress={() => filterStore.setMsgBox(true)}>
           <Icon name='md-add' style={styles.icon} />
         </Button>
       </View>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     width: 50,
   },
   button: {
-    height: 50,    
+    height: 50,
     backgroundColor: Colors.tintColor,
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOpacity: 0.6,
@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     zIndex: 5,
     fontSize: 30,
-    color: Colors.noticeText,    
+    color: Colors.noticeText,
   }
 });
