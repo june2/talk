@@ -1,7 +1,7 @@
 export default {
-  apiHost: 'https://api.talknock.com/',
+  // apiHost: 'https://api.talknock.com/',
   // apiHost: 'http://10.95.184.49:3001/',  
-  // apiHost: 'http://127.0.0.1:3001/',
+  apiHost: 'http://127.0.0.1:3001/',
   IOSAdUnitID: '',
   AndroidAdUnitID: 'ca-app-pub-4793827205503970/2755752556',
   deviceID: 'EMULATOR',

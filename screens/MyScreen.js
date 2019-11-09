@@ -113,9 +113,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     color: 'rgb(178, 181, 182)'
-  },  
+  },
   containerTitleBoxButton: {
-    marginTop: 3,
+    marginTop: 10,
     marginRight: 10,
     flex: 0.2,
     flexDirection: 'row',
@@ -127,12 +127,16 @@ const styles = StyleSheet.create({
   },
   containerTitleBoxButtonIcon: {
     fontSize: 35,
-    color: color.tintColor,
+    width: '100%',
+    textAlign: 'center',    
+    // color: color.tintColor,
   },
   containerButton: {
-    height: 60,
-    backgroundColor: '#FFFFFF',
-    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    justifyContent: 'center',    
+    width: 55,
+    height: 55,
+    backgroundColor: Colors.tintColor,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOpacity: 0.6,
     elevation: 6,
     shadowRadius: 15,

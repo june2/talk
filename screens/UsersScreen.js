@@ -5,7 +5,11 @@ import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
 import Notification from '../components/Notification';
 import UserItem from '../components/UserItem';
+import FilterButton from '../components/FilterButton';
+import FilterBox from '../components/FilterBox';
 import userService from '../services/users';
+import filterStore from './../stores/FilterStore';
+
 
 let { width } = Dimensions.get("window");
 
@@ -38,7 +42,7 @@ export default class UsersScreen extends Component {
   _fetchMoreData = async () => {
     if (!this.state.isLoading && this.state.hasNextPage) {
       this.state.isLoading = true;
-      const res = await userService.getUsers(this.state.limit, this.state.page);
+      const res = await userService.getUsers(this.state.limit, this.state.page, filterStore.fitler);
       this.state.isLoading = false;
       this.setState({
         dataProvider: this.state.dataProvider.cloneWithRows(
@@ -82,11 +86,21 @@ export default class UsersScreen extends Component {
     return (
       <View style={styles.container}>
         <Notification />
+        <FilterBox
+          setFilter={async () => {
+            this.listView.scrollToOffset(0, 0, false)
+            this.setState({
+              data: [],
+              page: 1,
+            }, this._fetchMoreData);
+          }} />
+        <FilterButton />
         {/* <Admob /> */}
         {this.state.totalDocs > 0
           ?
           <View style={styles.list}>
             <RecyclerListView
+              ref={ref => { this.listView = ref }}
               style={{ flex: 1 }}
               contentContainerStyle={{}}
               initialRenderIndex={0}
