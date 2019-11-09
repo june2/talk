@@ -123,7 +123,7 @@ if (Platform.OS === 'android') {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 60
+    // paddingBottom: 60
   },
   content: {
     // top: 60

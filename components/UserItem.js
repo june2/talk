@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react';
 import {
   Platform,
   StyleSheet,
-  Text,
-  Dimensions
+  Text, 
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,

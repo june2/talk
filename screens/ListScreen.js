@@ -74,7 +74,7 @@ export default class ListScreen extends Component {
         </Left>
         <Body>
           <TouchableOpacity key={item.id} onPress={() => this._handleClick(item._id, i, item.count, item.user)}>
-            <Text>{(item.user && item.user.name) ? item.user.name : ''}</Text>
+            <Text numberOfLines={1} ellipsizeMode='tail'>{(item.user && item.user.name) ? item.user.name : ''}</Text>
             <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} style={{ height: 34 }} note>{item.lastMsg}</Text>
           </TouchableOpacity>
         </Body>

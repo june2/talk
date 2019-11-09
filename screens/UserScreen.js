@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     color: Colors.tintColor,
   },
   containerButton: {
-    height: 65,
+    height: 60,
     backgroundColor: '#FFFFFF',
     shadowColor: 'rgba(0, 0, 0, 0.2)',
     shadowOpacity: 0.6,

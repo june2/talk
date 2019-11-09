@@ -77,7 +77,7 @@ export default class CarouselScreen extends Component {
           width: deviceWidth,
           height: '100%',
           backgroundColor: Colors.tabIconDefault,
-          resizeMode: 'contain',
+          resizeMode: 'cover',
         }}
       />);
     }

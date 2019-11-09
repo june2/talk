@@ -6,12 +6,12 @@ import {
   // Platform,
   Alert,
 } from 'react-native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
-import { Textarea, Text, Button, Icon, } from 'native-base';
+import { Textarea, Text, Button } from 'native-base';
 import { observer } from 'mobx-react';
 import authStore from './../stores/AuthStore';
 import roomStore from './../stores/RoomStore';
 import reportStore from './../stores/ReportStore';
+import Colors from './../constants/Colors'
 
 @observer
 export default class Report extends Component {
@@ -37,13 +37,13 @@ export default class Report extends Component {
         <View style={styles.modalContainerTransparentStyle}>
           <Textarea rowSpan={5} placeholder="신고 사유를 작성해주세요!" style={styles.modalText} onChangeText={(text) => this.setState({ text })} />
           <View style={{ flexDirection: 'row' }}>
-            <View style={styles.modalButton}>
-              <Button block title="report" onPress={() => this._report()} >
+            <View style={styles.modalButtonBox}>
+              <Button style={styles.modalButton} block title="report" onPress={() => this._report()} >
                 <Text>신고하기</Text>
               </Button>
             </View>
             <View style={styles.modalButton}>
-              <Button block title="Login" onPress={() => this.props.closeModal(false)} >
+              <Button style={styles.modalButton} block title="Login" onPress={() => this.props.closeModal(false)} >
                 <Text>취소</Text>
               </Button>
             </View>
@@ -77,8 +77,11 @@ const styles = StyleSheet.create({
     padding: 10,
     width: '100%'
   },
-  modalButton: {
+  modalButtonBox: {
     padding: 10,
-    width: '50%'
+    width: '50%',
+  },
+  modalButton: {
+    backgroundColor: Colors.tintColor
   }
 });
