@@ -9,7 +9,6 @@ import {
   Spinner,
 } from 'native-base';
 import { observer } from 'mobx-react';
-import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import State from './../components/AppState';
 import authStore from './../stores/AuthStore';

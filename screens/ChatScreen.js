@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Platform, View, Modal, Alert, } from 'react-native';
+import { Platform, View, Alert, } from 'react-native';
 import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat, Send } from 'react-native-gifted-chat'
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { observer, toJS } from 'mobx-react';
+import { observer } from 'mobx-react';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions'
-import Report from '../components/Report';
+import ReportBox from '../components/ReportBox';
 import msgService from './../services/messages';
 import roomStore from './../stores/RoomStore';
 import authStore from './../stores/AuthStore';
@@ -14,8 +14,7 @@ import Colors from './../constants/Colors'
 
 @observer
 export default class ChatScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
+  static navigationOptions = ({ navigation }) => {    
     return {
       title: roomStore.roomName,
       navigatorStyle: {
@@ -51,13 +50,11 @@ export default class ChatScreen extends Component {
                   { text: "취소" }
                 ],
                 cancelButtonIndex: 2,
-                // destructiveButtonIndex: 4,
-                // title: "Testing ActionSheet"
               },
               buttonIndex => {
                 switch (buttonIndex) {
                   case 0:
-                    params.openModal(true);
+                    roomStore.setReportBox(true);
                     break;
                   case 1:
                     roomStore.deleteRoomByRoomId(roomStore.roomId, roomStore.roomIndex);
@@ -84,9 +81,7 @@ export default class ChatScreen extends Component {
       offset: 0,
       limit: 0,
       messages: [],
-      modalVisible: false,
     }
-    this.setModalVisible = this.setModalVisible.bind(this);
   }
 
   _getData = async () => {
@@ -141,15 +136,10 @@ export default class ChatScreen extends Component {
     }
   }
 
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
   componentDidMount() {
     this._getPermissionAsync();
     this._getData();
-    roomStore.messages = [];
-    this.props.navigation.setParams({ openModal: this.setModalVisible });
+    roomStore.messages = []; 
   }
 
   componentWillUnmount() {
@@ -159,14 +149,7 @@ export default class ChatScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={this.state.modalVisible}>
-          <View style={{ flex: 1 }}>
-            <Report closeModal={(visible) => this.setModalVisible(visible)} />
-          </View>
-        </Modal>
+        <ReportBox />
         <View style={{ flex: 1 }}>
           <GiftedChat
             messages={roomStore.messages}
@@ -189,8 +172,7 @@ export default class ChatScreen extends Component {
                 </View>
               </Send>}
           />
-          {Platform.OS === 'android' ? <KeyboardSpacer /> : null}
-          {/* {Platform.OS === 'android' && <KeyboardAvoidingView behavior="padding" />} */}
+          {Platform.OS === 'android' ? <KeyboardSpacer /> : null}          
         </View>
       </View>
     )

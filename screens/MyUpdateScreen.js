@@ -5,8 +5,9 @@ import {
   Label, Spinner
 } from 'native-base';
 import {
-  StyleSheet, Dimensions,
-  Alert, TouchableHighlight,
+  StyleSheet,
+  Alert, 
+  TouchableHighlight,
   Modal,
   View,
   Platform,
@@ -18,6 +19,7 @@ import * as Permissions from 'expo-permissions'
 import RNPickerSelect from 'react-native-picker-select';
 import { locations, gender, age } from '../constants/Items';
 import Colors from './../constants/Colors'
+import { window } from '../constants/Layout';
 import { getYear } from '../components/Util';
 import authStore from './../stores/AuthStore';
 
@@ -290,8 +292,8 @@ if (Platform.OS === 'android') {
 
 const styles = StyleSheet.create({
   ImageBox: {
-    width: (Dimensions.get('window').width / 3.5),
-    height: (Dimensions.get('window').width / 3.5),
+    width: (window.width / 3.5),
+    height: (window.width / 3.5),
     backgroundColor: 'gray',
     alignSelf: 'center'
   },

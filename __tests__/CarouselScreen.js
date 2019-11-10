@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Animated, View, StyleSheet, Image, Dimensions, ScrollView } from 'react-native'
+import { window } from '../constants/Layout'
 
-const deviceWidth = Dimensions.get('window').width
+const deviceWidth = window.width
 const FIXED_BAR_WIDTH = 280
 const BAR_SPACE = 10
 
@@ -20,7 +21,7 @@ export default class CarouselScreen extends Component {
   render() {
     let imageArray = []
     let barArray = []
-    images.forEach((image, i) => {      
+    images.forEach((image, i) => {
       const thisImage = (
         <Image
           key={`image${i}`}

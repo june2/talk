@@ -3,6 +3,7 @@ import { Platform, Text, View, Image, TouchableHighlight, Dimensions } from "rea
 import { Icon } from 'native-base';
 import { observer } from 'mobx-react';
 import { getLocation } from '../constants/Items';
+import { window } from '../constants/Layout'
 import { getAge } from './Util';
 import config from '../constants/Config';
 import userStore from '../stores/UserStore';
@@ -112,8 +113,8 @@ const styles = {
   introBox: {
     paddingTop: 4,
   },
-  lightText: {    
-    width:  Dimensions.get('window').width - 140,
+  lightText: {
+    width: window.width - 140,
     // alignSelf: 'stretch',
     fontSize: 12,
     color: '#878787'

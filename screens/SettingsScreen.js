@@ -18,6 +18,27 @@ import Colors from '../constants/Colors';
 
 @observer
 export default class SettingsScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: '설정',
+      navigatorStyle: {
+        navBarHidden: false,
+      },
+      headerLeft: (
+        <Icon name='md-arrow-round-back'
+          style={{
+            fontSize: 30,
+            fontWeight: 600,
+            color: 'rgba(0, 0, 0, .9)',
+            marginHorizontal: 16,
+            textAlign: 'center',
+          }}
+          onPress={() => navigation.goBack()}
+        />
+      ),
+    }
+  };
+
   constructor(props) {
     super(props);
     this._user = userService;
@@ -130,7 +151,7 @@ const styles = StyleSheet.create({
   },
   formBoxButton: {
     margin: 30,
-    backgroundColor : Colors.tintColor
+    backgroundColor: Colors.tintColor
   },
   bottomBanner: {
     position: "absolute",

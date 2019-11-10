@@ -19,10 +19,15 @@ class RoomStore {
     hasNextPage: true
   };
   @observable messages = [];
+  @observable isReportVisible = false;
 
   @computed
   get prevMessages() {
     return toJS(this.messages)
+  }
+
+  @action async setReportBox(boolean) {
+    this.isReportVisible = boolean;
   }
 
   @action async createRoom(userId, lastMsg) {

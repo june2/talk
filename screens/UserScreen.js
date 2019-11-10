@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import {  
+import {
   View,
-  ScrollView,  
-  StyleSheet,
-  Dimensions,
+  ScrollView,
+  StyleSheet,  
   Platform,
 } from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
-import { Textarea, Text, Button, Icon, } from 'native-base';
+import { Text, Button, Icon, } from 'native-base';
 import { observer } from 'mobx-react';
 import userStore from './../stores/UserStore';
 import { getLocation } from './../constants/Items';
@@ -15,6 +14,7 @@ import { getAge } from './../components/Util';
 import Carousel from '../components/Carousel';
 import MessageBox from '../components/MessageBox';
 import Colors from './../constants/Colors'
+import { window } from '../constants/Layout';
 
 @observer
 export default class UserScreen extends Component {
@@ -44,7 +44,7 @@ export default class UserScreen extends Component {
     this.state = {
       text: '',
       isSent: false,
-      screenHeight: Math.round(Dimensions.get('window').height)
+      screenHeight: window.height
     }
   }
 
@@ -52,7 +52,7 @@ export default class UserScreen extends Component {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.container}>
-          <MessageBox navigation={this.props.navigation} />        
+          <MessageBox navigation={this.props.navigation} />
           <View style={styles.containerImgBox}>
             <Carousel images={userStore.user.images} isMe={false} navigation={this.props.navigation} />
           </View>
@@ -92,7 +92,6 @@ export default class UserScreen extends Component {
   }
 }
 
-
 if (Platform.OS === 'android') {
   UserScreen.navigationOptions = {
     title: 'Chat',
@@ -100,13 +99,10 @@ if (Platform.OS === 'android') {
   };
 }
 
-const height = Math.round(Dimensions.get('window').height);
-const width = Math.round(Dimensions.get('window').width);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: height + 50
+    height: window.height + 50
   },
   containerCloseBox: {
     right: 30,
@@ -119,7 +115,7 @@ const styles = StyleSheet.create({
   },
   containerImgBox: {
     // flex: 2,
-    height: height * 0.7
+    height: window.height * 0.7
   },
   containerImgTitle: {
     color: '#fff',
@@ -133,7 +129,7 @@ const styles = StyleSheet.create({
     paddingTop: 3
   },
   containerTitleBoxName: {
-    width: width - 90,
+    width: window.width - 90,
     marginTop: 15,
     marginLeft: 15,
     fontWeight: 'bold',
@@ -190,7 +186,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: height * 0.2,
+    paddingTop: window.height * 0.2,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainerTransparentStyle: {

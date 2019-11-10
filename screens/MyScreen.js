@@ -4,7 +4,6 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  Dimensions,
 } from 'react-native';
 import { Text, Button, Icon, } from 'native-base';
 import { Col, Grid } from 'react-native-easy-grid';
@@ -14,8 +13,8 @@ import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 import Notification from '../components/Notification';
 import Carousel from '../components/Carousel';
-import color from './../constants/Colors'
 import Colors from './../constants/Colors';
+import { window } from '../constants/Layout';
 
 @observer
 export default class MyScreen extends Component {
@@ -74,13 +73,11 @@ MyScreen.navigationOptions = {
 };
 // }
 
-const height = Math.round(Dimensions.get('window').height);
-const width = Math.round(Dimensions.get('window').width);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: height + 50
+    height: window.height + 50
   },
   topBox: {
     backgroundColor: '#ccc',
@@ -88,7 +85,7 @@ const styles = StyleSheet.create({
   },
   containerImgBox: {
     // flex: 2,
-    height: height * 0.7
+    height: window.height * 0.7
   },
   containerImgTitle: {
     color: '#fff',
@@ -102,7 +99,7 @@ const styles = StyleSheet.create({
     paddingTop: 3
   },
   containerTitleBoxName: {
-    width: width - 90,
+    width: window.width - 90,
     marginTop: 15,
     marginLeft: 15,
     fontWeight: 'bold',

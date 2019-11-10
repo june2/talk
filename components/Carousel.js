@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Animated, View, StyleSheet, Image, Dimensions, ScrollView, Text } from 'react-native'
+import { Animated, View, StyleSheet, Image, ScrollView, Text } from 'react-native'
 import {
   Button
 } from 'native-base';
@@ -8,9 +8,9 @@ import { BlurView } from 'expo-blur';
 import authStore from '../stores/AuthStore';
 import config from '../constants/Config';
 import Colors from '../constants/Colors';
+import { window } from '../constants/Layout';
 
-
-const deviceWidth = Dimensions.get('window').width
+const deviceWidth = window.width
 const FIXED_BAR_WIDTH = 30
 const BAR_SPACE = 10
 
