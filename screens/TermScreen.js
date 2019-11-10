@@ -1,9 +1,33 @@
 import React, { Component } from 'react';
 import {
-  Container, Content, Text
+  Platform
+} from 'react-native';
+import {
+  Container, Content, Text, Icon,
 } from 'native-base';
 
 export default class TermScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: '설정',
+      navigatorStyle: {
+        navBarHidden: false,
+      },
+      headerLeft: (
+        <Icon name='md-arrow-round-back'
+          style={{
+            fontSize: 30,
+            fontWeight: 600,
+            color: 'rgba(0, 0, 0, .9)',
+            marginHorizontal: 16,
+            textAlign: 'center',
+          }}
+          onPress={() => navigation.goBack()}
+        />
+      ),
+    }
+  };
+
   constructor(props) {
     super(props);
   }
@@ -63,7 +87,7 @@ export default class TermScreen extends Component {
             ο 개인정보 보호책임자{'\n'}
             이름 : 김준영{'\n'}
             직위 : 대표이사{'\n'}
-            연락처 : help@indeefun.com{'\n'}
+            연락처 : indeefun.help@gmail.com{'\n'}
 
           </Text>
         </Content>
@@ -72,6 +96,9 @@ export default class TermScreen extends Component {
   }
 }
 
-TermScreen.navigationOptions = {
-  // title: 'Setting',
-};
+if (Platform.OS === 'android') {
+  TermScreen.navigationOptions = {
+    // title: 'Setting',
+    header: null,
+  };
+}
