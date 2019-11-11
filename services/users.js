@@ -36,7 +36,7 @@ class UserService {
   async uploadImage(uri) {
     try {
       let formData = new FormData();
-      formData.append('upload', { uri: uri, name: 'img.jpg', type: 'image' });
+      formData.append('upload', { uri: uri, name: 'img.jpg', type: 'image/jpeg' });
       return await this._api.upload('/me/upload', formData);
     } catch (err) {
       throw err;
@@ -46,7 +46,7 @@ class UserService {
   async sendImage(uri) {
     try {
       let formData = new FormData();
-      formData.append('upload', { uri: uri, name: 'img.jpg', type: 'image' });
+      formData.append('upload', { uri: uri, name: 'img.jpg', type: 'image/jpeg' });
       return await this._api.upload('/me/upload/image', formData);
     } catch (err) {
       throw err;

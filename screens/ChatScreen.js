@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, View, Alert, } from 'react-native';
+import { Platform, View, Alert, PermissionsAndroid } from 'react-native';
 import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat, Send } from 'react-native-gifted-chat'
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -14,7 +14,7 @@ import Colors from './../constants/Colors'
 
 @observer
 export default class ChatScreen extends Component {
-  static navigationOptions = ({ navigation }) => {    
+  static navigationOptions = ({ navigation }) => {
     return {
       title: roomStore.roomName,
       navigatorStyle: {
@@ -130,16 +130,23 @@ export default class ChatScreen extends Component {
   };
 
   _getPermissionAsync = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (status !== 'granted') {
-      // Alert.alert('사진 사용을 허용해주세요!');
+    if (Platform.OS === 'android') {
+      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+      if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+        Alert.alert('사진 사용을 허용해주세요!');
+      }
+    } else {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        Alert.alert('사진 사용을 허용해주세요!');
+      }
     }
   }
 
   componentDidMount() {
     this._getPermissionAsync();
     this._getData();
-    roomStore.messages = []; 
+    roomStore.messages = [];
   }
 
   componentWillUnmount() {
@@ -172,7 +179,7 @@ export default class ChatScreen extends Component {
                 </View>
               </Send>}
           />
-          {Platform.OS === 'android' ? <KeyboardSpacer /> : null}          
+          {Platform.OS === 'android' ? <KeyboardSpacer /> : null}
         </View>
       </View>
     )

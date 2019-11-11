@@ -6,12 +6,13 @@ import {
 } from 'native-base';
 import {
   StyleSheet,
-  Alert, 
+  Alert,
   TouchableHighlight,
   Modal,
   View,
   Platform,
   KeyboardAvoidingView,
+  PermissionsAndroid
 } from 'react-native';
 import { observer } from 'mobx-react';
 import * as ImagePicker from 'expo-image-picker';
@@ -85,7 +86,7 @@ export default class MyUpdateScreen extends Component {
       }
     } catch (err) {
       this.setState({ isLoading: false });
-      Alert.alert('카메라 사용을 허용해주세요!');
+      Alert.alert('서버 오류', err);
     }
   };
 
@@ -124,13 +125,20 @@ export default class MyUpdateScreen extends Component {
     }
     let res = await authStore.updateMe(data);
     if (res.status === 200) this.props.navigation.navigate('My');
-    else Alert.alert('Server error');
+    else Alert.alert('서버 오류', err);
   }
 
   _getPermissionAsync = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (status !== 'granted') {
-      // Alert.alert('사진 사용을 허용해주세요!');
+    if (Platform.OS === 'android') {
+      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+      if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+        Alert.alert('사진 사용을 허용해주세요!');
+      }
+    } else {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);      
+      if (status !== 'granted') {
+        Alert.alert('사진 사용을 허용해주세요!');
+      }
     }
   }
 

@@ -4,7 +4,7 @@ import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
 import Notification from '../components/Notification';
-import UserItem from '../components/UserItem';
+import UserItem from '../components/UserItem2';
 import FilterButton from '../components/FilterButton';
 import FilterBox from '../components/FilterBox';
 import userService from '../services/users';
@@ -104,6 +104,7 @@ export default class UsersScreen extends Component {
               style={{ flex: 1 }}
               contentContainerStyle={{}}
               initialRenderIndex={0}
+              disableRecycling={true}
               onEndReached={this._handleListEnd}
               dataProvider={this.state.dataProvider}
               layoutProvider={this.state.layoutProvider}

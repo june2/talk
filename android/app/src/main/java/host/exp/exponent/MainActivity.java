@@ -1,17 +1,27 @@
 package host.exp.exponent;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.facebook.react.ReactPackage;
+import com.facebook.react.modules.core.PermissionAwareActivity;
+import com.facebook.react.modules.core.PermissionListener;
 
 import org.unimodules.core.interfaces.Package;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import host.exp.exponent.experience.DetachActivity;
 import host.exp.exponent.generated.DetachBuildConstants;
 
-public class MainActivity extends DetachActivity {
+public class MainActivity extends DetachActivity implements PermissionAwareActivity {
+
+  @Nullable
+  private PermissionListener permissionListener;
 
   @Override
   public String publishedUrl() {
@@ -42,5 +52,18 @@ public class MainActivity extends DetachActivity {
   public Bundle initialProps(Bundle expBundle) {
     // Add extra initialProps here
     return expBundle;
+  }
+
+  @TargetApi(Build.VERSION_CODES.M)
+  public void requestPermissions(String[] permissions, int requestCode, PermissionListener listener) {
+    permissionListener = listener;
+    requestPermissions(permissions, requestCode);
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    if (permissionListener != null) {
+      permissionListener.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
   }
 }

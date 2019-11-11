@@ -43,8 +43,7 @@ const styles = StyleSheet.create({
     shadowRadius: 15,
     shadowOffset: { width: 1, height: 13 },
   },
-  icon: {
-    paddingTop: 5,
+  icon: {    
     zIndex: 5,
     fontSize: 30,
     color: Colors.noticeText,
