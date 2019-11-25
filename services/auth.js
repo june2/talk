@@ -6,7 +6,7 @@ class AuthService {
   }
 
   async register(email, password, name, gender, birthday, location,
-    PlatformOS, PlatformVer, pushToken) {
+    locale, region, platformOS, platformVer, pushToken) {
     try {
       let data = {
         email: email,
@@ -15,8 +15,10 @@ class AuthService {
         gender: gender,
         birthday: birthday,
         location: location,
-        PlatformOS: PlatformOS,
-        PlatformVer: PlatformVer + '',
+        locale: locale, 
+        region: region,
+        platformOS: platformOS,
+        platformVer: platformVer + '',
         pushToken: pushToken
       }
       return await this._api.post('/register', data);

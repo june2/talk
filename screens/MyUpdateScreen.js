@@ -23,6 +23,7 @@ import Colors from './../constants/Colors'
 import { window } from '../constants/Layout';
 import { getYear } from '../components/Util';
 import authStore from './../stores/AuthStore';
+import i18n from './../i18n'
 
 @observer
 export default class MyUpdateScreen extends Component {
@@ -86,7 +87,7 @@ export default class MyUpdateScreen extends Component {
       }
     } catch (err) {
       this.setState({ isLoading: false });
-      Alert.alert('서버 오류', err);
+      Alert.alert('Server Error', err);
     }
   };
 
@@ -98,8 +99,8 @@ export default class MyUpdateScreen extends Component {
     ActionSheet.show(
       {
         options: [
-          { text: "삭제", icon: "trash", iconColor: "#fa213b" },
-          { text: "취소", icon: "close", iconColor: "#25de5b" }
+          { text: `${i18n.t('Delete')}`, icon: "trash", iconColor: "#fa213b" },
+          { text: `${i18n.t('Cancel')}`, icon: "close", iconColor: "#25de5b" }
         ],
         cancelButtonIndex: 1,
       },
@@ -132,12 +133,12 @@ export default class MyUpdateScreen extends Component {
     if (Platform.OS === 'android') {
       const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
       if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-        Alert.alert('사진 사용을 허용해주세요!');
+        Alert.alert(`${i18n.t('Please allow use of photo!')}`);
       }
     } else {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);      
       if (status !== 'granted') {
-        Alert.alert('사진 사용을 허용해주세요!');
+        Alert.alert(`${i18n.t('Please allow use of photo!')}`);
       }
     }
   }
@@ -208,7 +209,7 @@ export default class MyUpdateScreen extends Component {
             {/* gender */}
             <ListItem icon >
               <Left>
-                <Label style={styles.label}>성별</Label>
+                <Label style={styles.label}>{i18n.t('Gender')}</Label>
               </Left>
               <Body>
                 <RNPickerSelect
@@ -226,7 +227,7 @@ export default class MyUpdateScreen extends Component {
             {/* age */}
             <ListItem icon >
               <Left>
-                <Label style={styles.label}>나이</Label>
+                <Label style={styles.label}>{i18n.t('Age')}</Label>
               </Left>
               <Body>
                 <RNPickerSelect
@@ -244,7 +245,7 @@ export default class MyUpdateScreen extends Component {
             {/* location */}
             <ListItem icon >
               <Left>
-                <Label style={styles.label}>지역</Label>
+                <Label style={styles.label}>{i18n.t('District')}</Label>
               </Left>
               <Body>
                 <RNPickerSelect
@@ -262,7 +263,7 @@ export default class MyUpdateScreen extends Component {
             {/* 닉네임 */}
             <ListItem icon last>
               <Left>
-                <Label style={styles.label}>닉네임</Label>
+                <Label style={styles.label}>{i18n.t('Nickname')}</Label>
               </Left>
               <Body>
                 <Input
@@ -283,7 +284,7 @@ export default class MyUpdateScreen extends Component {
             </ListItem>
             <Separator bordered />
             <Button block title="update" onPress={() => this._save()} style={styles.formBoxButton}>
-              <Text>저장</Text>
+              <Text>{i18n.t('Save')}</Text>
             </Button>
           </Content>
         </Container>

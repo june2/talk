@@ -18,10 +18,14 @@ target '---' do
       'expo-bluetooth',
       'expo-in-app-purchases',
       'expo-payments-stripe',
+      'expo-ads-admo'
     ],
   )
 
   pod 'Firebase/Messaging'
+  pod 'Firebase/AdMob'
+  pod 'Google-Mobile-Ads-SDK'
+  pod 'react-native-admob', path: '../node_modules/react-native-admob'
   pod 'React',
     :path => "../node_modules/react-native",
     :inhibit_warnings => true,

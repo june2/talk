@@ -21,18 +21,20 @@ export default class TabBarChatIcon extends React.Component {
           <Ionicons
             name={this.props.name}
             size={30}
-            style={{ marginBottom: -3 }}
+            style={{
+              marginBottom: -3,
+            }}
             color={this.props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
           />
         }
         BadgeElement={
           <Text style={{ color: '#FFFFFF', fontSize: 10 }}>{authStore.me.tabBadgeCount}</Text>
         }
-        Hidden={authStore.me.tabBadgeCount == 0}
+        Hidden={!Number.isInteger(authStore.me.tabBadgeCount) || authStore.me.tabBadgeCount < 1}
         IconBadgeStyle={{
           left: 17,
-          width: 19 ,
-          height: 19,
+          width: 17,
+          height: 17,
         }}
       />
     );

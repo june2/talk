@@ -4,7 +4,7 @@ import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
 import Notification from '../components/Notification';
-import UserItem from '../components/UserItem2';
+import UserItem from '../components/UserItem';
 import FilterButton from '../components/FilterButton';
 import FilterBox from '../components/FilterBox';
 import userService from '../services/users';
@@ -95,7 +95,7 @@ export default class UsersScreen extends Component {
             }, this._fetchMoreData);
           }} />
         <FilterButton />
-        {/* <Admob /> */}
+        <Admob />
         {this.state.totalDocs > 0
           ?
           <View style={styles.list}>

@@ -6,7 +6,7 @@ import {
   Alert,
   Image,
   Modal,
-  Platform
+  Platform,
 } from 'react-native';
 import {
   Content,
@@ -22,10 +22,12 @@ import {
 import { observer } from 'mobx-react';
 import RNPickerSelect from 'react-native-picker-select';
 import firebase from 'react-native-firebase';
+import * as Localization from 'expo-localization';
 import { locations, gender, age, getTimestamp } from '../constants/Items';
 import authService from '../services/auth'
 import authStore from './../stores/AuthStore';
 import Colors from './../constants/Colors'
+import i18n from './../i18n'
 
 @observer
 export default class RegisterScreen extends Component {
@@ -39,8 +41,11 @@ export default class RegisterScreen extends Component {
       gender: 'M',
       location: 'seoul',
       age: 1990,
+      locale: Localization.locale,
+      region: Localization.region,
       isLoading: false
     }
+    // console.log(NativeModules)
   }
 
   _signUpAsync = async () => {
@@ -55,6 +60,7 @@ export default class RegisterScreen extends Component {
         this.state.email, this.state.password,
         this.state.name, this.state.gender,
         new Date(`${this.state.age}-01-01`), this.state.location,
+        this.state.locale, this.state.region,
         Platform.OS, Platform.Version, token
       );
       if (res.id) {
@@ -95,7 +101,7 @@ export default class RegisterScreen extends Component {
             <Content contentContainerStyle={styles.content} >
               <Form style={styles.formBox}>
                 <Item inlineLabel style={styles.formBoxItem}>
-                  <Label style={styles.label}>성별</Label>
+                  <Label style={styles.label}>{i18n.t('Gender')}</Label>
                   <Grid>
                     <RNPickerSelect
                       placeholder={{}}
@@ -110,7 +116,7 @@ export default class RegisterScreen extends Component {
                   </Grid>
                 </Item>
                 <Item inlineLabel style={styles.formBoxItem}>
-                  <Label style={styles.label}>나이</Label>
+                  <Label style={styles.label}>{i18n.t('Age')}</Label>
                   <Grid>
                     <RNPickerSelect
                       placeholder={{}}
@@ -125,7 +131,7 @@ export default class RegisterScreen extends Component {
                   </Grid>
                 </Item>
                 <Item inlineLabel style={styles.formBoxItem}>
-                  <Label style={styles.label}>지역</Label>
+                  <Label style={styles.label}>{i18n.t('District')}</Label>
                   <Grid>
                     <RNPickerSelect
                       placeholder={{}}
@@ -140,7 +146,7 @@ export default class RegisterScreen extends Component {
                   </Grid>
                 </Item>
                 <Item inlineLabel style={styles.formBoxItem}>
-                  <Label style={styles.label}>닉네임</Label>
+                  <Label style={styles.label}>{i18n.t('Nickname')}</Label>
                   <Input
                     style={styles.label}
                     onChangeText={(text) => this.setState({ name: text })}
@@ -149,19 +155,13 @@ export default class RegisterScreen extends Component {
                   />
                 </Item>
                 <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
-                  <Text>시작하기</Text>
+                  <Text>{i18n.t('Getting started')}</Text>
                 </Button>
               </Form>
             </Content>
           </View>
           <View style={styles.bottomBox}>
             <Content contentContainerStyle={styles.content} scrollEnabled={false}>
-              {/* <Text style={styles.bottomBoxText}>
-              이미 계정이 있으신가요?&nbsp;&nbsp;&nbsp;
-            <Text onPress={() => this.props.navigation.navigate('SignIn')} style={styles.bottomBoxTextLink}>
-                로그인
-            </Text>
-            </Text> */}
             </Content>
           </View>
         </View >

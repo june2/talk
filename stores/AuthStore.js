@@ -10,7 +10,7 @@ class AuthStore {
     this._purchase = purchaseService;
   }
 
-  @observable token = null;
+  @observable token = null;  
   @observable me = {
     images: [],
     tabBadgeCount: 0,
@@ -23,10 +23,10 @@ class AuthStore {
   }
 
   @action async register(email, password, name, gender, birthday, location,
-    PlatformOS, PlatformVer, pushToken) {
+    locale, region, platformOS, platformVer, pushToken) {
     try {
       this.me = await this._auth.register(email, password, name, gender, birthday, location,
-        PlatformOS, PlatformVer, pushToken);
+        locale, region, platformOS, platformVer, pushToken);
       return this.me;
     } catch (err) {
       // Alert.alert('Error', err.message)

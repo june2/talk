@@ -1,27 +1,36 @@
 import React from 'react';
-import { AdMobBanner } from 'expo-ads-admob'
 import { Platform, View } from "react-native";
+import firebase from 'react-native-firebase';
 import config from '../constants/Config'
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+} from 'react-native-admob'
 
 export default function Admob() {
+  const Banner = firebase.admob.Banner;
+  const AdRequest = firebase.admob.AdRequest;
+  const request = new AdRequest();
   return (
     <View>
-      <AdMobBanner
-        style={{
-          position: "absolute",
-          top: 0,
-          zIndex: 2,
-        }}
-        bannerSize="banner"
-        adUnitID={
-          Platform.OS === 'ios'
-            ? config.IOSAdUnitID
-            : config.AndroidAdUnitID
-        }
-        testDeviceID={config.deviceID}
-        onDidFailToReceiveAdWithError={(err) => console.log(`fail ${err}`)}
-        onAdMobDispatchAppEvent={(evt) => console.log(evt)}
-      />
+      {Platform.OS === 'ios' ?
+        <AdMobBanner
+          adSize="smartBannerPortrait"
+          adUnitID={config.unitId}
+          testDevices={[AdMobBanner.simulatorId]}
+        // onAdFailedToLoad={error => console.log(error)}
+        /> : <Banner
+          unitId={config.unitId}
+          size={'SMART_BANNER'}
+          request={request.build()}
+        // onAdLoaded={() => {
+        //   console.log('Advert loaded');
+        // }}
+        />
+      }
     </View>
   );
 }
+

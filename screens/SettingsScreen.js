@@ -15,9 +15,10 @@ import Notification from '../components/Notification';
 import userService from './../services/users';
 import authStore from './../stores/AuthStore';
 import Colors from '../constants/Colors';
+const app = require('./../app.json');
 
 @observer
-export default class SettingsScreen extends Component {  
+export default class SettingsScreen extends Component {
   constructor(props) {
     super(props);
     this._user = userService;
@@ -57,7 +58,7 @@ export default class SettingsScreen extends Component {
     return (
       <Container style={styles.container}>
         <Notification />
-        {/* <Admob /> */}
+        <Admob />
         <Content style={styles.content}>
           {/* ID */}
           <Separator bordered>
@@ -66,6 +67,15 @@ export default class SettingsScreen extends Component {
           <ListItem last>
             <Body>
               <Text>{authStore.me.id}</Text>
+            </Body>
+          </ListItem>
+          {/* version */}
+          <Separator bordered>
+            <Text>Version</Text>
+          </Separator>
+          <ListItem last>
+            <Body>
+              <Text>{app.expo.version}</Text>
             </Body>
           </ListItem>
           {/* point */}
@@ -94,6 +104,7 @@ export default class SettingsScreen extends Component {
               <Switch value={authStore.me.isActivePush} onValueChange={(evt) => this._change(evt)} />
             </Body>
           </ListItem>
+          {/* terms */}
           <Separator bordered>
             <Text>Terms</Text>
           </Separator>

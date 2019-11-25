@@ -9,6 +9,8 @@ import java.util.List;
 
 import expo.loaders.provider.interfaces.AppLoaderPackagesProviderInterface;
 import host.exp.exponent.generated.BasePackageList;
+import io.invertase.firebase.admob.RNFirebaseAdMobPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import okhttp3.OkHttpClient;
 
 // Needed for `react-native link`
@@ -17,6 +19,7 @@ import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.dooboolab.RNIap.RNIapPackage;
+import com.google.android.gms.ads.MobileAds;
 
 public class MainApplication extends ExpoApplication implements AppLoaderPackagesProviderInterface<ReactPackage> {
 
@@ -36,8 +39,16 @@ public class MainApplication extends ExpoApplication implements AppLoaderPackage
             new RNFirebaseMessagingPackage(),
             new RNFirebaseNotificationsPackage(),
             new RNFirebasePackage(),
+            new RNFirebaseAdMobPackage(),
+            new RNFirebaseAnalyticsPackage(),
             new RNIapPackage()
     );
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    MobileAds.initialize(this, "ca-app-pub-7185868759159346~8183472504");
   }
 
   public List<Package> getExpoPackages() {

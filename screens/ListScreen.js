@@ -65,12 +65,15 @@ export default class ListScreen extends Component {
     return <Observer>{() =>
       <ListItem avatar key={i} button={true} >
         <Left style={{ paddingTop: 10 }}>
-          <TouchableOpacity key={item.id} onPress={() => this._openModal(item.user)}>
-            {(item.user && item.user.images.length !== 0) ?
-              <Thumbnail source={{ uri: item.user.images[0] }} /> :
-              <Thumbnail source={config.defaultUserImg(item.user.gender)} style={styles.defaultUserImg} />
-            }
-          </TouchableOpacity>
+          {(item.user) ?
+            <TouchableOpacity key={item.id} onPress={() => this._openModal(item.user)}>
+              {(item.user.images && item.user.images.length !== 0) ?
+                <Thumbnail style={styles.image} source={{ uri: item.user.images[0] }}
+                  defaultSource={config.defaultUserImg(item.user.gender)} /> :
+                <Thumbnail style={styles.defaultUserImg} source={config.defaultUserImg(item.user.gender)} />
+              }
+            </TouchableOpacity> : null
+          }
         </Left>
         <Body>
           <TouchableOpacity key={item.id} onPress={() => this._handleClick(item._id, i, item.count, item.user)}>
@@ -81,7 +84,7 @@ export default class ListScreen extends Component {
         <Right>
           <TouchableOpacity style={styles.listRight} key={item.id} onPress={() => this._handleClick(item._id, i, item.user.name, item.user._id, item.count)}>
             <Text note>{dateConvert(item.updatedAt)}</Text>
-            <View style={{ paddingTop: 4, width: 25 }}>
+            <View style={{ paddingTop: 4, width: 30 }}>
               <BadgeIcon num={item.count} />
             </View>
           </TouchableOpacity>
@@ -119,7 +122,7 @@ export default class ListScreen extends Component {
     return (
       <View style={styles.container} >
         <Notification />
-        {/* <Admob /> */}
+        <Admob />
         {(roomStore.isEmpty) ? (
           <ListItem key={1} button={true} style={styles.empty}>
             <Body>
@@ -159,6 +162,14 @@ if (Platform.OS === 'android') {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  image: {
+    backgroundColor: "#ccc",
+    overflow: "hidden",
+    resizeMode: Platform.select({
+      ios: 'contain',
+      android: 'cover',
+    }),
   },
   defaultUserImg: {
     backgroundColor: Colors.tabIconDefault,

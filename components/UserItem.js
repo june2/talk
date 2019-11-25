@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import {
   Platform,
   StyleSheet,
-  Text, 
+  Text,
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,
@@ -38,7 +38,9 @@ export default class UserItem extends PureComponent {
       <ListItem style={{ height: listHeight }} avatar key={this._id} button={true} onPress={() => this._handleClick(this.props.user)} >
         <Left style={styles.itemLeft}>
           {(this.props.user && this.props.user.images && this.props.user.images.length !== 0) ?
-            <Thumbnail style={styles.image} source={{ uri: this.props.user.images[0] }} /> :
+            <Thumbnail style={styles.image} source={{ uri: this.props.user.images[0] }}
+              defaultSource={config.defaultUserImg(this.props.user.gender)}
+            /> :
             <Thumbnail style={styles.defaultImage} source={config.defaultUserImg(this.props.user.gender)} />
           }
         </Left>
@@ -77,15 +79,20 @@ export default class UserItem extends PureComponent {
 
 const styles = StyleSheet.create({
   image: {
-    overflow: "hidden",
-  },
-  defaultImage: {
+    backgroundColor: "#ccc",
     overflow: "hidden",
     resizeMode: Platform.select({
       ios: 'contain',
       android: 'cover',
     }),
-    backgroundColor: "#ccc"
+  },
+  defaultImage: {
+    backgroundColor: "#ccc",
+    overflow: "hidden",
+    resizeMode: Platform.select({
+      ios: 'contain',
+      android: 'cover',
+    }),
   },
   itemLeft: {
     paddingTop: 4

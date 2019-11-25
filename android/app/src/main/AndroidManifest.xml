@@ -362,9 +362,8 @@
     <!-- BEGIN GOOGLE MOBILE ADS CONFIG -->
     <meta-data
       android:name="com.google.android.gms.ads.APPLICATION_ID"
-      android:value="ca-app-pub-3940256099942544~3347511713"/>
+      android:value="ca-app-pub-7185868759159346~8183472504"/>
     <!-- END GOOGLE MOBILE ADS CONFIG -->
-
     <!-- ADD BRANCH CONFIG HERE -->
 
     <!-- The Facebook SDK runs FacebookInitProvider on startup and crashes if there isn't an ID here -->
