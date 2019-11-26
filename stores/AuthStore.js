@@ -7,15 +7,13 @@ import userService from '../services/users'
 import purchaseService from '../services/purchases'
 import config from '../constants/Config'
 
-const advert = firebase.admob().rewarded(config.rewardUnitId);
-const AdRequest = firebase.admob.AdRequest;
-
 class AuthStore {
   constructor() {
     this._auth = authService;
     this._user = userService;
     this._purchase = purchaseService;
-    this._hasCompletedReward = false;    
+    this._hasCompletedReward = false;
+    this._advert = Platform.OS === 'android' ? firebase.admob().rewarded(config.rewardUnitId) : null
   }
 
   _rewardPoint = async () => {
@@ -170,15 +168,16 @@ class AuthStore {
         });
         AdMobRewarded.addEventListener('rewarded', () => this._rewardPoint());
       } else {
+        const AdRequest = firebase.admob.AdRequest;
         const request = new AdRequest();
-        advert.loadAd(request.build());
-        advert.on('onAdClosed', () => {
+        this._advert.loadAd(request.build());
+        this._advert.on('onAdClosed', () => {
           const request = new AdRequest();
-          advert.loadAd(request.build());
+          this._advert.loadAd(request.build());
           if (this._hasCompletedReward) return Alert.alert('10 포인트 충전되었습니다!');
           else return Alert.alert('광고를 시청해야 포인트가 충전됩니다.');
         });
-        advert.on('onRewarded', async () => await this._rewardPoint());
+        this._advert.on('onRewarded', async () => await this._rewardPoint());
       }
     } catch (err) {
       throw err;
@@ -191,8 +190,8 @@ class AuthStore {
       if (Platform.OS === 'ios') {
         AdMobRewarded.showAd().catch(() => Alert.alert('처리 중입니다, 다시 시도해주세요!'));
       } else {
-        if (advert.isLoaded()) {
-          advert.show();
+        if (this._advert.isLoaded()) {
+          this._advert.show();
         } else {
           return Alert.alert('처리 중입니다, 다시 시도해주세요!');
         }
