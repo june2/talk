@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, View, Dimensions, ActivityIndicator, RefreshControl } from "react-native";
+import { Platform, View, Dimensions, ActivityIndicator, RefreshControl, Image } from "react-native";
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
@@ -9,7 +9,6 @@ import FilterButton from '../components/FilterButton';
 import FilterBox from '../components/FilterBox';
 import userService from '../services/users';
 import filterStore from './../stores/FilterStore';
-
 
 let { width } = Dimensions.get("window");
 
@@ -134,6 +133,12 @@ export default class UsersScreen extends Component {
 if (Platform.OS === 'android') {
   UsersScreen.navigationOptions = {
     header: null,
+  };
+} else {
+  UsersScreen.navigationOptions = {
+    headerTitle: (
+      <Image style={{ width: 30, height: 30 }} source={require('./../assets/images/header.png')} />
+    ),
   };
 }
 

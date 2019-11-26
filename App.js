@@ -44,6 +44,7 @@ async function loadResourcesAsync() {
     Asset.loadAsync([
       require('./assets/images/m.png'),
       require('./assets/images/f.png'),
+      require('./assets/images/header.png'),
       require('./assets/images/logo.png'),
     ]),
     Font.loadAsync({

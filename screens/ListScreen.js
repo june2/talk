@@ -3,6 +3,7 @@ import {
   Platform,
   FlatList,
   View,
+  Image,
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
@@ -156,6 +157,12 @@ if (Platform.OS === 'android') {
   ListScreen.navigationOptions = {
     // title: 'Chat',
     header: null,
+  };
+} else {
+  ListScreen.navigationOptions = {
+    headerTitle: (
+      <Image style={{ width: 30, height: 30 }} source={require('./../assets/images/header.png')} />
+    ),
   };
 }
 

@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
   Modal,
-  TouchableOpacity,  
+  TouchableOpacity,
   Alert,
 } from 'react-native';
 import { Textarea, Text, Button, } from 'native-base';
@@ -18,12 +18,22 @@ import { window } from '../constants/Layout';
 export default class MessageBox extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      text: ''
+    }
   }
 
   _sendMsg = async () => {
     if (!authStore.me.point || authStore.me.point < 50) {
-      return Alert.alert('포인트가 부족합니다.');
+      return Alert.alert(
+        '포인트 부족',
+        '포인트를 구매해주세요.',
+        [
+          { text: '취소', style: 'cancel', },
+          { text: '광고보상 받기', onPress: () => authStore.showAdMobReward() },
+        ],
+        { cancelable: false }
+      );
     }
     if (this.state.text.length < 5) {
       return Alert.alert('5자 이상으로 작성해주세요!');
@@ -36,6 +46,14 @@ export default class MessageBox extends PureComponent {
     roomStore.setValue(room.id, 0, userStore.user.name, userStore.user._id);
     userStore.setMsgBox(false);
     this.props.navigation.navigate('Chat');
+  }
+
+  componentDidMount() {
+    authStore.reqAdMobReward();
+  }
+
+  componentWillUnmount() {
+    authStore.removeAdMobReward();
   }
 
   render() {

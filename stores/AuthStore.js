@@ -1,7 +1,10 @@
+import { Platform, Alert } from 'react-native';
+import { AdMobRewarded } from 'react-native-admob'
 import { observable, action, computed, configure } from 'mobx';
 import authService from '../services/auth'
 import userService from '../services/users'
 import purchaseService from '../services/purchases'
+import config from '../constants/Config'
 
 class AuthStore {
   constructor() {
@@ -10,7 +13,7 @@ class AuthStore {
     this._purchase = purchaseService;
   }
 
-  @observable token = null;  
+  @observable token = null;
   @observable me = {
     images: [],
     tabBadgeCount: 0,
@@ -69,9 +72,6 @@ class AuthStore {
   @action async updateMe(data) {
     try {
       let res = await this._user.updateMe(data);
-      // console.log(res.data);
-      // this.me = Object.assign(this.me, res.data);      
-      // console.log(this.me);
       return res;
     } catch (err) {
       // Alert.alert('Error', err.message)
@@ -132,6 +132,41 @@ class AuthStore {
     } catch (err) {
       // Alert.alert('Error', err.message)
       throw err;
+    }
+  }
+
+  @action async reqAdMobReward() {
+    try {
+      if (Platform.OS === 'ios') {
+        AdMobRewarded.setAdUnitID(config.rewardUnitId);
+        AdMobRewarded.requestAd();
+        AdMobRewarded.addEventListener('adClosed', () => {
+          AdMobRewarded.requestAd();
+        });
+        AdMobRewarded.addEventListener('rewarded', reward => {
+          // 광고 보상        
+          this.me.point += 10;
+          return Alert.alert('10 포인트 충전되었습니다!');
+        });
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  @action async showAdMobReward() {
+    try {
+      if (Platform.OS === 'ios') {
+        AdMobRewarded.showAd().catch(() => Alert.alert('처리 중입니다, 다시 시도해주세요!'));
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  @action async removeAdMobReward() {
+    if (Platform.OS === 'ios') {
+      AdMobRewarded.removeAllListeners();
     }
   }
 

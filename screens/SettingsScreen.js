@@ -8,6 +8,7 @@ import {
   AsyncStorage,
   StyleSheet,
   Alert,
+  Image,
 } from 'react-native';
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
@@ -37,11 +38,8 @@ export default class SettingsScreen extends Component {
       '계정 삭제',
       '계정 삭제시, 복원이 되지 않습니다. 정말로 삭제 하시겠습니까?',
       [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        { text: 'OK', onPress: () => this._logOut() },
+        { text: '취소', style: 'cancel', },
+        { text: '확인', onPress: () => this._logOut() },
       ],
       { cancelable: false },
     );
@@ -52,6 +50,14 @@ export default class SettingsScreen extends Component {
     authStore.leave();
     await AsyncStorage.clear();
     this.props.navigation.navigate('Register');
+  }
+
+  componentDidMount() {
+    authStore.reqAdMobReward();
+  }
+
+  componentWillUnmount() {
+    authStore.removeAdMobReward();
   }
 
   render() {
@@ -87,9 +93,17 @@ export default class SettingsScreen extends Component {
               <Text>보유 포인트 : {authStore.me.point}</Text>
             </Body>
           </ListItem>
-          <ListItem last onPress={() => this.props.navigation.navigate('Payment')}>
+          <ListItem onPress={() => this.props.navigation.navigate('Payment')}>
             <Body>
               <Text>포인트 구매하기</Text>
+            </Body>
+            <Right>
+              <Icon name="arrow-forward" />
+            </Right>
+          </ListItem>
+          <ListItem last onPress={() => authStore.showAdMobReward()}>
+            <Body>
+              <Text>포인트 보상받기</Text>
             </Body>
             <Right>
               <Icon name="arrow-forward" />
@@ -129,6 +143,12 @@ export default class SettingsScreen extends Component {
 if (Platform.OS === 'android') {
   SettingsScreen.navigationOptions = {
     header: null,
+  };
+} else {
+  SettingsScreen.navigationOptions = {
+    headerTitle: (
+      <Image style={{ width: 30, height: 30 }} source={require('./../assets/images/header.png')} />
+    ),
   };
 }
 

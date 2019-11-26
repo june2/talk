@@ -49,9 +49,9 @@ export default class RegisterScreen extends Component {
   }
 
   _signUpAsync = async () => {
-    try {
+    try {      
       this.setState({ isLoading: true })
-      let token = await firebase.messaging().getToken();
+      let token = await firebase.messaging().getToken();      
       if (!this.state.name) {
         this.setState({ isLoading: false })
         return Alert.alert('닉네임을 입력해주세요!');
@@ -68,7 +68,7 @@ export default class RegisterScreen extends Component {
         await AsyncStorage.setItem('token', res.accessToken);
         await authStore.getMe();
         authStore.token = res.accessToken;
-        this.props.navigation.navigate('My');
+        this.props.navigation.navigate('Users');
       }
       this.setState({ isLoading: false })
     } catch (err) {

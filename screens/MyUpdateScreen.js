@@ -10,6 +10,7 @@ import {
   TouchableHighlight,
   Modal,
   View,
+  Image,
   Platform,
   KeyboardAvoidingView,
   PermissionsAndroid
@@ -136,7 +137,7 @@ export default class MyUpdateScreen extends Component {
         Alert.alert(`${i18n.t('Please allow use of photo!')}`);
       }
     } else {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);      
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== 'granted') {
         Alert.alert(`${i18n.t('Please allow use of photo!')}`);
       }
@@ -297,7 +298,13 @@ if (Platform.OS === 'android') {
   MyUpdateScreen.navigationOptions = {
     header: null,
   };
-}
+} else {
+  MyUpdateScreen.navigationOptions = {
+    headerTitle: (
+      <Image style={{ width: 30, height: 30 }} source={require('./../assets/images/header.png')} />
+    ),
+  };
+} 
 
 const styles = StyleSheet.create({
   ImageBox: {
