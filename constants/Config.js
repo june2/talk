@@ -9,7 +9,7 @@ export default {
     : 'ca-app-pub-7185868759159346/3352053895',
   rewardUnitId: Platform.OS === 'ios'
     ? 'ca-app-pub-7185868759159346/3775385836'
-    : 'ca-app-pub-7185868759159346/3352053895',
+    : 'ca-app-pub-7185868759159346/1502901123',
   deviceID: 'EMULATOR',
   defaultUserImg: (gender) =>
     gender === 'M' ? require('./../assets/images/m.png') : require('./../assets/images/f.png'),

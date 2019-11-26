@@ -1,16 +1,29 @@
 import { Platform, Alert } from 'react-native';
 import { AdMobRewarded } from 'react-native-admob'
 import { observable, action, computed, configure } from 'mobx';
+import firebase from 'react-native-firebase';
 import authService from '../services/auth'
 import userService from '../services/users'
 import purchaseService from '../services/purchases'
 import config from '../constants/Config'
+
+const advert = firebase.admob().rewarded(config.rewardUnitId);
+const AdRequest = firebase.admob.AdRequest;
 
 class AuthStore {
   constructor() {
     this._auth = authService;
     this._user = userService;
     this._purchase = purchaseService;
+    this._hasCompletedReward = false;    
+  }
+
+  _rewardPoint = async () => {
+    let res = await this._user.updateRewardPoint();
+    if (res.data && res.data.reward) {
+      this.me.point = res.data.point;
+      this._hasCompletedReward = true;
+    }
   }
 
   @observable token = null;
@@ -152,15 +165,20 @@ class AuthStore {
         AdMobRewarded.requestAd();
         AdMobRewarded.addEventListener('adClosed', () => {
           AdMobRewarded.requestAd();
+          if (this._hasCompletedReward) return Alert.alert('10 포인트 충전되었습니다!');
+          else return Alert.alert('광고를 시청해야 포인트가 충전됩니다.');
         });
-        AdMobRewarded.addEventListener('rewarded', async () => {
-          // 광고 보상        
-          let res = await this._user.updateRewardPoint();          
-          if (res.data && res.data.reward) {
-            this.me.point = res.data.point;
-            return Alert.alert('10 포인트 충전되었습니다!');
-          }
+        AdMobRewarded.addEventListener('rewarded', () => this._rewardPoint());
+      } else {
+        const request = new AdRequest();
+        advert.loadAd(request.build());
+        advert.on('onAdClosed', () => {
+          const request = new AdRequest();
+          advert.loadAd(request.build());
+          if (this._hasCompletedReward) return Alert.alert('10 포인트 충전되었습니다!');
+          else return Alert.alert('광고를 시청해야 포인트가 충전됩니다.');
         });
+        advert.on('onRewarded', async () => await this._rewardPoint());
       }
     } catch (err) {
       throw err;
@@ -169,8 +187,15 @@ class AuthStore {
 
   @action async showAdMobReward() {
     try {
+      this._hasCompletedReward = false;
       if (Platform.OS === 'ios') {
         AdMobRewarded.showAd().catch(() => Alert.alert('처리 중입니다, 다시 시도해주세요!'));
+      } else {
+        if (advert.isLoaded()) {
+          advert.show();
+        } else {
+          return Alert.alert('처리 중입니다, 다시 시도해주세요!');
+        }
       }
     } catch (err) {
       throw err;
