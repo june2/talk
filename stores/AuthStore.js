@@ -88,6 +88,16 @@ class AuthStore {
     }
   }
 
+  @action async updateRewardPoint() {
+    try {
+      if (this.token) {
+        return this._user.updateRewardPoint();
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
+
   @action async leave() {
     try {
       if (this.token) {
@@ -143,10 +153,13 @@ class AuthStore {
         AdMobRewarded.addEventListener('adClosed', () => {
           AdMobRewarded.requestAd();
         });
-        AdMobRewarded.addEventListener('rewarded', reward => {
+        AdMobRewarded.addEventListener('rewarded', async () => {
           // 광고 보상        
-          this.me.point += 10;
-          return Alert.alert('10 포인트 충전되었습니다!');
+          let res = await this._user.updateRewardPoint();          
+          if (res.data && res.data.reward) {
+            this.me.point = res.data.point;
+            return Alert.alert('10 포인트 충전되었습니다!');
+          }
         });
       }
     } catch (err) {

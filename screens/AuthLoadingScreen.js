@@ -27,14 +27,14 @@ export default class AuthLoadingScreen extends React.Component {
     const userToken = await AsyncStorage.getItem('token');
     const user = await authStore.getMe();
     // console.log(userToken);
+    this._checkNotification();
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     if (userToken && user) {
       authStore.token = userToken;
       await roomStore.getRooms(1);
       let res = await authStore.updateLastLogin();
-      this._checkNotificatios();
-      this._checkLogin(res.data);
+      // this._checkLogin(res.data);
       this.props.navigation.navigate('Users');
     } else {
       // this.props.navigation.navigate('Auth');
@@ -61,7 +61,7 @@ export default class AuthLoadingScreen extends React.Component {
     );
   }
 
-  _checkNotificatios = async () => {
+  _checkNotification = async () => {
     const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     let finalStatus = existingStatus;
     if (finalStatus !== 'granted') {

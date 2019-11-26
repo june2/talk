@@ -72,6 +72,10 @@ class UserService {
     }
   }
 
+  async updateRewardPoint() {
+    return await this._api.put('/me/updateRewardPoint');
+  }
+
   async leave() {
     try {
       return await this._api.put('/me/leave');
