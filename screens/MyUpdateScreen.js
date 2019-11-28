@@ -148,7 +148,6 @@ export default class MyUpdateScreen extends Component {
     this._getPermissionAsync();
   }
 
-
   render() {
     return (
       <KeyboardAvoidingView

@@ -6,6 +6,7 @@ import {
 import { observer } from 'mobx-react';
 import { BlurView } from 'expo-blur';
 import authStore from '../stores/AuthStore';
+import userStore from '../stores/UserStore';
 import config from '../constants/Config';
 import Colors from '../constants/Colors';
 import { window } from '../constants/Layout';
@@ -72,7 +73,7 @@ export default class CarouselScreen extends Component {
     if (imageArray.length === 0) {
       imageArray.push(<Image
         key='0'
-        source={config.defaultUserImg(authStore.me.gender)}
+        source={config.defaultUserImg(userStore.user.gender)}
         style={{
           width: deviceWidth,
           height: '100%',

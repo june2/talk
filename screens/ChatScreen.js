@@ -46,10 +46,11 @@ export default class ChatScreen extends Component {
               {
                 options: [
                   { text: "신고하기" },
+                  { text: "차단하기" },
                   { text: "나가기" },
                   { text: "취소" }
                 ],
-                cancelButtonIndex: 2,
+                cancelButtonIndex: 3,
               },
               buttonIndex => {
                 switch (buttonIndex) {
@@ -57,6 +58,10 @@ export default class ChatScreen extends Component {
                     roomStore.setReportBox(true);
                     break;
                   case 1:
+                    roomStore.deleteRoomByRoomId(roomStore.roomId, roomStore.roomIndex);
+                    navigation.navigate('List', {});
+                    break;
+                  case 2:
                     roomStore.deleteRoomByRoomId(roomStore.roomId, roomStore.roomIndex);
                     navigation.navigate('List', {});
                     break;
