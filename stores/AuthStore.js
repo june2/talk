@@ -18,13 +18,15 @@ class AuthStore {
     this._hasCompletedReward = false;
     this._advert = Platform.OS === 'android' ? firebase.admob().rewarded(config.rewardUnitId) : null
     autorun(() => {
-      if (Platform.OS === 'android') {
-        notif.android.setChannelId('app-infos');
-        notifications.displayNotification(notif);
-        notifications.setBadge(this.me.tabBadgeCount);
-      } else {
-        notif.ios.setBadge(this.me.tabBadgeCount);
-        notifications.displayNotification(notif);
+      if (Number.isInteger(this.me.tabBadgeCount)) {
+        if (Platform.OS === 'android') {
+          notif.android.setChannelId('app-infos');
+          notifications.displayNotification(notif);
+          notifications.setBadge(this.me.tabBadgeCount);
+        } else {
+          notif.ios.setBadge(this.me.tabBadgeCount);
+          notifications.displayNotification(notif);
+        }
       }
     });
   }

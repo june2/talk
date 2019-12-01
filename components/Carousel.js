@@ -73,7 +73,10 @@ export default class CarouselScreen extends Component {
     if (imageArray.length === 0) {
       imageArray.push(<Image
         key='0'
-        source={config.defaultUserImg(userStore.user.gender)}
+        source={
+          this.props.isMe ?
+            config.defaultUserImg(authStore.me.gender) :
+            config.defaultUserImg(userStore.user.gender)}
         style={{
           width: deviceWidth,
           height: '100%',

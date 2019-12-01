@@ -7,8 +7,10 @@ import {
   Image,
   Modal,
   Platform,
+  KeyboardAvoidingView
 } from 'react-native';
 import {
+  Container,
   Content,
   Form,
   Item,
@@ -49,9 +51,9 @@ export default class RegisterScreen extends Component {
   }
 
   _signUpAsync = async () => {
-    try {      
+    try {
       this.setState({ isLoading: true })
-      let token = await firebase.messaging().getToken();      
+      let token = await firebase.messaging().getToken();
       if (!this.state.name) {
         this.setState({ isLoading: false })
         return Alert.alert(`${i18n.t('Please input nickname!')}`);
@@ -79,93 +81,98 @@ export default class RegisterScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={this.state.isLoading}>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-            <Spinner color={Colors.spinner} />
-          </View>
-        </Modal>
-        <View style={styles.container}>
-          <Grid></Grid>
-          <View style={styles.logoBox}>
-            <Image
-              source={require('./../assets/images/logo.png')}
-              resizeMode='contain'
-              style={styles.logoBoxImg}
-            />
-          </View>
-          <View style={styles.middleBox}>
-            <Content contentContainerStyle={styles.content} >
-              <Form style={styles.formBox}>
-                <Item inlineLabel style={styles.formBoxItem}>
-                  <Label style={styles.label}>{i18n.t('Gender')}</Label>
-                  <Grid>
-                    <RNPickerSelect
-                      placeholder={{}}
-                      items={gender}
-                      onValueChange={val => {
-                        this.setState({ gender: val })
-                      }}
-                      InputAccessoryView={() => null}
-                      style={pickerSelectStyles}
-                      value={this.state.gender}
+      <KeyboardAvoidingView
+        behavior={Platform.select({ android: 'padding', ios: null })}        
+        style={{ flex: 1 }}
+      >
+        <Container style={styles.container}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={this.state.isLoading}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+              <Spinner color={Colors.spinner} />
+            </View>
+          </Modal>
+          <View style={styles.container}>
+            <Grid></Grid>
+            <View style={styles.logoBox}>
+              <Image
+                source={require('./../assets/images/logo.png')}
+                resizeMode='contain'
+                style={styles.logoBoxImg}
+              />
+            </View>
+            <View style={styles.middleBox}>
+              <Content contentContainerStyle={styles.content} >
+                <Form style={styles.formBox}>
+                  <Item inlineLabel style={styles.formBoxItem}>
+                    <Label style={styles.label}>{i18n.t('Gender')}</Label>
+                    <Grid>
+                      <RNPickerSelect
+                        placeholder={{}}
+                        items={gender}
+                        onValueChange={val => {
+                          this.setState({ gender: val })
+                        }}
+                        InputAccessoryView={() => null}
+                        style={pickerSelectStyles}
+                        value={this.state.gender}
+                      />
+                    </Grid>
+                  </Item>
+                  <Item inlineLabel style={styles.formBoxItem}>
+                    <Label style={styles.label}>{i18n.t('Age')}</Label>
+                    <Grid>
+                      <RNPickerSelect
+                        placeholder={{}}
+                        items={age}
+                        onValueChange={val => {
+                          this.setState({ age: val })
+                        }}
+                        InputAccessoryView={() => null}
+                        style={pickerSelectStyles}
+                        value={this.state.age}
+                      />
+                    </Grid>
+                  </Item>
+                  <Item inlineLabel style={styles.formBoxItem}>
+                    <Label style={styles.label}>{i18n.t('District')}</Label>
+                    <Grid>
+                      <RNPickerSelect
+                        placeholder={{}}
+                        items={locations}
+                        onValueChange={val => {
+                          this.setState({ location: val })
+                        }}
+                        InputAccessoryView={() => null}
+                        style={pickerSelectStyles}
+                        value={this.state.location}
+                      />
+                    </Grid>
+                  </Item>
+                  <Item inlineLabel style={styles.formBoxItem}>
+                    <Label style={styles.label}>{i18n.t('Nickname')}</Label>
+                    <Input
+                      style={styles.label}
+                      onChangeText={(text) => this.setState({ name: text })}
+                      maxLength={26}
+                      value={this.state.name}
                     />
-                  </Grid>
-                </Item>
-                <Item inlineLabel style={styles.formBoxItem}>
-                  <Label style={styles.label}>{i18n.t('Age')}</Label>
-                  <Grid>
-                    <RNPickerSelect
-                      placeholder={{}}
-                      items={age}
-                      onValueChange={val => {
-                        this.setState({ age: val })
-                      }}
-                      InputAccessoryView={() => null}
-                      style={pickerSelectStyles}
-                      value={this.state.age}
-                    />
-                  </Grid>
-                </Item>
-                <Item inlineLabel style={styles.formBoxItem}>
-                  <Label style={styles.label}>{i18n.t('District')}</Label>
-                  <Grid>
-                    <RNPickerSelect
-                      placeholder={{}}
-                      items={locations}
-                      onValueChange={val => {
-                        this.setState({ location: val })
-                      }}
-                      InputAccessoryView={() => null}
-                      style={pickerSelectStyles}
-                      value={this.state.location}
-                    />
-                  </Grid>
-                </Item>
-                <Item inlineLabel style={styles.formBoxItem}>
-                  <Label style={styles.label}>{i18n.t('Nickname')}</Label>
-                  <Input
-                    style={styles.label}
-                    onChangeText={(text) => this.setState({ name: text })}
-                    maxLength={26}
-                    value={this.state.name}
-                  />
-                </Item>
-                <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
-                  <Text>{i18n.t('Getting started')}</Text>
-                </Button>
-              </Form>
-            </Content>
-          </View>
-          <View style={styles.bottomBox}>
-            <Content contentContainerStyle={styles.content} scrollEnabled={false}>
-            </Content>
-          </View>
-        </View >
-      </View>
+                  </Item>
+                  <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
+                    <Text>{i18n.t('Getting started')}</Text>
+                  </Button>
+                </Form>
+              </Content>
+            </View>
+            <View style={styles.bottomBox}>
+              <Content contentContainerStyle={styles.content} scrollEnabled={false}>
+              </Content>
+            </View>
+          </View >
+        </Container>
+      </KeyboardAvoidingView>
     );
   }
 }
