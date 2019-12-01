@@ -1,11 +1,14 @@
 import { Platform, Alert } from 'react-native';
 import { AdMobRewarded } from 'react-native-admob'
-import { observable, action, computed, configure } from 'mobx';
+import { observable, action, computed, configure, autorun } from 'mobx';
 import firebase from 'react-native-firebase';
 import authService from '../services/auth'
 import userService from '../services/users'
 import purchaseService from '../services/purchases'
 import config from '../constants/Config'
+
+const notifications = firebase.notifications();
+const notif = new firebase.notifications.Notification();
 
 class AuthStore {
   constructor() {
@@ -14,6 +17,16 @@ class AuthStore {
     this._purchase = purchaseService;
     this._hasCompletedReward = false;
     this._advert = Platform.OS === 'android' ? firebase.admob().rewarded(config.rewardUnitId) : null
+    autorun(() => {
+      if (Platform.OS === 'android') {
+        notif.android.setChannelId('app-infos');
+        notifications.displayNotification(notif);
+        notifications.setBadge(this.me.tabBadgeCount);
+      } else {
+        notif.ios.setBadge(this.me.tabBadgeCount);
+        notifications.displayNotification(notif);
+      }
+    });
   }
 
   _rewardPoint = async () => {

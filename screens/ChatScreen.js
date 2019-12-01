@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, View, Alert, PermissionsAndroid } from 'react-native';
+import { AppState, Platform, View, Alert, PermissionsAndroid } from 'react-native';
 import { Icon, ActionSheet } from 'native-base';
 import { GiftedChat, Send } from 'react-native-gifted-chat'
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -79,6 +79,7 @@ export default class ChatScreen extends Component {
     super(props);
     this._msgService = msgService;
     this.state = {
+      appState: AppState.currentState,
       roomIndex: roomStore.roomIndex,
       roomId: roomStore.roomId,
       refreshing: false,
@@ -87,6 +88,11 @@ export default class ChatScreen extends Component {
       limit: 0,
       messages: [],
     }
+  }
+
+  _handleRefresh = () => {
+    this._getData();
+    roomStore.messages = [];
   }
 
   _getData = async () => {
@@ -148,14 +154,21 @@ export default class ChatScreen extends Component {
     }
   }
 
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/active/) && nextAppState === 'active') {
+      this._handleRefresh();
+    }
+  }
+
   componentDidMount() {
     this._getPermissionAsync();
-    this._getData();
-    roomStore.messages = [];
+    this._handleRefresh();
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   componentWillUnmount() {
     roomStore.roomId = null;
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
   render() {

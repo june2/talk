@@ -73,7 +73,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow 톡톡톡 to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow 톡톡톡 to access your device&apos;s accelerometer</string>
+	<string>Allow 톡톡톡 to access your device's accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>사진 갤러리 사용을 위한 권한동의가 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

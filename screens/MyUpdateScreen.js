@@ -34,6 +34,9 @@ export default class MyUpdateScreen extends Component {
       navigatorStyle: {
         navBarHidden: false,
       },
+      headerTitle: (
+        <Image style={{ width: 30, height: 30 }} source={require('./../assets/images/header.png')} />
+      ),
       headerLeft: (
         <Icon name='md-arrow-round-back'
           style={{
@@ -297,13 +300,7 @@ if (Platform.OS === 'android') {
   MyUpdateScreen.navigationOptions = {
     header: null,
   };
-} else {
-  MyUpdateScreen.navigationOptions = {
-    headerTitle: (
-      <Image style={{ width: 30, height: 30 }} source={require('./../assets/images/header.png')} />
-    ),
-  };
-} 
+}
 
 const styles = StyleSheet.create({
   ImageBox: {

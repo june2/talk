@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, View, Dimensions, ActivityIndicator, RefreshControl, Image } from "react-native";
+import { AppState, Platform, View, Dimensions, ActivityIndicator, RefreshControl, Image } from "react-native";
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
@@ -19,6 +19,7 @@ export default class UsersScreen extends Component {
     this._rowRenderer = this._rowRenderer.bind(this);
     this._users = userService;
     this.state = {
+      appState: AppState.currentState,
       dataProvider: new DataProvider((r1, r2) => {
         return r1 !== r2;
       }),
@@ -44,6 +45,7 @@ export default class UsersScreen extends Component {
       const res = await userService.getUsers(this.state.limit, this.state.page, filterStore.fitler);
       this.state.isLoading = false;
       this.setState({
+        appState: AppState.currentState,
         dataProvider: this.state.dataProvider.cloneWithRows(
           this.state.data.concat(res.docs)
         ),
@@ -77,8 +79,19 @@ export default class UsersScreen extends Component {
       : <View style={{ height: 60 }} />;
   };
 
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/active/) && nextAppState === 'active') {      
+      this.setState({ data: [], page: 1, }, this._fetchMoreData);      
+    }
+  }
+
   componentDidMount() {
     this._fetchMoreData();
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillUnmount() {    
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
   render() {
@@ -147,8 +160,6 @@ const styles = {
     flex: 1
   },
   list: {
-    // paddingBottom: 60,
-    // top: 60,
     flex: 1
   },
 };

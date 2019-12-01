@@ -2,12 +2,8 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Root } from "native-base";
-import firebase from 'react-native-firebase';
-import AppNavigator from './navigation/AppNavigator';
-import NotificationHandler from './notification/handler'
+import MainScreen from './screens/MainScreen'
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -21,23 +17,12 @@ export default function App(props) {
       />
     );
   } else {
-    firebase.messaging().hasPermission().then(enabled => {
-      if (enabled) {
-        this.notificationListener = firebase.notifications().onNotification((notification) => {
-          new NotificationHandler(notification._data);
-        })
-      }
-    })
     return (
-      <Root>
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
-      </Root>
+      <MainScreen />
     );
   }
 }
+
 
 async function loadResourcesAsync() {
   await Promise.all([
@@ -67,10 +52,3 @@ function handleLoadingError(error) {
 function handleFinishLoading(setLoadingComplete) {
   setLoadingComplete(true);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});

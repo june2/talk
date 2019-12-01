@@ -54,7 +54,7 @@ export default class RegisterScreen extends Component {
       let token = await firebase.messaging().getToken();      
       if (!this.state.name) {
         this.setState({ isLoading: false })
-        return Alert.alert('닉네임을 입력해주세요!');
+        return Alert.alert(`${i18n.t('Please input nickname!')}`);
       }
       let res = await authStore.register(
         this.state.email, this.state.password,

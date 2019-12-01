@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AppState,
   Platform,
   FlatList,
   View,
@@ -12,9 +13,9 @@ import {
   Thumbnail, Text
 } from 'native-base';
 import { observer, Observer } from 'mobx-react';
+import { dateConvert } from '../components/Util';
 import config from '../constants/Config';
 import BadgeIcon from '../components/Badge';
-import { dateConvert } from '../components/Util';
 import Admob from '../components/Admob';
 import Notification from '../components/Notification';
 import userStore from '../stores/UserStore';
@@ -27,6 +28,7 @@ export default class ListScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      appState: AppState.currentState,
       refreshing: false,
       modalVisible: false,
       data: [],
@@ -110,6 +112,11 @@ export default class ListScreen extends Component {
     this._getData();
   }
 
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/active/) && nextAppState === 'active') {
+      this._handleRefresh();
+    }
+  }
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -117,6 +124,11 @@ export default class ListScreen extends Component {
 
   componentDidMount() {
     this._getData();
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
   render() {
@@ -186,12 +198,9 @@ const styles = StyleSheet.create({
     }),
   },
   list: {
-    // paddingBottom: 60,
-    // top: 60,
     flex: 1
   },
-  empty: {
-    // paddingTop: 70
+  empty: {    
   },
   listRight: {
     alignItems: 'flex-end'
