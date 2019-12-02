@@ -13,7 +13,7 @@ import {
 } from 'native-base';
 import { observer } from 'mobx-react';
 import RNPickerSelect from 'react-native-picker-select';
-import { locations, gender, age } from '../constants/Items';
+import { locations, filterGender, age } from '../constants/Items';
 import Colors from '../constants/Colors';
 import filterStore from '../stores/FilterStore';
 
@@ -30,13 +30,6 @@ export default class Notification extends PureComponent {
     filterStore.setMsgBox(false);    
     filterStore.gender = this.state.gender;
     this.props.setFilter();
-  }
-
-  componentDidMount() {
-    gender.unshift({
-      label: '전체',
-      value: 'ALL',
-    })
   }
 
   render() {
@@ -63,7 +56,7 @@ export default class Notification extends PureComponent {
                     <Left>
                       <RNPickerSelect
                         placeholder={{}}
-                        items={gender}
+                        items={filterGender}
                         onValueChange={val => {
                           this.setState({ gender: val })
                         }}

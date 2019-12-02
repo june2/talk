@@ -40,6 +40,21 @@ export const gender = [
   },
 ]
 
+export const filterGender = [
+  {
+    label: '전체',
+    value: 'ALL',
+  },
+  {
+    label: '남자',
+    value: 'M',
+  },
+  {
+    label: '여자',
+    value: 'F',
+  }  
+]
+
 export const locations = [
   {
     label: '서울',
