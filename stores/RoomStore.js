@@ -1,4 +1,4 @@
-import { observable, action, computed, configure, toJS } from 'mobx';
+import { observable, action, computed, toJS, autorun } from 'mobx';
 import roomService from '../services/rooms';
 import msgService from '../services/messages';
 
@@ -6,6 +6,10 @@ class RoomStore {
   constructor() {
     this._room = roomService;
     this._msg = msgService;
+    autorun(() => {
+      if(this.list.length > 0) this.isEmpty = false;
+      else this.isEmpty = true;
+    });
   }
 
   @observable roomId = null;
@@ -19,15 +23,10 @@ class RoomStore {
     hasNextPage: true
   };
   @observable messages = [];
-  @observable isReportVisible = false;
 
   @computed
   get prevMessages() {
     return toJS(this.messages)
-  }
-
-  @action async setReportBox(boolean) {
-    this.isReportVisible = boolean;
   }
 
   @action async createRoom(userId, lastMsg) {
@@ -47,7 +46,7 @@ class RoomStore {
       } else {
         this.list = this.list.concat(this.rooms.docs);
       }
-      if (this.list.length > 0) this.isEmpty = false;
+      // if (this.list.length > 0) this.isEmpty = false;
       return this.rooms;
     } catch (err) {
       // Alert.alert('Error', err.message)
@@ -69,7 +68,7 @@ class RoomStore {
             user: {
               _id: chatMessage.user._id,
               name: chatMessage.user.name,
-              avatar: chatMessage.user.images.length !== 0 ? chatMessage.user.images[0] : null
+              avatar: chatMessage.user.images.length !== 0 ? chatMessage.user.images[0] : ''
             }
           };
         });
@@ -83,7 +82,7 @@ class RoomStore {
     try {
       this._room.deleteRoomByRoomId(id);
       this.list.splice(index, 1);
-      if (this.list.length === 0) this.isEmpty = true;
+      // if (this.list.length === 0) this.isEmpty = true;
       return this.list;
     } catch (err) {
       // Alert.alert('Error', err.message)

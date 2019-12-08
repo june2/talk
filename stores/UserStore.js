@@ -14,6 +14,7 @@ class UserStore {
   @observable token = null;
   @observable isChat = false;
   @observable isMsgVisible = false;
+  @observable isReportVisible = false;
 
   _updateSlider(images, name) {
     this.slider = [];
@@ -28,6 +29,14 @@ class UserStore {
 
   @action async setMsgBox(boolean) {
     this.isMsgVisible = boolean;
+  }
+
+  @action async setReportBox(boolean) {
+    this.isReportVisible = boolean;
+  }
+
+  @action async blockUser() {        
+    this._user.addBlock(this.user._id);
   }
 
   @action async setUser(user, isChat = false) {

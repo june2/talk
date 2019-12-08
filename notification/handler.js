@@ -11,13 +11,6 @@ export default class Handler extends Component {
     this._handleData(data);
   }
 
-  componentWillUnmount(){
-    console.log(11);
-    // this.notificationListener();
-    // this.notificationOpenedListener();
-    // this.messageListener();
-  }
-
   _handleData(data) {
     switch (data.type) {
       case 'msg':

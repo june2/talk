@@ -6,7 +6,9 @@ import {
   View,
   Image,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert,
+  StatusBar
 } from 'react-native';
 import {
   ListItem, Left, Body, Right,
@@ -48,7 +50,27 @@ export default class ListScreen extends Component {
     }, this._getData);
   }
 
-  _handleClick(id, index, count, user) {
+  _handleClick(id, index, count, user, lefts) {
+    if (lefts && lefts.length > 0) {
+      return Alert.alert(
+        '상대가 방을 나갔습니다.',
+        '',
+        [
+          { text: '확인', style: 'cancel', },
+        ],
+        { cancelable: false }
+      );
+    }
+    if (user && user.state === 'LEAVE') {
+      return Alert.alert(
+        '상대가 계정을 탈퇴했습니다.',
+        '',
+        [
+          { text: '확인', style: 'cancel', },
+        ],
+        { cancelable: false }
+      );
+    }
     let name = (user) ? user.name : '';
     let userId = (user) ? user._id : '';
     roomStore.setValue(id, index, name, userId, count);
@@ -59,8 +81,7 @@ export default class ListScreen extends Component {
 
   _openModal(user) {
     userStore.setUser(user, true);
-    this.setState({ userId: user.id });
-    // this.setModalVisible(true);
+    this.setState({ userId: user.id });    
     this.props.navigation.navigate('User');
   }
 
@@ -79,13 +100,13 @@ export default class ListScreen extends Component {
           }
         </Left>
         <Body>
-          <TouchableOpacity key={item.id} onPress={() => this._handleClick(item._id, i, item.count, item.user)}>
+          <TouchableOpacity key={item.id} onPress={() => this._handleClick(item._id, i, item.count, item.user, item.lefts)}>
             <Text numberOfLines={1} ellipsizeMode='tail'>{(item.user && item.user.name) ? item.user.name : ''}</Text>
             <Text numberOfLines={2} ellipsizeMode='tail' style={styles.introBox} style={{ height: 34 }} note>{item.lastMsg}</Text>
           </TouchableOpacity>
         </Body>
         <Right>
-          <TouchableOpacity style={styles.listRight} key={item.id} onPress={() => this._handleClick(item._id, i, item.user.name, item.user._id, item.count)}>
+          <TouchableOpacity style={styles.listRight} key={item.id} onPress={() => this._handleClick(item._id, i, item.count, item.user, item.lefts)}>
             <Text note>{dateConvert(item.updatedAt)}</Text>
             <View style={{ paddingTop: 4, width: 30 }}>
               <BadgeIcon num={item.count} />
@@ -166,8 +187,7 @@ export default class ListScreen extends Component {
 }
 
 if (Platform.OS === 'android') {
-  ListScreen.navigationOptions = {
-    // title: 'Chat',
+  ListScreen.navigationOptions = {    
     header: null,
   };
 } else {
@@ -180,6 +200,7 @@ if (Platform.OS === 'android') {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     flex: 1
   },
   image: {
@@ -200,7 +221,7 @@ const styles = StyleSheet.create({
   list: {
     flex: 1
   },
-  empty: {    
+  empty: {
   },
   listRight: {
     alignItems: 'flex-end'

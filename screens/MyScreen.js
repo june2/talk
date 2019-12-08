@@ -4,6 +4,7 @@ import {
   View,
   ScrollView,
   StyleSheet,
+  StatusBar
 } from 'react-native';
 import { Text, Button, Icon, } from 'native-base';
 import { Col, Grid } from 'react-native-easy-grid';
@@ -25,7 +26,7 @@ export default class MyScreen extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={{ ...styles.container, ...styles.marginTop }}>
         <View style={styles.container}>
           <Notification />
           <View style={styles.containerImgBox}>
@@ -68,13 +69,15 @@ export default class MyScreen extends Component {
 
 // if (Platform.OS === 'android') {
 MyScreen.navigationOptions = {
-  title: '',
   header: null,
 };
 // }
 
 
 const styles = StyleSheet.create({
+  marginTop: {
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
   container: {
     flex: 1,
     height: window.height + 50
@@ -125,11 +128,11 @@ const styles = StyleSheet.create({
   containerTitleBoxButtonIcon: {
     fontSize: 35,
     width: '100%',
-    textAlign: 'center',    
+    textAlign: 'center',
     // color: color.tintColor,
   },
   containerButton: {
-    justifyContent: 'center',    
+    justifyContent: 'center',
     width: 55,
     height: 55,
     backgroundColor: Colors.tintColor,

@@ -9,6 +9,7 @@ import * as Permissions from 'expo-permissions'
 import ReportBox from '../components/ReportBox';
 import msgService from './../services/messages';
 import roomStore from './../stores/RoomStore';
+import userStore from './../stores/UserStore';
 import authStore from './../stores/AuthStore';
 import Colors from './../constants/Colors'
 
@@ -19,7 +20,7 @@ export default class ChatScreen extends Component {
       title: roomStore.roomName,
       navigatorStyle: {
         navBarHidden: false,
-      },
+      },      
       headerLeft: (
         <Icon name='md-arrow-round-back'
           style={{
@@ -55,7 +56,7 @@ export default class ChatScreen extends Component {
               buttonIndex => {
                 switch (buttonIndex) {
                   case 0:
-                    roomStore.setReportBox(true);
+                    userStore.setReportBox(true);
                     break;
                   case 1:
                     roomStore.deleteRoomByRoomId(roomStore.roomId, roomStore.roomIndex);

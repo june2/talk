@@ -13,7 +13,8 @@ import {
   Image,
   Platform,
   KeyboardAvoidingView,
-  PermissionsAndroid
+  PermissionsAndroid,
+  StatusBar
 } from 'react-native';
 import { observer } from 'mobx-react';
 import * as ImagePicker from 'expo-image-picker';
@@ -156,7 +157,7 @@ export default class MyUpdateScreen extends Component {
       <KeyboardAvoidingView
         behavior={Platform.select({ android: 'padding', ios: null })}
         keyboardVerticalOffset={Platform.select({ ios: 0, android: 85 })}
-        style={{ flex: 1 }}
+        style={styles.container}
       >
         <Modal
           animationType="fade"
@@ -303,6 +304,10 @@ if (Platform.OS === 'android') {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    flex: 1
+  },
   ImageBox: {
     width: (window.width / 3.5),
     height: (window.width / 3.5),

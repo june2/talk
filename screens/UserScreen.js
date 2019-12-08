@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import {
   View,
   ScrollView,
-  StyleSheet,  
+  StyleSheet,
   Platform,
 } from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
-import { Text, Button, Icon, } from 'native-base';
+import { Text, Button, Icon, ActionSheet } from 'native-base';
 import { observer } from 'mobx-react';
 import userStore from './../stores/UserStore';
 import { getLocation } from './../constants/Items';
 import { getAge } from './../components/Util';
 import Carousel from '../components/Carousel';
 import MessageBox from '../components/MessageBox';
+import ReportBox from '../components/ReportBox';
 import Colors from './../constants/Colors'
 import { window } from '../constants/Layout';
 
@@ -36,6 +37,41 @@ export default class UserScreen extends Component {
           onPress={() => navigation.goBack()}
         />
       ),
+      headerRight: (
+        <Icon name='ios-menu'
+          style={{
+            fontSize: 30,
+            fontWeight: 600,
+            color: 'rgba(0, 0, 0, .9)',
+            marginHorizontal: 16,
+            textAlign: 'center',
+          }}
+          onPress={() =>
+            ActionSheet.show(
+              {
+                options: [
+                  { text: "신고하기" },
+                  { text: "차단하기" },
+                  { text: "취소" }
+                ],
+                cancelButtonIndex: 2,
+              },
+              buttonIndex => {
+                switch (buttonIndex) {
+                  case 0:
+                    userStore.setReportBox(true);
+                    break;
+                  case 1:
+                    userStore.blockUser();
+                    navigation.goBack();
+                    break;
+                  default:
+                    break;
+                }
+              }
+            )}
+        />
+      ),
     }
   };
 
@@ -52,6 +88,7 @@ export default class UserScreen extends Component {
     return (
       <ScrollView style={styles.container}>
         <View style={styles.container}>
+          <ReportBox />
           <MessageBox navigation={this.props.navigation} />
           <View style={styles.containerImgBox}>
             <Carousel images={userStore.user.images} isMe={false} navigation={this.props.navigation} />
@@ -94,7 +131,7 @@ export default class UserScreen extends Component {
 
 if (Platform.OS === 'android') {
   UserScreen.navigationOptions = {
-    title: 'Chat',
+    title: '',
     header: null,
   };
 }

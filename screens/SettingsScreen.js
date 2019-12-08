@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Alert,
   Image,
+  StatusBar
 } from 'react-native';
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
@@ -154,6 +155,7 @@ if (Platform.OS === 'android') {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     // paddingBottom: 60
   },
   content: {

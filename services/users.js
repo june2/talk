@@ -64,6 +64,17 @@ class UserService {
     }
   }
 
+  async addBlock(userId) {
+    try {
+      let data = {
+        blockId: userId
+      }      
+      return await this._api.post('/me/block', data);
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async updateLastLogin() {
     try {
       return await this._api.put('/me/updateLastLogin');
@@ -87,8 +98,8 @@ class UserService {
   async updatePushToken(os, version, pushToken) {
     try {
       let data = {
-        PlatformOS: os,
-        PlatformVer: version,
+        platformOS: os,
+        platformVer: version,
         pushToken: pushToken,
       }
       return await this._api.put('/me/registerPushToken', data);

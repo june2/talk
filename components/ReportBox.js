@@ -9,7 +9,7 @@ import {
 import { Textarea, Text, Button } from 'native-base';
 import { observer } from 'mobx-react';
 import authStore from '../stores/AuthStore';
-import roomStore from '../stores/RoomStore';
+import userStore from '../stores/UserStore';
 import reportStore from '../stores/ReportStore';
 import Colors from '../constants/Colors'
 import { window } from '../constants/Layout';
@@ -28,8 +28,8 @@ export default class ReportBox extends Component {
     if (this.state.text.length < 5) {
       return Alert.alert('10자 이상으로 작성해주세요!');
     }
-    reportStore.createReport(authStore.me.id, roomStore.roomUserId, this.state.text);
-    roomStore.setReportBox(false);
+    reportStore.createReport(authStore.me.id, userStore.user.id, this.state.text);
+    userStore.setReportBox(false);
   }
 
   render() {
@@ -37,11 +37,11 @@ export default class ReportBox extends Component {
       <Modal
         animationType="fade"
         transparent={true}
-        visible={roomStore.isReportVisible}>
+        visible={userStore.isReportVisible}>
         <TouchableOpacity
           style={styles.container}
           activeOpacity={1}
-          onPressOut={() => roomStore.setReportBox(false)}>
+          onPressOut={() => userStore.setReportBox(false)}>
           <View style={styles.container}>
             <View style={styles.modalContainer}>
               <View style={styles.modalContainerTransparentStyle}>
@@ -51,7 +51,7 @@ export default class ReportBox extends Component {
                   onChangeText={(text) => this.setState({ text })} />
                 <View style={{ flexDirection: 'row' }}>
                   <View style={styles.modalButtonBox}>
-                    <Button style={styles.modalButton} block title="cancel" onPress={() => roomStore.setReportBox(false)} >
+                    <Button style={styles.modalButton} block title="cancel" onPress={() => userStore.setReportBox(false)} >
                       <Text>취소</Text>
                     </Button>
                   </View>

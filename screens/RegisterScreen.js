@@ -47,7 +47,6 @@ export default class RegisterScreen extends Component {
       region: Localization.region,
       isLoading: false
     }
-    // console.log(NativeModules)
   }
 
   _signUpAsync = async () => {
@@ -82,7 +81,7 @@ export default class RegisterScreen extends Component {
   render() {
     return (
       <KeyboardAvoidingView
-        behavior={Platform.select({ android: 'padding', ios: null })}        
+        behavior={Platform.select({ android: 'padding', ios: null })}
         style={{ flex: 1 }}
       >
         <Container style={styles.container}>
@@ -106,6 +105,15 @@ export default class RegisterScreen extends Component {
             <View style={styles.middleBox}>
               <Content contentContainerStyle={styles.content} >
                 <Form style={styles.formBox}>
+                  <Item inlineLabel style={styles.formBoxItem}>
+                    <Label style={styles.label}>{i18n.t('Nickname')}</Label>
+                    <Input
+                      style={styles.label}
+                      onChangeText={(text) => this.setState({ name: text })}
+                      maxLength={26}
+                      value={this.state.name}
+                    />
+                  </Item>
                   <Item inlineLabel style={styles.formBoxItem}>
                     <Label style={styles.label}>{i18n.t('Gender')}</Label>
                     <Grid>
@@ -150,15 +158,6 @@ export default class RegisterScreen extends Component {
                         value={this.state.location}
                       />
                     </Grid>
-                  </Item>
-                  <Item inlineLabel style={styles.formBoxItem}>
-                    <Label style={styles.label}>{i18n.t('Nickname')}</Label>
-                    <Input
-                      style={styles.label}
-                      onChangeText={(text) => this.setState({ name: text })}
-                      maxLength={26}
-                      value={this.state.name}
-                    />
                   </Item>
                   <Button block title="Sing up" onPress={this._signUpAsync} style={styles.formBoxButton}>
                     <Text>{i18n.t('Getting started')}</Text>
@@ -243,12 +242,14 @@ const pickerSelectStyles = StyleSheet.create({
     width: '100%'
   },
   inputAndroidContainer: {
-    width: 2000
+    width: 2000,
+    height: 50,
   },
   inputAndroid: {
     color: Colors.noticeText,
     fontSize: 16,
-    width: '100%'
+    width: '100%',
+    height: 50,
   },
   viewContainer: {
     width: '100%'

@@ -18,7 +18,7 @@ export default class Notification extends PureComponent {
     return (
       <View style={styles.container}>
         <Button rounded style={styles.button} onPress={() => filterStore.setMsgBox(true)}>
-          <Icon name='md-add' style={styles.icon} />
+          <Icon name='md-funnel' style={styles.icon} />
         </Button>
       </View>
     );
@@ -35,17 +35,20 @@ const styles = StyleSheet.create({
     width: 50,
   },
   button: {
-    height: 50,
+    width: 55,
+    height: 55,
     backgroundColor: Colors.tintColor,
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOpacity: 0.6,
     elevation: 6,
     shadowRadius: 15,
     shadowOffset: { width: 1, height: 13 },
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  icon: {    
+  icon: {        
     zIndex: 5,
-    fontSize: 30,
+    fontSize: 23,
     color: Colors.noticeText,
   }
 });

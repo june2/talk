@@ -4,9 +4,7 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7f60d32bd4f3e6dbf262dcaa53cbc59d/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7f60d32bd4f3e6dbf262dcaa53cbc59d/res" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.azimolabs.conditionwatcher/conditionwatcher/0.2/e810826c9f7dfb7bff00a6f57fb310a8db87fd37/conditionwatcher-0.2-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.azimolabs.conditionwatcher/conditionwatcher/0.2/2a538e5c65eb9734658970b1471cb92dee36bdf7/conditionwatcher-0.2-sources.jar!/" />
     </SOURCES>

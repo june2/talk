@@ -18,7 +18,6 @@ import {
 import { observer } from 'mobx-react';
 import authService from './../services/auth';
 import authStore from './../stores/AuthStore';
-import roomStore from './../stores/RoomStore';
 
 @observer
 export default class LoginScreen extends Component {
@@ -36,8 +35,7 @@ export default class LoginScreen extends Component {
       let res = await this._auth.login(this.state.email, this.state.password);
       if (res.accessToken) {
         await AsyncStorage.setItem('token', res.accessToken);
-        await authStore.getMe();
-        roomStore.getRooms();
+        await authStore.getMe();        
         this.props.navigation.navigate('Main');
       }
     } catch (err) {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppState, Platform, View, Dimensions, ActivityIndicator, RefreshControl, Image } from "react-native";
+import { AppState, Platform, View, Dimensions, ActivityIndicator, RefreshControl, Image, StatusBar } from "react-native";
 import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 import { observer } from 'mobx-react';
 import Admob from '../components/Admob';
@@ -9,6 +9,7 @@ import FilterButton from '../components/FilterButton';
 import FilterBox from '../components/FilterBox';
 import userService from '../services/users';
 import filterStore from './../stores/FilterStore';
+
 
 let { width } = Dimensions.get("window");
 
@@ -80,17 +81,21 @@ export default class UsersScreen extends Component {
   };
 
   _handleAppStateChange = (nextAppState) => {
-    if (this.state.appState.match(/active/) && nextAppState === 'active') {      
-      this.setState({ data: [], page: 1, }, this._fetchMoreData);      
+    if (this.state.appState.match(/active/) && nextAppState === 'active') {
+      this.setState({ data: [], page: 1, }, this._fetchMoreData);
     }
   }
 
   componentDidMount() {
     this._fetchMoreData();
+    this.focusListener = this.props.navigation.addListener("willFocus", () => {
+      this.setState({ data: [], page: 1, }, this._fetchMoreData);
+    });
     AppState.addEventListener('change', this._handleAppStateChange);
   }
 
-  componentWillUnmount() {    
+  componentWillUnmount() {
+    this.focusListener.remove();
     AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
@@ -157,6 +162,7 @@ if (Platform.OS === 'android') {
 
 const styles = {
   container: {
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     flex: 1
   },
   list: {

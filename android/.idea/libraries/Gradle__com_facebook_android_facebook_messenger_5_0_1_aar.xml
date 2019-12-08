@@ -4,9 +4,7 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/58ff35f385dedad805a0dba086fa1f3a/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/58ff35f385dedad805a0dba086fa1f3a/res" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.android/facebook-messenger/5.0.1/893055e7cbc7677c7aa7f711e313af94040dca98/facebook-messenger-5.0.1-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.android/facebook-messenger/5.0.1/42a3a87fd9924ceec287f5ed0d3795ca191cc2be/facebook-messenger-5.0.1-sources.jar!/" />
     </SOURCES>
